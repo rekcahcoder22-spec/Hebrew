@@ -1,0 +1,196 @@
+[
+  {
+    "id": "hb-001",
+    "name": "Covenant Heavy Hood",
+    "price": 39999999,
+    "originalPrice": 5000000,
+    "description": "450gsm brushed fleece, dropped shoulder, tonal embroidery. Built for cold nights and loud cities.",
+    "images": [
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=900&h=1200&fit=crop",
+      "https://images.unsplash.com/photo-1578587018452-892b21fd5299?w=900&h=1200&fit=crop"
+    ],
+    "category": "hoodies",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stockStatus": "in-stock",
+    "stock": {
+      "S": 12,
+      "M": 12,
+      "L": 12,
+      "XL": 12,
+      "XXL": 12
+    },
+    "tags": [
+      "featured",
+      "fleece",
+      "drop"
+    ],
+    "featured": true,
+    "isNew": true,
+    "createdAt": "2026-03-10T12:00:00.000Z",
+    "updatedAt": "2026-04-12T03:33:49.469Z"
+  },
+  {
+    "id": "hb-002",
+    "name": "Dead Language Tee",
+    "price": 1180000,
+    "description": "Vintage black garment dye, cracked HEBREW logotype, boxy fit. Pre-shrunk cotton.",
+    "images": [
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=900&h=1200&fit=crop",
+      "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=900&h=1200&fit=crop"
+    ],
+    "category": "tees",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "stockStatus": "low-stock",
+    "stock": {
+      "XS": 2,
+      "S": 4,
+      "M": 3,
+      "L": 5,
+      "XL": 1
+    },
+    "tags": [
+      "graphic",
+      "core"
+    ],
+    "featured": true,
+    "isNew": false,
+    "createdAt": "2026-02-14T12:00:00.000Z",
+    "updatedAt": "2026-03-28T11:00:00.000Z"
+  },
+  {
+    "id": "hb-003",
+    "name": "Temple Cargo Pant",
+    "price": 3080000,
+    "description": "Technical ripstop, articulated knees, concealed zip pockets. Midnight olive colorway.",
+    "images": [
+      "https://images.unsplash.com/photo-1542272604-787c3835535d?w=900&h=1200&fit=crop",
+      "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=900&h=1200&fit=crop"
+    ],
+    "category": "pants",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "stockStatus": "in-stock",
+    "stock": {
+      "S": 6,
+      "M": 9,
+      "L": 7,
+      "XL": 4
+    },
+    "tags": [
+      "technical",
+      "cargo"
+    ],
+    "featured": false,
+    "isNew": true,
+    "createdAt": "2026-03-22T12:00:00.000Z",
+    "updatedAt": "2026-04-05T16:20:00.000Z"
+  },
+  {
+    "id": "hb-004",
+    "name": "Obsidian Crossbody",
+    "price": 1750000,
+    "description": "Ballistic nylon shell, magnetic fidlock, debossed HEBREW seal. Limited units.",
+    "images": [
+      "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=900&h=1200&fit=crop"
+    ],
+    "category": "accessories",
+    "sizes": [
+      "M"
+    ],
+    "stockStatus": "sold-out",
+    "stock": {
+      "M": 0
+    },
+    "tags": [
+      "bags",
+      "limited"
+    ],
+    "featured": false,
+    "isNew": false,
+    "createdAt": "2026-01-08T12:00:00.000Z",
+    "updatedAt": "2026-03-01T10:00:00.000Z"
+  },
+  {
+    "id": "hb-005",
+    "name": "Ash Wednesday Coach",
+    "price": 4780000,
+    "originalPrice": 5320000,
+    "description": "Wool-blend shell, quilted satin liner, oversized silhouette. Gold zipper tape detail.",
+    "images": [
+      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=900&h=1200&fit=crop",
+      "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=900&h=1200&fit=crop"
+    ],
+    "category": "outerwear",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "stockStatus": "coming-soon",
+    "stock": {
+      "S": 0,
+      "M": 0,
+      "L": 0,
+      "XL": 0
+    },
+    "tags": [
+      "outerwear",
+      "wool",
+      "drop"
+    ],
+    "featured": true,
+    "isNew": true,
+    "createdAt": "2026-04-01T12:00:00.000Z",
+    "updatedAt": "2026-04-10T08:00:00.000Z"
+  },
+  {
+    "id": "hb-006",
+    "name": "Lamentations Longsleeve",
+    "price": 1420000,
+    "description": "Ribbed cuffs, tonal sleeve hit, heavyweight jersey. Washed charcoal.",
+    "images": [
+      "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=900&h=1200&fit=crop"
+    ],
+    "category": "tees",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stockStatus": "in-stock",
+    "stock": {
+      "S": 10,
+      "M": 12,
+      "L": 9,
+      "XL": 8,
+      "XXL": 5
+    },
+    "tags": [
+      "longsleeve",
+      "core"
+    ],
+    "featured": false,
+    "isNew": false,
+    "createdAt": "2026-02-02T12:00:00.000Z",
+    "updatedAt": "2026-03-15T14:45:00.000Z"
+  }
+]
