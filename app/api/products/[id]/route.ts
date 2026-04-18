@@ -11,7 +11,7 @@ type Ctx = { params: Promise<{ id: string }> };
 export async function GET(_request: Request, context: Ctx) {
   try {
     const { id } = await context.params;
-    const p = getProductById(id);
+    const p = await getProductById(id);
     if (!p) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
@@ -28,7 +28,7 @@ export async function PUT(request: Request, context: Ctx) {
   try {
     const { id } = await context.params;
     const body = (await request.json()) as Partial<Product>;
-    const current = getProductById(id);
+    const current = await getProductById(id);
     if (!current) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
@@ -36,7 +36,7 @@ export async function PUT(request: Request, context: Ctx) {
       ...body,
       id,
     };
-    const updated = updateProduct(id, merged);
+    const updated = await updateProduct(id, merged);
     return NextResponse.json(updated);
   } catch {
     return NextResponse.json(
@@ -49,7 +49,7 @@ export async function PUT(request: Request, context: Ctx) {
 export async function DELETE(_request: Request, context: Ctx) {
   try {
     const { id } = await context.params;
-    const ok = deleteProduct(id);
+    const ok = await deleteProduct(id);
     if (!ok) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }

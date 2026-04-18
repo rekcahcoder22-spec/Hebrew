@@ -7,7 +7,7 @@ type RouteCtx = { params: Promise<{ id: string }> };
 export async function GET(_: NextRequest, context: RouteCtx) {
   try {
     const { id } = await context.params;
-    const order = getOrderById(decodeURIComponent(id));
+    const order = await getOrderById(decodeURIComponent(id));
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
@@ -32,7 +32,7 @@ export async function PATCH(req: NextRequest, context: RouteCtx) {
       return NextResponse.json({ error: "Invalid status" }, { status: 400 });
     }
 
-    const updated = updateOrderStatus(decodeURIComponent(id), status);
+    const updated = await updateOrderStatus(decodeURIComponent(id), status);
     if (!updated) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }

@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     if (!password?.trim()) {
       return NextResponse.json({ error: "Password required" }, { status: 400 });
     }
-    const settings = getSettings();
+    const settings = await getSettings();
     const ok = await bcrypt.compare(password, settings.adminPassword);
     if (!ok) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });

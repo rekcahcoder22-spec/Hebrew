@@ -17,9 +17,11 @@ const STATUS_LABELS: Record<FilterKey, string> = {
 
 export function OrdersClient({
   orders: initialOrders,
+  stats,
   initialFilter = "all",
 }: {
   orders: Order[];
+  stats: OrderStats;
   initialFilter?: FilterKey;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -39,6 +41,9 @@ export function OrdersClient({
   }, [orders]);
 
   const liveStats = useMemo((): OrderStats => {
+    if (orders.length === 0) {
+      return stats;
+    }
     return {
       total: orders.length,
       pending: orders.filter((o) => o.status === "pending").length,
@@ -49,7 +54,7 @@ export function OrdersClient({
         .filter((o) => o.status !== "pending")
         .reduce((sum, o) => sum + o.total, 0),
     };
-  }, [orders]);
+  }, [orders, stats]);
 
   const filtered = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();

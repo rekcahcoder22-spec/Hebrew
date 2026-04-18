@@ -5,9 +5,10 @@ import type { Order } from "@/types";
 
 export async function GET() {
   try {
-    const orders = getOrders();
+    const orders = await getOrders();
     return NextResponse.json(orders);
-  } catch {
+  } catch (err) {
+    console.error("GET /api/orders error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
@@ -77,7 +78,7 @@ export async function POST(req: NextRequest) {
       createdAt: new Date().toISOString(),
     };
 
-    const saved = createOrder(order);
+    const saved = await createOrder(order);
 
     void sendOrderNotification(saved).catch((err) =>
       console.error("Email notification error:", err),

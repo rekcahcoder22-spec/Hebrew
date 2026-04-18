@@ -56,7 +56,7 @@ export function ProductsPageClient() {
             Products
           </h1>
           <p className="mt-1 font-mono text-sm text-gray-500">
-            Quản lý sản phẩm (API + JSON).
+            Quản lý sản phẩm (API + MongoDB).
           </p>
         </div>
         <Link

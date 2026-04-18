@@ -6,7 +6,7 @@ type Props = { params: Promise<{ id: string }> };
 
 export default async function EditProductPage({ params }: Props) {
   const { id } = await params;
-  const product = getProductById(id);
+  const product = await getProductById(id);
   if (!product) notFound();
   return <EditProductClient product={product} />;
 }

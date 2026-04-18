@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getSettings, saveSettings } from "@/lib/products";
 import type { BrandSettings } from "@/types";
 
 export async function GET() {
   try {
-    const settings = getSettings();
+    const settings = await getSettings();
     const { adminPassword, ...publicSettings } = settings;
     void adminPassword;
     return NextResponse.json(publicSettings);
@@ -17,12 +17,12 @@ export async function GET() {
   }
 }
 
-export async function PUT(request: Request) {
+async function saveSettingsHandler(request: NextRequest) {
   try {
     const body = (await request.json()) as Partial<BrandSettings> & {
       newAdminPassword?: string;
     };
-    const current = getSettings();
+    const current = await getSettings();
     const { newAdminPassword, adminPassword: clientSentHash, ...rest } = body;
     void clientSentHash;
     delete (rest as Partial<BrandSettings>).adminPassword;
@@ -30,14 +30,23 @@ export async function PUT(request: Request) {
     if (newAdminPassword && newAdminPassword.length > 0) {
       next.adminPassword = await bcrypt.hash(newAdminPassword, 10);
     }
-    saveSettings(next);
+    await saveSettings(next);
     const { adminPassword, ...publicSettings } = next;
     void adminPassword;
     return NextResponse.json(publicSettings);
-  } catch {
+  } catch (err) {
+    console.error("PUT /api/settings error:", err);
     return NextResponse.json(
       { error: "Failed to save settings" },
       { status: 400 },
     );
   }
+}
+
+export async function PUT(request: NextRequest) {
+  return saveSettingsHandler(request);
+}
+
+export async function POST(request: NextRequest) {
+  return saveSettingsHandler(request);
 }

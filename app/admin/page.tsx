@@ -31,15 +31,18 @@ function formatOrderWhen(iso: string): string {
   });
 }
 
-export default function AdminDashboard() {
-  const products = getProducts();
+export default async function AdminDashboard() {
+  const [products, orderStats, orderList] = await Promise.all([
+    getProducts(),
+    getOrderStats(),
+    getOrders(),
+  ]);
   const total = products.length;
   const inStockCount = products.filter((p) => isInStock(p)).length;
   const soldOutCount = products.filter((p) => p.stockStatus === "sold-out").length;
   const featuredCount = products.filter((p) => p.featured).length;
 
-  const orderStats = getOrderStats();
-  const recentOrders = getOrders().slice(0, 5);
+  const recentOrders = orderList.slice(0, 5);
 
   const recent = [...products]
     .sort(

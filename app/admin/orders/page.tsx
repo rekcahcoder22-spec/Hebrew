@@ -1,4 +1,4 @@
-import { getOrders } from "@/lib/orders";
+import { getOrders, getOrderStats } from "@/lib/orders";
 import type { Order } from "@/types";
 import { OrdersClient } from "./OrdersClient";
 
@@ -23,10 +23,14 @@ export default async function AdminOrdersPage({
   searchParams: Promise<{ filter?: string | string[] }>;
 }) {
   const sp = await searchParams;
-  const orders = getOrders();
+  const [orders, stats] = await Promise.all([getOrders(), getOrderStats()]);
   const initialFilter = parseFilter(sp.filter);
 
   return (
-    <OrdersClient orders={orders} initialFilter={initialFilter} />
+    <OrdersClient
+      orders={orders}
+      stats={stats}
+      initialFilter={initialFilter}
+    />
   );
 }

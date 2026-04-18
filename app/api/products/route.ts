@@ -33,7 +33,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get("category");
     const featured = searchParams.get("featured");
-    let list = getProducts();
+    let list = await getProducts();
     if (category && category !== "all") {
       list = list.filter((p) => p.category === category);
     }
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
         Product,
         "id" | "createdAt" | "updatedAt"
       >;
-      const created = createProduct(body);
+      const created = await createProduct(body);
       return NextResponse.json(created, { status: 201 });
     }
 
@@ -148,7 +148,7 @@ export async function POST(request: Request) {
       isNew,
     };
 
-    const created = createProduct(payload);
+    const created = await createProduct(payload);
     return NextResponse.json(created, { status: 201 });
   } catch (e) {
     console.error(e);

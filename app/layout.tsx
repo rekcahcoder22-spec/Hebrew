@@ -25,12 +25,12 @@ export const metadata: Metadata = {
   description: "Sacred street. Built in silence.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const settings = toPublicSettings(getSettings());
+  const settings = toPublicSettings(await getSettings());
 
   return (
     <html lang="en" suppressHydrationWarning>
