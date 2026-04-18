@@ -2,11 +2,6 @@ import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  throw new Error("Please define MONGODB_URI in .env.local");
-}
-const MONGODB_URI_SAFE: string = MONGODB_URI;
-
 declare global {
   var _mongooseCache:
     | {
@@ -23,11 +18,14 @@ if (!global._mongooseCache) {
 }
 
 export async function connectDB(): Promise<typeof mongoose> {
+  if (!MONGODB_URI) {
+    throw new Error("Please define MONGODB_URI in .env.local");
+  }
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(MONGODB_URI_SAFE, {
+      .connect(MONGODB_URI, {
         bufferCommands: false,
         dbName: "hebrew-store",
       })
