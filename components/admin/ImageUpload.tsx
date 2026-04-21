@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const MAX_FILES = 5;
 const MAX_BYTES = 5 * 1024 * 1024;
-const ACCEPT = ["image/jpeg", "image/png", "image/webp"];
+const ACCEPT = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 type Props = {
   value: string[];
@@ -52,15 +52,22 @@ export function ImageUpload({ value, onChange }: Props) {
               const data = JSON.parse(xhr.responseText) as { url?: string };
               if (data.url) resolve(data.url);
               else reject(new Error("No URL"));
-            } else reject(new Error("Upload failed"));
+            } else {
+              try {
+                const data = JSON.parse(xhr.responseText) as { error?: string };
+                reject(new Error(data.error ?? "Upload failed"));
+              } catch {
+                reject(new Error("Upload failed"));
+              }
+            }
           };
           xhr.onerror = () => reject(new Error("Network error"));
           xhr.open("POST", "/api/upload");
           xhr.send(fd);
         });
         onChange([...value, url]);
-      } catch {
-        setError("Upload thất bại.");
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Upload thất bại.");
       } finally {
         setBusy(false);
         setTimeout(() => setProgress(0), 400);
@@ -160,7 +167,9 @@ export function ImageUpload({ value, onChange }: Props) {
                 fill
                 className="object-cover"
                 sizes="120px"
-                unoptimized={url.startsWith("/uploads")}
+                unoptimized={
+                  url.startsWith("/uploads") || url.startsWith("/api/upload/")
+                }
               />
               <button
                 type="button"
