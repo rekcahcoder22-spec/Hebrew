@@ -102,6 +102,15 @@ export function ProductCard({ product }: { product: Product }) {
         <h3 className="font-display text-2xl uppercase tracking-[0.06em] text-hb-white">
           {product.name}
         </h3>
+        <div className="mt-1 flex items-center gap-2">
+          <span className="font-body text-xs tracking-wider text-hb-gold">
+            {"★".repeat(Math.round(product.rating ?? 4.5))}
+            {"☆".repeat(5 - Math.round(product.rating ?? 4.5))}
+          </span>
+          <span className="font-body text-xs text-hb-white/45">
+            {(product.rating ?? 4.5).toFixed(1)}
+          </span>
+        </div>
         <p className="mt-1 font-body text-sm text-hb-gold">
           {formatPrice(product.price)}
         </p>

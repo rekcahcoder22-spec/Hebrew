@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
 function pad2(n: number) {
   return n.toString().padStart(2, "0");
 }
 
 export function CountdownTimer({ targetDate }: { targetDate: string }) {
+  const { t } = useLanguage();
   const target = useMemo(() => new Date(targetDate).getTime(), [targetDate]);
   const [now, setNow] = useState(() => Date.now());
 
@@ -22,10 +24,10 @@ export function CountdownTimer({ targetDate }: { targetDate: string }) {
   const s = Math.floor((diff / 1000) % 60);
 
   const units = [
-    { num: pad2(d), suffix: "D", label: "DAYS" },
-    { num: pad2(h), suffix: "H", label: "HOURS" },
-    { num: pad2(m), suffix: "M", label: "MINS" },
-    { num: pad2(s), suffix: "S", label: "SECS" },
+    { num: pad2(d), suffix: "D", label: t("countdown.days") },
+    { num: pad2(h), suffix: "H", label: t("countdown.hours") },
+    { num: pad2(m), suffix: "M", label: t("countdown.minutes") },
+    { num: pad2(s), suffix: "S", label: t("countdown.seconds") },
   ] as const;
 
   return (

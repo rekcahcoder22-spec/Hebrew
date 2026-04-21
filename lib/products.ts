@@ -19,6 +19,26 @@ type ProductLike = Product & {
   stock?: Record<string, number> | Map<string, number>;
 };
 
+function clampRating(value: number): number {
+  return Math.min(5, Math.max(1, Math.round(value * 10) / 10));
+}
+
+function fallbackRatingFromId(id: string): number {
+  let hash = 0;
+  for (let i = 0; i < id.length; i += 1) {
+    hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+  }
+  const normalized = (hash % 11) / 10; // 0.0 -> 1.0
+  return clampRating(4 + normalized); // 4.0 -> 5.0
+}
+
+function getProductRating(product: Pick<Product, "id" | "rating">): number {
+  if (typeof product.rating === "number" && Number.isFinite(product.rating)) {
+    return clampRating(product.rating);
+  }
+  return fallbackRatingFromId(product.id);
+}
+
 function normalizeStock(
   stock: ProductLike["stock"],
 ): Record<string, number> {
@@ -33,6 +53,7 @@ function docToProduct(doc: ProductLike): Product {
   return {
     id: doc.id,
     name: doc.name,
+    rating: getProductRating(doc),
     price: doc.price,
     originalPrice: doc.originalPrice,
     description: doc.description,
@@ -82,6 +103,7 @@ export async function createProduct(
   const now = new Date().toISOString();
   const doc = await ProductModel.create({
     ...data,
+    rating: getProductRating({ id, rating: data.rating }),
     id,
     createdAt: now,
     updatedAt: now,

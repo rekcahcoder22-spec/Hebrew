@@ -4,7 +4,6 @@ import "./globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { getSettings, toPublicSettings } from "@/lib/products";
 
 const bebas = Bebas_Neue({
   weight: "400",
@@ -30,8 +29,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const settings = toPublicSettings(await getSettings());
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -41,10 +38,7 @@ export default async function RootLayout({
         <AppProviders>
           <Navbar />
           <main className="bg-hb-black text-hb-white">{children}</main>
-          <Footer
-            instagramUrl={settings.instagramUrl}
-            tiktokUrl={settings.tiktokUrl}
-          />
+          <Footer />
         </AppProviders>
       </body>
     </html>

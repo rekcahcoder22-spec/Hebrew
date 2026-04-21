@@ -121,6 +121,15 @@ export function ProductDetailClient({
             <h1 className="font-display text-5xl tracking-[0.08em] text-hb-white">
               {product.name}
             </h1>
+            <div className="mt-3 flex items-center gap-2">
+              <span className="font-body text-sm tracking-wider text-hb-gold">
+                {"★".repeat(Math.round(product.rating ?? 4.5))}
+                {"☆".repeat(5 - Math.round(product.rating ?? 4.5))}
+              </span>
+              <span className="font-body text-xs text-hb-white/50">
+                {(product.rating ?? 4.5).toFixed(1)} / 5
+              </span>
+            </div>
             <div className="mt-4 flex flex-wrap items-baseline gap-3">
               {product.originalPrice != null && (
                 <span className="font-body text-lg text-hb-white/35 line-through">

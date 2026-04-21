@@ -9,10 +9,12 @@ import { ManifestoSection } from "@/components/home/ManifestoSection";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
 import type { Product } from "@/types";
 import type { PublicBrandSettings } from "@/lib/products";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
 export function HomePage() {
   const [settings, setSettings] = useState<PublicBrandSettings | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
+  const { t } = useLanguage();
 
   useEffect(() => {
     let cancelled = false;
@@ -48,7 +50,7 @@ export function HomePage() {
   if (!settings) {
     return (
       <main className="min-h-[50vh] bg-hb-black pt-24 text-center font-body text-sm text-hb-white/40">
-        Loading…
+        {t("home.loading")}
       </main>
     );
   }
@@ -59,7 +61,7 @@ export function HomePage() {
     <main>
       <DropBanner dropTitle={settings.dropTitle} dropDate={settings.dropDate} />
       <HeroSection />
-      <ProductGrid products={featured} title="SIGNALS" />
+      <ProductGrid products={featured} title={t("home.signals")} />
       <LookbookSection />
       <ManifestoSection />
       <NewsletterSection />

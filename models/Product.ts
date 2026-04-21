@@ -9,6 +9,7 @@ const ProductSchema = new Schema(
   {
     id: { type: String, required: true, unique: true, index: true },
     name: { type: String, required: true },
+    rating: { type: Number, min: 1, max: 5, default: 4.7 },
     price: { type: Number, required: true, min: 0 },
     originalPrice: { type: Number },
     description: { type: String, required: true },

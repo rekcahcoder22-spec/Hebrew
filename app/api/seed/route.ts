@@ -9,6 +9,7 @@ const SAMPLE_PRODUCTS = [
   {
     id: "p1",
     name: "COVENANT HOODIE",
+    rating: 4.9,
     price: 850000,
     description: "Premium heavyweight hoodie. 400gsm cotton fleece.",
     images: [],
@@ -25,6 +26,7 @@ const SAMPLE_PRODUCTS = [
   {
     id: "p2",
     name: "EXODUS TEE",
+    rating: 4.4,
     price: 450000,
     description: "Heavyweight graphic tee. 220gsm cotton.",
     images: [],
@@ -41,6 +43,7 @@ const SAMPLE_PRODUCTS = [
   {
     id: "p3",
     name: "DESERT CAMO CARGO",
+    rating: 4.7,
     price: 1350000,
     description: "Relaxed fit cargo pants with utility pockets.",
     images: [],
@@ -57,6 +60,7 @@ const SAMPLE_PRODUCTS = [
   {
     id: "p4",
     name: "STONE TABLET CREWNECK",
+    rating: 4.5,
     price: 980000,
     description: "Garment-dyed crewneck sweatshirt.",
     images: [],
@@ -73,6 +77,7 @@ const SAMPLE_PRODUCTS = [
   {
     id: "p5",
     name: "HEBREW LOGO CAP",
+    rating: 4.8,
     price: 520000,
     description: "6-panel structured cap with embroidered logo.",
     images: [],
@@ -89,6 +94,7 @@ const SAMPLE_PRODUCTS = [
   {
     id: "p6",
     name: "PROPHET JACKET",
+    rating: 5,
     price: 2200000,
     description: "Oversized work jacket with custom hardware.",
     images: [],

@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { cn } from "@/lib/utils";
 import { useClientMounted } from "@/hooks/useClientMounted";
+import { LanguageToggle } from "@/components/layout/LanguageToggle";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
 const links = [
-  { href: "/shop", label: "SHOP" },
-  { href: "/shop", label: "DROPS" },
-  { href: "/lookbook", label: "LOOKBOOK" },
-  { href: "/about", label: "ABOUT" },
+  { href: "/shop", labelKey: "nav.shop" },
+  { href: "/shop", labelKey: "nav.drops" },
+  { href: "/lookbook", labelKey: "nav.lookbook" },
+  { href: "/about", labelKey: "nav.about" },
 ];
 
 function BagIcon({ className }: { className?: string }) {
@@ -39,6 +41,7 @@ export function Navbar() {
   const toggleCart = useCartStore((s) => s.toggleCart);
   const totalItems = useCartStore((s) => s.getTotals().totalItems);
   const mounted = useClientMounted();
+  const { t } = useLanguage();
   const cartCount = mounted ? totalItems : 0;
 
   useEffect(() => {
@@ -77,27 +80,28 @@ export function Navbar() {
           <nav className="hidden items-center gap-10 md:flex">
             {links.map((l) => (
               <Link
-                key={`${l.href}-${l.label}`}
+                key={`${l.href}-${l.labelKey}`}
                 href={l.href}
                 className="font-body text-xs uppercase tracking-widest text-hb-white/90 decoration-hb-red decoration-2 underline-offset-8 transition-colors hover:text-hb-red hover:underline"
               >
-                {l.label}
+                {t(l.labelKey)}
               </Link>
             ))}
             <Link
               href="/admin"
               className="font-body text-xs uppercase tracking-widest text-hb-white/35 hover:text-hb-white/70"
             >
-              ADMIN
+              {t("nav.admin")}
             </Link>
           </nav>
 
           <div className="flex items-center gap-4">
+            <LanguageToggle />
             <button
               type="button"
               onClick={toggleCart}
               className="relative text-hb-white transition hover:text-hb-red"
-              aria-label="Open cart"
+              aria-label={t("nav.openCart")}
             >
               <BagIcon className="h-6 w-6" />
               {cartCount > 0 && (
@@ -110,7 +114,7 @@ export function Navbar() {
             <button
               type="button"
               className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
-              aria-label="Open menu"
+              aria-label={t("nav.openMenu")}
               onClick={() => setMobileOpen(true)}
             >
               <span className="h-px w-6 bg-hb-white" />
@@ -138,25 +142,25 @@ export function Navbar() {
       >
         <div className="flex items-center justify-between border-b border-hb-border px-5 py-4">
           <span className="font-display text-xl tracking-[0.3em] text-hb-white">
-            MENU
+            {t("nav.menu")}
           </span>
           <button
             type="button"
             onClick={() => setMobileOpen(false)}
             className="font-body text-xs uppercase tracking-widest text-hb-red"
           >
-            Close
+            {t("nav.close")}
           </button>
         </div>
         <nav className="flex flex-1 flex-col gap-1 px-5 py-8">
           {links.map((l) => (
             <Link
-              key={`m-${l.href}-${l.label}`}
+              key={`m-${l.href}-${l.labelKey}`}
               href={l.href}
               onClick={() => setMobileOpen(false)}
               className="border-b border-hb-border py-4 font-body text-sm uppercase tracking-[0.25em] text-hb-white decoration-hb-red underline-offset-8 hover:text-hb-red hover:underline"
             >
-              {l.label}
+              {t(l.labelKey)}
             </Link>
           ))}
           <Link
@@ -164,7 +168,7 @@ export function Navbar() {
             onClick={() => setMobileOpen(false)}
             className="mt-auto border-t border-hb-border pt-6 font-body text-xs uppercase tracking-widest text-hb-white/40"
           >
-            Admin
+            {t("nav.admin")}
           </Link>
         </nav>
       </div>
