@@ -3,6 +3,8 @@ import { sendOrderNotification } from "@/lib/mailer";
 import { createOrder, getOrders } from "@/lib/orders";
 import type { Order } from "@/types";
 
+export const runtime = "nodejs";
+
 export async function GET() {
   try {
     const orders = await getOrders();
@@ -80,11 +82,19 @@ export async function POST(req: NextRequest) {
 
     const saved = await createOrder(order);
 
-    void sendOrderNotification(saved).catch((err) =>
-      console.error("Email notification error:", err),
-    );
+    let emailSent = false;
+    try {
+      emailSent = await sendOrderNotification(saved);
+    } catch (err) {
+      // Never fail order creation if notification email fails.
+      console.error("Email notification error:", err);
+    }
 
-    return NextResponse.json({ success: true, orderNumber: saved.id });
+    return NextResponse.json({
+      success: true,
+      orderNumber: saved.id,
+      emailSent,
+    });
   } catch (err) {
     console.error("Order creation error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

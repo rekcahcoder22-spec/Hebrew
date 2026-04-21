@@ -44,18 +44,23 @@ function escapeHtml(text: string): string {
     .replace(/'/g, "&#39;");
 }
 
+const gmailUser = process.env.GMAIL_USER?.trim();
+const gmailAppPassword = process.env.GMAIL_APP_PASSWORD?.replace(/\s+/g, "");
+
 const hasGmailAuth =
-  typeof process.env.GMAIL_USER === "string" &&
-  process.env.GMAIL_USER.length > 0 &&
-  typeof process.env.GMAIL_APP_PASSWORD === "string" &&
-  process.env.GMAIL_APP_PASSWORD.length > 0;
+  typeof gmailUser === "string" &&
+  gmailUser.length > 0 &&
+  typeof gmailAppPassword === "string" &&
+  gmailAppPassword.length > 0;
 
 const transporter = hasGmailAuth
   ? nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
+        user: gmailUser,
+        pass: gmailAppPassword,
       },
     })
   : null;
@@ -475,7 +480,7 @@ export async function sendOrderNotification(order: Order): Promise<boolean> {
     return false;
   }
 
-  if (!transporter || !process.env.GMAIL_USER) {
+  if (!transporter || !gmailUser) {
     console.warn(
       "⚠️  Gmail SMTP not configured (GMAIL_USER / GMAIL_APP_PASSWORD). Skipping email.",
     );
@@ -488,7 +493,7 @@ export async function sendOrderNotification(order: Order): Promise<boolean> {
     `${formatVND(order.total)}`;
 
   const mailOptions = {
-    from: `"HEBREW Store" <${process.env.GMAIL_USER}>`,
+    from: `"HEBREW Store" <${gmailUser}>`,
     to: adminEmails.join(", "),
     subject,
     text: buildAdminEmailText(order),
@@ -502,7 +507,12 @@ export async function sendOrderNotification(order: Order): Promise<boolean> {
     console.log(`   Order: #${order.id}`);
     return true;
   } catch (error) {
-    console.error("❌ Failed to send order notification:", error);
+    console.error("❌ Failed to send order notification:", {
+      error,
+      hasGmailUser: Boolean(gmailUser),
+      hasGmailAppPassword: Boolean(gmailAppPassword),
+      adminEmailsCount: adminEmails.length,
+    });
     return false;
   }
 }

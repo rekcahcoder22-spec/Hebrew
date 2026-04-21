@@ -6,6 +6,8 @@ import { NextResponse } from "next/server";
 import { sendOrderNotification } from "@/lib/mailer";
 import type { Order } from "@/types";
 
+export const runtime = "nodejs";
+
 export async function GET() {
   if (process.env.NODE_ENV === "production") {
     return NextResponse.json({ error: "Not available" }, { status: 404 });
