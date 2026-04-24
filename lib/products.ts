@@ -74,6 +74,7 @@ function docToProduct(doc: ProductLike): Product {
     tags: doc.tags ?? [],
     featured: Boolean(doc.featured),
     isNew: Boolean(doc.isNew),
+    content: doc.content,
     createdAt: doc.createdAt,
     updatedAt: doc.updatedAt,
   };

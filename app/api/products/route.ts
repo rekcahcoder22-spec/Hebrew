@@ -110,6 +110,10 @@ export async function POST(request: Request) {
         : [];
     const featured = Boolean(meta.featured);
     const isNew = Boolean(meta.isNew);
+    const content =
+      typeof meta.content === "object" && meta.content !== null
+        ? (meta.content as Product["content"])
+        : undefined;
     const existingImages = Array.isArray(meta.images)
       ? (meta.images as string[]).filter((x) => typeof x === "string")
       : [];
@@ -146,6 +150,7 @@ export async function POST(request: Request) {
       tags,
       featured,
       isNew,
+      content,
     };
 
     const created = await createProduct(payload);

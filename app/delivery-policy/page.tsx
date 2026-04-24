@@ -6,6 +6,7 @@ import {
   PolicyTable,
   SectionHeading,
 } from "@/components/layouts/PolicyLayout";
+import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
   title: "Delivery Policy — HEBREW",
@@ -14,7 +15,10 @@ export const metadata: Metadata = {
 
 export default function DeliveryPolicyPage() {
   return (
-    <PolicyLayout title="DELIVERY POLICY" subtitle="SHIPPING INFORMATION">
+    <PolicyLayout
+      title={<LanguageText en="DELIVERY POLICY" vi="CHÍNH SÁCH GIAO HÀNG" />}
+      subtitle={<LanguageText en="SHIPPING INFORMATION" vi="THÔNG TIN VẬN CHUYỂN" />}
+    >
       <SectionHeading>1. COVERAGE</SectionHeading>
       <ListItem>Nationwide delivery to all 63 provinces</ListItem>
       <ListItem>International shipping available (contact for quote)</ListItem>

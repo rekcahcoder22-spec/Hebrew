@@ -6,6 +6,7 @@ import {
   PolicyTable,
   SectionHeading,
 } from "@/components/layouts/PolicyLayout";
+import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
   title: "Adjustment Fee List — HEBREW",
@@ -15,8 +16,8 @@ export const metadata: Metadata = {
 export default function AdjustmentFeesPage() {
   return (
     <PolicyLayout
-      title="ADJUSTMENT FEES"
-      subtitle="PRODUCT ALTERATION SERVICES"
+      title={<LanguageText en="ADJUSTMENT FEES" vi="BẢNG PHÍ CHỈNH SỬA" />}
+      subtitle={<LanguageText en="PRODUCT ALTERATION SERVICES" vi="DỊCH VỤ CHỈNH SỬA SẢN PHẨM" />}
     >
       <SectionHeading>1. OUR ALTERATION SERVICE</SectionHeading>
       <Paragraph>

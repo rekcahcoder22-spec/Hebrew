@@ -5,6 +5,7 @@ import {
   HighlightBox,
   SectionHeading,
 } from "@/components/layouts/PolicyLayout";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
 type FormState = {
   name: string;
@@ -54,6 +55,8 @@ const coopTypes = [
 ];
 
 export function CooperateClient() {
+  const { language } = useLanguage();
+  const tr = (en: string, vi: string) => (language === "vi" ? vi : en);
   const [formData, setFormData] = useState<FormState>(initialForm);
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -77,9 +80,9 @@ export function CooperateClient() {
   return (
     <>
       <h2 className="mb-16 max-w-2xl font-display text-[clamp(28px,5vw,52px)] leading-tight text-hb-white">
-        LET&apos;S BUILD THINGS
+        {tr("LET'S BUILD THINGS", "CÙNG NHAU TẠO NÊN")}
         <br />
-        THAT DIDN&apos;T EXIST BEFORE.
+        {tr("THAT DIDN'T EXIST BEFORE.", "NHỮNG GIÁ TRỊ MỚI.")}
       </h2>
 
       <section className="mb-16 grid gap-4 lg:grid-cols-2">
@@ -108,18 +111,20 @@ export function CooperateClient() {
       </section>
 
       <section className="mt-12">
-        <SectionHeading>SEND A PROPOSAL</SectionHeading>
+        <SectionHeading>{tr("SEND A PROPOSAL", "GỬI ĐỀ XUẤT HỢP TÁC")}</SectionHeading>
         {submitted ? (
           <HighlightBox accent="gold">
-            &quot;We received your proposal. HEBREW will get back to you within
-            2–3 business days. Stay locked in.&quot;
+            {tr(
+              "\"We received your proposal. HEBREW will get back to you within 2–3 business days. Stay locked in.\"",
+              "\"Chúng tôi đã nhận được đề xuất của bạn. HEBREW sẽ phản hồi trong 2–3 ngày làm việc.\"",
+            )}
           </HighlightBox>
         ) : (
           <form onSubmit={onSubmit} className="flex flex-col gap-4">
             <div className="grid gap-4 lg:grid-cols-2">
               <div>
                 <label className="mb-2 block font-body text-[9px] uppercase tracking-[.2em] text-hb-white/40">
-                  Name / Brand Name
+                  {tr("Name / Brand Name", "Tên cá nhân / Thương hiệu")}
                 </label>
                 <input
                   required
@@ -132,7 +137,7 @@ export function CooperateClient() {
               </div>
               <div>
                 <label className="mb-2 block font-body text-[9px] uppercase tracking-[.2em] text-hb-white/40">
-                  Contact Email
+                  {tr("Contact Email", "Email liên hệ")}
                 </label>
                 <input
                   required
@@ -148,7 +153,7 @@ export function CooperateClient() {
 
             <div>
               <label className="mb-2 block font-body text-[9px] uppercase tracking-[.2em] text-hb-white/40">
-                Type of Cooperation
+                {tr("Type of Cooperation", "Hình thức hợp tác")}
               </label>
               <select
                 value={formData.type}
@@ -171,7 +176,7 @@ export function CooperateClient() {
 
             <div>
               <label className="mb-2 block font-body text-[9px] uppercase tracking-[.2em] text-hb-white/40">
-                Instagram / TikTok handle
+                {tr("Instagram / TikTok handle", "Tài khoản Instagram / TikTok")}
               </label>
               <input
                 value={formData.instagram}
@@ -184,7 +189,7 @@ export function CooperateClient() {
 
             <div>
               <label className="mb-2 block font-body text-[9px] uppercase tracking-[.2em] text-hb-white/40">
-                Your proposal
+                {tr("Your proposal", "Nội dung đề xuất")}
               </label>
               <textarea
                 value={formData.message}
@@ -200,7 +205,7 @@ export function CooperateClient() {
               disabled={isLoading}
               className="mt-4 w-full bg-hb-red py-4 font-body text-[10px] uppercase tracking-[.25em] text-white transition hover:bg-red-700 disabled:opacity-60"
             >
-              {isLoading ? "SENDING..." : "SEND PROPOSAL →"}
+              {isLoading ? tr("SENDING...", "ĐANG GỬI...") : tr("SEND PROPOSAL →", "GỬI ĐỀ XUẤT →")}
             </button>
           </form>
         )}

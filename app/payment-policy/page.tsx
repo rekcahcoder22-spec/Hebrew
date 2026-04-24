@@ -6,6 +6,7 @@ import {
   PolicyLayout,
   SectionHeading,
 } from "@/components/layouts/PolicyLayout";
+import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
   title: "Payment Policy — HEBREW",
@@ -14,7 +15,10 @@ export const metadata: Metadata = {
 
 export default function PaymentPolicyPage() {
   return (
-    <PolicyLayout title="PAYMENT POLICY" subtitle="PAYMENT INSTRUCTIONS">
+    <PolicyLayout
+      title={<LanguageText en="PAYMENT POLICY" vi="CHÍNH SÁCH THANH TOÁN" />}
+      subtitle={<LanguageText en="PAYMENT INSTRUCTIONS" vi="HƯỚNG DẪN THANH TOÁN" />}
+    >
       <SectionHeading>1. ACCEPTED PAYMENT METHODS</SectionHeading>
       <Paragraph>We accept:</Paragraph>
       <ListItem>Cash on Delivery (COD) — nationwide</ListItem>

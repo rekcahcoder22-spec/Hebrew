@@ -4,6 +4,7 @@ import {
   PolicyLayout,
   SectionHeading,
 } from "@/components/layouts/PolicyLayout";
+import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
   title: "Store Locations — HEBREW",
@@ -27,7 +28,10 @@ const stores = [
 
 export default function StoresPage() {
   return (
-    <PolicyLayout title="STORE LOCATIONS" subtitle="FIND US">
+    <PolicyLayout
+      title={<LanguageText en="STORE LOCATIONS" vi="HỆ THỐNG CỬA HÀNG" />}
+      subtitle={<LanguageText en="FIND US" vi="TÌM CỬA HÀNG GẦN BẠN" />}
+    >
       <Paragraph>
         Visit us in person to experience HEBREW up close. Our stores are more
         than retail spaces — they are part of the movement.

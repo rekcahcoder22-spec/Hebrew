@@ -11,6 +11,7 @@ import { CustomerForm } from "@/components/checkout/CustomerForm";
 import { OrderConfirmation } from "@/components/checkout/OrderConfirmation";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { ShippingForm } from "@/components/checkout/ShippingForm";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
 function getShippingPrice(method: ShippingInfo["method"]): number {
   if (method === "standard") return 30000;
@@ -18,11 +19,17 @@ function getShippingPrice(method: ShippingInfo["method"]): number {
   return 0;
 }
 
-function CheckoutTopBar({ step }: { step: 1 | 2 | 3 }) {
+function CheckoutTopBar({
+  step,
+  language,
+}: {
+  step: 1 | 2 | 3;
+  language: "vi" | "en";
+}) {
   const steps = [
-    { n: 1 as const, label: "INFORMATION" },
-    { n: 2 as const, label: "SHIPPING" },
-    { n: 3 as const, label: "CONFIRMATION" },
+    { n: 1 as const, label: language === "vi" ? "THÔNG TIN" : "INFORMATION" },
+    { n: 2 as const, label: language === "vi" ? "GIAO HÀNG" : "SHIPPING" },
+    { n: 3 as const, label: language === "vi" ? "XÁC NHẬN" : "CONFIRMATION" },
   ];
 
   const circle = (n: 1 | 2 | 3) => {
@@ -95,7 +102,7 @@ function CheckoutTopBar({ step }: { step: 1 | 2 | 3 }) {
             href="/cart"
             className="shrink-0 font-body text-[10px] uppercase tracking-widest text-hb-white/60 transition hover:text-hb-white"
           >
-            BACK TO CART
+            {language === "vi" ? "VỀ GIỎ HÀNG" : "BACK TO CART"}
           </Link>
         </div>
       </div>
@@ -104,6 +111,7 @@ function CheckoutTopBar({ step }: { step: 1 | 2 | 3 }) {
 }
 
 export default function CheckoutPage() {
+  const { language } = useLanguage();
   const router = useRouter();
   const mounted = useClientMounted();
   const [cartHydrated, setCartHydrated] = useState(false);
@@ -157,7 +165,11 @@ export default function CheckoutPage() {
   const handleShippingNext = useCallback(
     async (data: ShippingInfo) => {
       if (!customerInfo) {
-        toast.error("Thiếu thông tin khách hàng.");
+        toast.error(
+          language === "vi"
+            ? "Thiếu thông tin khách hàng."
+            : "Missing customer information.",
+        );
         return;
       }
 
@@ -199,15 +211,24 @@ export default function CheckoutPage() {
           const err = (await res.json().catch(() => null)) as {
             error?: string;
           } | null;
-          toast.error(err?.error ?? "Đặt hàng thất bại.");
+          toast.error(
+            err?.error ??
+              (language === "vi"
+                ? "Đặt hàng thất bại."
+                : "Order placement failed."),
+          );
         }
       } catch {
-        toast.error("Lỗi mạng. Vui lòng thử lại.");
+        toast.error(
+          language === "vi"
+            ? "Lỗi mạng. Vui lòng thử lại."
+            : "Network error. Please try again.",
+        );
       } finally {
         setIsSubmitting(false);
       }
     },
-    [customerInfo, clearCart, getTotals, items],
+    [clearCart, customerInfo, getTotals, items, language],
   );
 
   const shippingSummaryPrice =
@@ -216,14 +237,14 @@ export default function CheckoutPage() {
   if (!ready) {
     return (
       <div className="min-h-screen bg-hb-black pt-24 font-body text-sm text-hb-white/40">
-        Đang tải…
+          {language === "vi" ? "Đang tải…" : "Loading…"}
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-hb-black">
-      <CheckoutTopBar step={step} />
+      <CheckoutTopBar step={step} language={language} />
 
       <div className="mx-auto max-w-6xl pt-20 lg:grid lg:grid-cols-[1fr,400px] lg:gap-0">
         <div

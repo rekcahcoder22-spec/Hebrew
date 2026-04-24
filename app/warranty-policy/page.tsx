@@ -6,6 +6,7 @@ import {
   SectionHeading,
   StepItem,
 } from "@/components/layouts/PolicyLayout";
+import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
   title: "Warranty Policy — HEBREW",
@@ -14,7 +15,10 @@ export const metadata: Metadata = {
 
 export default function WarrantyPolicyPage() {
   return (
-    <PolicyLayout title="WARRANTY POLICY" subtitle="QUALITY GUARANTEE">
+    <PolicyLayout
+      title={<LanguageText en="WARRANTY POLICY" vi="CHÍNH SÁCH BẢO HÀNH" />}
+      subtitle={<LanguageText en="QUALITY GUARANTEE" vi="CAM KẾT CHẤT LƯỢNG" />}
+    >
       <SectionHeading>1. OUR COMMITMENT</SectionHeading>
       <HighlightBox>
         &quot;HEBREW guarantees 100% of products pass strict quality control

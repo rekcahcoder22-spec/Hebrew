@@ -5,6 +5,7 @@ import {
   SectionHeading,
   StepItem,
 } from "@/components/layouts/PolicyLayout";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
 const positions = [
   {
@@ -40,16 +41,18 @@ const positions = [
 ];
 
 export function CareersClient() {
+  const { language } = useLanguage();
+  const tr = (en: string, vi: string) => (language === "vi" ? vi : en);
   return (
     <>
       <HighlightBox>
-        &quot;HEBREW is looking for individuals who think differently, create
-        boldly, and want to help build a Vietnamese streetwear brand that
-        reaches the world. If you live for the streets, this is your
-        place.&quot;
+        {tr(
+          "\"HEBREW is looking for individuals who think differently, create boldly, and want to help build a Vietnamese streetwear brand that reaches the world. If you live for the streets, this is your place.\"",
+          "\"HEBREW tìm kiếm những cá nhân dám nghĩ khác, dám tạo khác, và muốn cùng xây dựng thương hiệu streetwear Việt vươn tầm thế giới.\"",
+        )}
       </HighlightBox>
 
-      <SectionHeading>OPEN POSITIONS</SectionHeading>
+      <SectionHeading>{tr("OPEN POSITIONS", "VỊ TRÍ ĐANG TUYỂN")}</SectionHeading>
       {positions.map((position) => (
         <article
           key={position.title}
@@ -84,23 +87,37 @@ export function CareersClient() {
               }}
               className="whitespace-nowrap border border-hb-red px-4 py-2 font-body text-[9px] uppercase tracking-[.2em] text-hb-red transition-all duration-200 hover:bg-hb-red hover:text-white"
             >
-              APPLY →
+              {tr("APPLY →", "ỨNG TUYỂN →")}
             </button>
           </div>
         </article>
       ))}
 
       <section className="mt-12">
-        <SectionHeading>HOW TO APPLY</SectionHeading>
+        <SectionHeading>{tr("HOW TO APPLY", "CÁCH ỨNG TUYỂN")}</SectionHeading>
         <StepItem number="01">
-          Send your CV + Portfolio (if applicable) to careers@hebrew.vn
+          {tr(
+            "Send your CV + Portfolio (if applicable) to careers@hebrew.vn",
+            "Gửi CV + Portfolio (nếu có) về careers@hebrew.vn",
+          )}
         </StepItem>
-        <StepItem number="02">Subject line: [Position] — [Your Full Name]</StepItem>
+        <StepItem number="02">
+          {tr(
+            "Subject line: [Position] — [Your Full Name]",
+            "Tiêu đề email: [Vị trí] — [Họ và tên]",
+          )}
+        </StepItem>
         <StepItem number="03">
-          HEBREW will respond within 3–5 business days
+          {tr(
+            "HEBREW will respond within 3–5 business days",
+            "HEBREW phản hồi trong vòng 3–5 ngày làm việc",
+          )}
         </StepItem>
         <StepItem number="04">
-          Interview online or in-person at our store
+          {tr(
+            "Interview online or in-person at our store",
+            "Phỏng vấn online hoặc trực tiếp tại cửa hàng",
+          )}
         </StepItem>
       </section>
 

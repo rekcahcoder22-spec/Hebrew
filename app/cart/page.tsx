@@ -7,8 +7,10 @@ import { useRouter } from "next/navigation";
 import { useClientMounted } from "@/hooks/useClientMounted";
 import { useCartStore } from "@/store/cartStore";
 import { isUploadImagePath } from "@/lib/image";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
 export default function CartPage() {
+  const { language } = useLanguage();
   const router = useRouter();
   const mounted = useClientMounted();
   const [cartHydrated, setCartHydrated] = useState(false);
@@ -77,7 +79,7 @@ export default function CartPage() {
                 {line.product.name}
               </p>
               <p className="mt-1 font-body text-[10px] uppercase tracking-widest text-hb-white/45">
-                Size {line.size}
+                {language === "vi" ? "Cỡ" : "Size"} {line.size}
               </p>
               <p className="mt-1 font-body text-sm text-hb-gold">
                 {(line.product.price * line.quantity).toLocaleString("vi-VN")}{" "}
@@ -111,7 +113,7 @@ export default function CartPage() {
                 className="mt-2 font-body text-[10px] uppercase tracking-widest text-hb-red hover:underline"
                 onClick={() => removeItem(line.productId, line.size)}
               >
-                Xóa
+                {language === "vi" ? "Xóa" : "Remove"}
               </button>
             </div>
           </li>
@@ -120,7 +122,7 @@ export default function CartPage() {
 
       <div className="mt-10 flex items-end justify-between border-t border-hb-border pt-8">
         <span className="font-body text-[10px] uppercase tracking-widest text-hb-white/40">
-          Tạm tính
+          {language === "vi" ? "Tạm tính" : "Subtotal"}
         </span>
         <span className="font-display text-3xl tracking-wide text-hb-white">
           {totalPrice.toLocaleString("vi-VN")} ₫
@@ -131,13 +133,13 @@ export default function CartPage() {
         href="/checkout"
         className="mt-8 block w-full bg-hb-red py-4 text-center font-body text-xs uppercase tracking-[0.3em] text-white transition hover:bg-red-700"
       >
-        Thanh toán
+        {language === "vi" ? "Thanh toán" : "Checkout"}
       </Link>
       <Link
         href="/shop"
         className="mt-4 block text-center font-body text-[10px] uppercase tracking-[0.25em] text-hb-white/45 hover:text-hb-gold"
       >
-        Tiếp tục mua sắm
+        {language === "vi" ? "Tiếp tục mua sắm" : "Continue shopping"}
       </Link>
     </div>
   );

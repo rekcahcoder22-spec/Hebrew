@@ -95,7 +95,7 @@ export function HomePage() {
         title={gridTitle}
         subtitle={gridSubtitle}
         viewAllHref={gridHref}
-        linkLabel={`Xem ${gridProducts.length} sản phẩm →`}
+        linkLabel={t("home.viewProducts", { count: gridProducts.length })}
         columnsLg={gridCols}
       />
       <LookbookSection />

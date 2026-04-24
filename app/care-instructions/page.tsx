@@ -6,6 +6,7 @@ import {
   PolicyTable,
   SectionHeading,
 } from "@/components/layouts/PolicyLayout";
+import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
   title: "Care Instructions — HEBREW",
@@ -14,7 +15,10 @@ export const metadata: Metadata = {
 
 export default function CareInstructionsPage() {
   return (
-    <PolicyLayout title="CARE INSTRUCTIONS" subtitle="PRODUCT CARE GUIDE">
+    <PolicyLayout
+      title={<LanguageText en="CARE INSTRUCTIONS" vi="HƯỚNG DẪN BẢO QUẢN" />}
+      subtitle={<LanguageText en="PRODUCT CARE GUIDE" vi="HƯỚNG DẪN CHĂM SÓC SẢN PHẨM" />}
+    >
       <HighlightBox accent="gold">
         &quot;HEBREW products are crafted from premium fabrics. Proper care
         preserves the color, print, and fit for years to come.&quot;

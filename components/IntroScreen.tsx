@@ -136,7 +136,7 @@ export function IntroScreen({ onEnter }: IntroScreenProps) {
         className="pointer-events-none absolute bottom-7 left-7 z-[5] font-body text-[9px] uppercase tracking-[.25em] text-hb-white/20 opacity-0"
         style={{ animation: "fadeCorner 0.5s ease 0.9s forwards" }}
       >
-        SS — 2025
+        SS — 2026
       </div>
       <div
         className="pointer-events-none absolute bottom-7 right-7 z-[5] font-body text-[9px] uppercase tracking-[.25em] text-hb-white/20 opacity-0"

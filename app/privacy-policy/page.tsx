@@ -5,6 +5,7 @@ import {
   PolicyLayout,
   SectionHeading,
 } from "@/components/layouts/PolicyLayout";
+import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — HEBREW",
@@ -14,7 +15,10 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <PolicyLayout title="PRIVACY POLICY" subtitle="DATA PROTECTION">
+    <PolicyLayout
+      title={<LanguageText en="PRIVACY POLICY" vi="CHÍNH SÁCH BẢO MẬT" />}
+      subtitle={<LanguageText en="DATA PROTECTION" vi="BẢO VỆ DỮ LIỆU" />}
+    >
       <SectionHeading>1. INTRODUCTION</SectionHeading>
       <Paragraph>
         HEBREW respects your privacy. This policy describes how we collect, use,

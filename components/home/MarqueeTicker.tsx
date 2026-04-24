@@ -1,5 +1,5 @@
 const MARQUEE_TEXT =
-  "HEBREW — SS2025 — LIMITED DROPS — LOCALLY MADE — HANDCRAFTED — ";
+  "HEBREW — SS2026 — LIMITED DROPS — LOCALLY MADE — HANDCRAFTED — ";
 
 export function MarqueeTicker() {
   const row = `${MARQUEE_TEXT}${MARQUEE_TEXT}`;

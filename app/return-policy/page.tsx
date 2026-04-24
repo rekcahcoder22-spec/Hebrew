@@ -7,6 +7,7 @@ import {
   SectionHeading,
   StepItem,
 } from "@/components/layouts/PolicyLayout";
+import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
   title: "Return Policy — HEBREW",
@@ -15,7 +16,10 @@ export const metadata: Metadata = {
 
 export default function ReturnPolicyPage() {
   return (
-    <PolicyLayout title="RETURN POLICY" subtitle="7-DAY RETURNS">
+    <PolicyLayout
+      title={<LanguageText en="RETURN POLICY" vi="CHÍNH SÁCH ĐỔI TRẢ" />}
+      subtitle={<LanguageText en="7-DAY RETURNS" vi="ĐỔI TRẢ TRONG 7 NGÀY" />}
+    >
       <SectionHeading>1. RETURN WINDOW</SectionHeading>
       <HighlightBox>
         &quot;HEBREW accepts returns within 7 days of delivery. We want you to

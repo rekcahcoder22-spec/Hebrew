@@ -1,28 +1,29 @@
 "use client";
 
 import Link from "next/link";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
 const customerCareLinks = [
-  { href: "/payment-policy", label: "Payment Instructions" },
-  { href: "/delivery-policy", label: "Delivery Policy" },
-  { href: "/warranty-policy", label: "Warranty Policy" },
-  { href: "/return-policy", label: "Return Policy" },
-  { href: "/privacy-policy", label: "Privacy Policy" },
-  { href: "/adjustment-fees", label: "Adjustment Fee List" },
-  { href: "/feedback", label: "Feedback" },
+  { href: "/payment-policy", labelKey: "footer.paymentInstructions" },
+  { href: "/delivery-policy", labelKey: "footer.deliveryPolicy" },
+  { href: "/warranty-policy", labelKey: "footer.warrantyPolicy" },
+  { href: "/return-policy", labelKey: "footer.returnPolicy" },
+  { href: "/privacy-policy", labelKey: "footer.privacyPolicy" },
+  { href: "/adjustment-fees", labelKey: "footer.adjustmentFeeList" },
+  { href: "/feedback", labelKey: "footer.feedback" },
 ];
 
 const aboutLinks = [
-  { href: "/our-story", label: "The Story of HEBREW" },
-  { href: "/stores", label: "Store System" },
-  { href: "/careers", label: "Careers" },
-  { href: "/cooperate", label: "Cooperate with HEBREW" },
+  { href: "/our-story", labelKey: "footer.storyOfHebrew" },
+  { href: "/stores", labelKey: "footer.storeSystem" },
+  { href: "/careers", labelKey: "footer.careers" },
+  { href: "/cooperate", labelKey: "footer.cooperateWithHebrew" },
 ];
 
 const customerLinks = [
-  { href: "/care-instructions", label: "Care Instructions" },
-  { href: "/size-guide", label: "Size Guide" },
-  { href: "/blog", label: "Blog" },
+  { href: "/care-instructions", labelKey: "footer.careInstructions" },
+  { href: "/size-guide", labelKey: "footer.sizeGuide" },
+  { href: "/blog", labelKey: "footer.blog" },
 ];
 
 const socialLinks = [
@@ -34,6 +35,8 @@ const socialLinks = [
 ];
 
 export function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="border-t border-blood-ink bg-void">
       <div className="grid gap-12 px-8 pb-8 pt-16 lg:grid-cols-[2fr,1fr,1fr,1fr]">
@@ -42,22 +45,20 @@ export function Footer() {
             HEBREW
           </p>
           <p className="mb-6 mt-2 font-body text-[9px] uppercase tracking-[.2em] text-hb-white/30">
-            ROOTED IN THE STREETS. WRITTEN IN STONE.
+            {t("footer.tagline")}
           </p>
           <p className="mb-6 max-w-md font-body text-xs leading-[2.2] text-hb-white/40">
-            HEBREW creates unique pieces for those who dare to be different and
-            worship freedom in their soul. Each product is handcrafted by
-            Vietnamese hands with the desire to bring the work to the world.
+            {t("footer.description")}
           </p>
           <p className="mb-2 font-body text-[9px] uppercase tracking-[.15em] text-hb-white/30">
-            SUPPORT HOTLINE
+            {t("footer.supportHotline")}
           </p>
           <p className="font-body text-xs leading-[2.4] text-hb-white/50">
-            — Hanoi: 039.327.8668
+            — {t("footer.hotline.hanoi")}: 039.327.8668
             <br />
-            — Ho Chi Minh: 0794.302.899
+            — {t("footer.hotline.hcm")}: 0794.302.899
             <br />
-            — Quality Feedback: 0981.956.116
+            — {t("footer.hotline.qualityFeedback")}: 0981.956.116
           </p>
           <a
             href="mailto:support@hebrew.vn"
@@ -82,7 +83,7 @@ export function Footer() {
 
         <div>
           <p className="mb-5 font-body text-[9px] uppercase tracking-[.25em] text-hb-white/30">
-            CUSTOMER CARE
+            {t("footer.customerCare")}
           </p>
           {customerCareLinks.map((item) => (
             <Link
@@ -90,14 +91,14 @@ export function Footer() {
               href={item.href}
               className="block font-body text-xs leading-[2.8] text-hb-white/50 transition-colors hover:text-hb-white"
             >
-              {item.label}
+              {t(item.labelKey)}
             </Link>
           ))}
         </div>
 
         <div>
           <p className="mb-5 font-body text-[9px] uppercase tracking-[.25em] text-hb-white/30">
-            ABOUT US
+            {t("footer.aboutUs")}
           </p>
           {aboutLinks.map((item) => (
             <Link
@@ -105,14 +106,14 @@ export function Footer() {
               href={item.href}
               className="block font-body text-xs leading-[2.8] text-hb-white/50 transition-colors hover:text-hb-white"
             >
-              {item.label}
+              {t(item.labelKey)}
             </Link>
           ))}
         </div>
 
         <div>
           <p className="mb-5 font-body text-[9px] uppercase tracking-[.25em] text-hb-white/30">
-            FOR CUSTOMERS
+            {t("footer.forCustomers")}
           </p>
           {customerLinks.map((item) => (
             <Link
@@ -120,7 +121,7 @@ export function Footer() {
               href={item.href}
               className="block font-body text-xs leading-[2.8] text-hb-white/50 transition-colors hover:text-hb-white"
             >
-              {item.label}
+              {t(item.labelKey)}
             </Link>
           ))}
         </div>
@@ -129,7 +130,7 @@ export function Footer() {
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-hb-border px-8 py-6">
         <p className="flex items-center gap-2 border border-hb-border px-3 py-1.5 font-body text-[8px] tracking-[.1em] text-hb-white/30">
           <span className="mr-2 text-hb-gold">✓</span>
-          VERIFIED BY MINISTRY OF INDUSTRY AND TRADE
+          {t("footer.verifiedByMinistry")}
         </p>
         <div className="flex gap-2">
           {["COD", "MOMO", "ZALOPAY", "VNPAY", "VISA", "MC"].map((method) => (
@@ -145,10 +146,10 @@ export function Footer() {
 
       <div className="flex items-center justify-between border-t border-hb-border px-8 py-5">
         <p className="font-body text-[9px] tracking-[.1em] text-hb-white/20">
-          © 2025 HEBREW. ALL RIGHTS RESERVED.
+          {t("footer.copyright")}
         </p>
         <p className="font-body text-[9px] tracking-[.1em] text-hb-white/20">
-          NO RIGHTS, ONLY DROPS.
+          {t("footer.signature")}
         </p>
       </div>
     </footer>

@@ -29,6 +29,36 @@ const ProductSchema = new Schema(
     tags: { type: [String], default: [] },
     featured: { type: Boolean, default: false },
     isNew: { type: Boolean, default: true },
+    content: {
+      overview: {
+        primary: {
+          en: { type: String },
+          vi: { type: String },
+        },
+        secondary: {
+          en: { type: String },
+          vi: { type: String },
+        },
+      },
+      specs: {
+        material: {
+          en: { type: String },
+          vi: { type: String },
+        },
+        fit: {
+          en: { type: String },
+          vi: { type: String },
+        },
+        securePrint: {
+          en: { type: String },
+          vi: { type: String },
+        },
+        origin: {
+          en: { type: String },
+          vi: { type: String },
+        },
+      },
+    },
     createdAt: { type: String },
     updatedAt: { type: String },
   },

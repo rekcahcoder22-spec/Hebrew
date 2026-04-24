@@ -9,7 +9,7 @@ import {
 export const metadata: Metadata = {
   title: "Our Story — HEBREW",
   description:
-    "The story behind HEBREW — a Vietnamese streetwear brand born in 2024.",
+    "The story behind HEBREW — a Vietnamese streetwear brand born in 2026.",
 };
 
 export default function OurStoryPage() {
@@ -38,7 +38,7 @@ export default function OurStoryPage() {
             HEBREW
           </div>
           <p className="absolute bottom-6 left-8 font-body text-[9px] uppercase tracking-[.2em] text-hb-white/40">
-            2024 — DA NANG, VIETNAM
+            2026 — DA NANG, VIETNAM
           </p>
           <p className="absolute bottom-6 right-8 font-body text-[9px] uppercase tracking-[.2em] text-hb-red/60">
             DROP 001 - THE ADORE COLLECTION
@@ -57,7 +57,7 @@ export default function OurStoryPage() {
           <div>
             <SectionHeading>THE BEGINNING</SectionHeading>
             <Paragraph>
-              HEBREW was born in a Hanoi alleyway in 2024, when a group of young
+              HEBREW was born in a Hanoi alleyway in 2026, when a group of young
               creatives believed that Vietnamese streetwear could carry its own
               voice to the world. The name HEBREW — inspired by ancient script
               — symbolizes the power of language, of stories carved into stone.
@@ -171,7 +171,7 @@ export default function OurStoryPage() {
 
         <section className="mb-20 grid grid-cols-3 gap-px border border-hb-border bg-hb-border">
           {[
-            { value: "2024", label: "FOUNDED" },
+            { value: "2026", label: "FOUNDED" },
             { value: "001", label: "FIRST DROP" },
             { value: "VN", label: "MADE IN VIETNAM" },
           ].map((item) => (

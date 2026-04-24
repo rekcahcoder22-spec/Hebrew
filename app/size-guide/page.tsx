@@ -6,6 +6,7 @@ import {
   PolicyTable,
   SectionHeading,
 } from "@/components/layouts/PolicyLayout";
+import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
   title: "Size Guide — HEBREW",
@@ -14,7 +15,10 @@ export const metadata: Metadata = {
 
 export default function SizeGuidePage() {
   return (
-    <PolicyLayout title="SIZE GUIDE" subtitle="FIND YOUR FIT">
+    <PolicyLayout
+      title={<LanguageText en="SIZE GUIDE" vi="HƯỚNG DẪN CHỌN SIZE" />}
+      subtitle={<LanguageText en="FIND YOUR FIT" vi="TÌM SIZE PHÙ HỢP" />}
+    >
       <Paragraph>
         All measurements are in centimetres (cm). Measure your body without
         thick clothing for best accuracy. We recommend adding 1–2cm for

@@ -29,6 +29,18 @@ const schema = z.object({
   featured: z.boolean(),
   isNew: z.boolean(),
   images: z.array(z.string().min(1)).min(1, "Thêm ít nhất 1 ảnh"),
+  overviewPrimaryVi: z.string().optional(),
+  overviewPrimaryEn: z.string().optional(),
+  overviewSecondaryVi: z.string().optional(),
+  overviewSecondaryEn: z.string().optional(),
+  specsMaterialVi: z.string().optional(),
+  specsMaterialEn: z.string().optional(),
+  specsFitVi: z.string().optional(),
+  specsFitEn: z.string().optional(),
+  specsSecurePrintVi: z.string().optional(),
+  specsSecurePrintEn: z.string().optional(),
+  specsOriginVi: z.string().optional(),
+  specsOriginEn: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -66,6 +78,18 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
         featured: product.featured,
         isNew: product.isNew,
         images: [...product.images],
+        overviewPrimaryVi: product.content?.overview?.primary?.vi ?? "",
+        overviewPrimaryEn: product.content?.overview?.primary?.en ?? "",
+        overviewSecondaryVi: product.content?.overview?.secondary?.vi ?? "",
+        overviewSecondaryEn: product.content?.overview?.secondary?.en ?? "",
+        specsMaterialVi: product.content?.specs?.material?.vi ?? "",
+        specsMaterialEn: product.content?.specs?.material?.en ?? "",
+        specsFitVi: product.content?.specs?.fit?.vi ?? "",
+        specsFitEn: product.content?.specs?.fit?.en ?? "",
+        specsSecurePrintVi: product.content?.specs?.securePrint?.vi ?? "",
+        specsSecurePrintEn: product.content?.specs?.securePrint?.en ?? "",
+        specsOriginVi: product.content?.specs?.origin?.vi ?? "",
+        specsOriginEn: product.content?.specs?.origin?.en ?? "",
       }
     : {
         name: "",
@@ -79,6 +103,18 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
         featured: false,
         isNew: true,
         images: [],
+        overviewPrimaryVi: "",
+        overviewPrimaryEn: "",
+        overviewSecondaryVi: "",
+        overviewSecondaryEn: "",
+        specsMaterialVi: "",
+        specsMaterialEn: "",
+        specsFitVi: "",
+        specsFitEn: "",
+        specsSecurePrintVi: "",
+        specsSecurePrintEn: "",
+        specsOriginVi: "",
+        specsOriginEn: "",
       };
 
   const {
@@ -113,6 +149,36 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
       tags: parseTags(v.tags),
       featured: v.featured,
       isNew: v.isNew,
+      content: {
+        overview: {
+          primary: {
+            vi: v.overviewPrimaryVi?.trim() || undefined,
+            en: v.overviewPrimaryEn?.trim() || undefined,
+          },
+          secondary: {
+            vi: v.overviewSecondaryVi?.trim() || undefined,
+            en: v.overviewSecondaryEn?.trim() || undefined,
+          },
+        },
+        specs: {
+          material: {
+            vi: v.specsMaterialVi?.trim() || undefined,
+            en: v.specsMaterialEn?.trim() || undefined,
+          },
+          fit: {
+            vi: v.specsFitVi?.trim() || undefined,
+            en: v.specsFitEn?.trim() || undefined,
+          },
+          securePrint: {
+            vi: v.specsSecurePrintVi?.trim() || undefined,
+            en: v.specsSecurePrintEn?.trim() || undefined,
+          },
+          origin: {
+            vi: v.specsOriginVi?.trim() || undefined,
+            en: v.specsOriginEn?.trim() || undefined,
+          },
+        },
+      },
     };
 
     if (mode === "create") {
@@ -149,6 +215,129 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
           </p>
         )}
       </div>
+
+      <section className="space-y-4 rounded-md border border-gray-200 p-4">
+        <p className="font-mono text-[10px] uppercase tracking-widest text-gray-500">
+          Nội dung Product Detail (EN/VI)
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Tổng quan 1 (VI)
+            </label>
+            <textarea
+              {...register("overviewPrimaryVi")}
+              rows={3}
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
+            />
+          </div>
+          <div>
+            <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Overview 1 (EN)
+            </label>
+            <textarea
+              {...register("overviewPrimaryEn")}
+              rows={3}
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
+            />
+          </div>
+          <div>
+            <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Tổng quan 2 (VI)
+            </label>
+            <textarea
+              {...register("overviewSecondaryVi")}
+              rows={3}
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
+            />
+          </div>
+          <div>
+            <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Overview 2 (EN)
+            </label>
+            <textarea
+              {...register("overviewSecondaryEn")}
+              rows={3}
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
+            />
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Chất liệu (VI)
+            </label>
+            <input
+              {...register("specsMaterialVi")}
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
+            />
+          </div>
+          <div>
+            <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Material (EN)
+            </label>
+            <input
+              {...register("specsMaterialEn")}
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
+            />
+          </div>
+          <div>
+            <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Phom dáng (VI)
+            </label>
+            <input
+              {...register("specsFitVi")}
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
+            />
+          </div>
+          <div>
+            <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Fit (EN)
+            </label>
+            <input
+              {...register("specsFitEn")}
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
+            />
+          </div>
+          <div>
+            <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Độ bền in chuẩn Web3 (VI)
+            </label>
+            <input
+              {...register("specsSecurePrintVi")}
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
+            />
+          </div>
+          <div>
+            <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Web3-grade Print Security (EN)
+            </label>
+            <input
+              {...register("specsSecurePrintEn")}
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
+            />
+          </div>
+          <div>
+            <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Xuất xứ (VI)
+            </label>
+            <input
+              {...register("specsOriginVi")}
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
+            />
+          </div>
+          <div>
+            <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Origin (EN)
+            </label>
+            <input
+              {...register("specsOriginEn")}
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
+            />
+          </div>
+        </div>
+      </section>
 
       <div>
         <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">

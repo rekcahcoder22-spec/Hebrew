@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useClientMounted } from "@/hooks/useClientMounted";
 import Link from "next/link";
+import { Check, ShieldCheck, Star } from "lucide-react";
 import { SizeSelector } from "@/components/shop/SizeSelector";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { ProductImageGallery } from "@/components/shop/ProductImageGallery";
@@ -10,6 +11,7 @@ import { StockBadge } from "@/components/ui/StockBadge";
 import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 import type { Product, Size } from "@/types";
 
 function totalStock(product: Product) {
@@ -25,6 +27,8 @@ const SIZE_ROWS: { label: string; cm: string }[] = [
   { label: "XXL", cm: "54–56" },
 ];
 
+const SEEDED_REVIEW_DATES = ["2026-03-12", "2026-03-20", "2026-04-02"] as const;
+
 export function ProductDetailClient({
   product,
   related,
@@ -35,6 +39,7 @@ export function ProductDetailClient({
   const [size, setSize] = useState<Size | null>(product.sizes[0] ?? null);
   const [qty, setQty] = useState(1);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const { t, language } = useLanguage();
 
   const addItem = useCartStore((s) => s.addItem);
   const openCart = useCartStore((s) => s.openCart);
@@ -73,6 +78,61 @@ export function ProductDetailClient({
 
   const clampQty = (n: number) =>
     Math.min(maxQty, Math.max(1, Math.floor(n)));
+
+  const seededReviews = [
+    {
+      key: "review1",
+      author: t("productDetail.reviews.seed.review1.name"),
+      content: t("productDetail.reviews.seed.review1.content"),
+      rating: 5,
+      date: SEEDED_REVIEW_DATES[0],
+    },
+    {
+      key: "review2",
+      author: t("productDetail.reviews.seed.review2.name"),
+      content: t("productDetail.reviews.seed.review2.content"),
+      rating: 5,
+      date: SEEDED_REVIEW_DATES[1],
+    },
+    {
+      key: "review3",
+      author: t("productDetail.reviews.seed.review3.name"),
+      content: t("productDetail.reviews.seed.review3.content"),
+      rating: 4,
+      date: SEEDED_REVIEW_DATES[2],
+    },
+  ] as const;
+
+  const averageRating =
+    seededReviews.reduce((sum, review) => sum + review.rating, 0) /
+    seededReviews.length;
+
+  const overviewPrimary =
+    (language === "vi"
+      ? product.content?.overview?.primary?.vi
+      : product.content?.overview?.primary?.en) ??
+    t("productDetail.overview.story1", { name: product.name });
+  const overviewSecondary =
+    (language === "vi"
+      ? product.content?.overview?.secondary?.vi
+      : product.content?.overview?.secondary?.en) ??
+    t("productDetail.overview.story2", { category: product.category });
+  const specsMaterial =
+    (language === "vi"
+      ? product.content?.specs?.material?.vi
+      : product.content?.specs?.material?.en) ?? t("productDetail.specs.materialValue");
+  const specsFit =
+    (language === "vi" ? product.content?.specs?.fit?.vi : product.content?.specs?.fit?.en) ??
+    t("productDetail.specs.fitValue");
+  const specsSecurePrint =
+    (language === "vi"
+      ? product.content?.specs?.securePrint?.vi
+      : product.content?.specs?.securePrint?.en) ??
+    t("productDetail.specs.securePrintValue");
+  const specsOrigin =
+    (language === "vi"
+      ? product.content?.specs?.origin?.vi
+      : product.content?.specs?.origin?.en) ?? t("productDetail.specs.originValue");
 
   return (
     <div className="border-b border-hb-border bg-hb-black px-4 py-12">
@@ -213,6 +273,137 @@ export function ProductDetailClient({
             </button>
           </div>
         </div>
+
+        <section className="mt-16 grid gap-8 border-t border-hb-border pt-12 lg:grid-cols-[1.1fr,0.9fr]">
+          <div className="space-y-8">
+            <div>
+              <p className="font-body text-[10px] uppercase tracking-[0.35em] text-hb-gold">
+                {t("productDetail.overview.kicker")}
+              </p>
+              <h2 className="mt-3 font-display text-3xl tracking-[0.1em] text-hb-white">
+                {t("productDetail.overview.title")}
+              </h2>
+              <p className="mt-4 font-body text-sm leading-relaxed text-hb-white/60">
+                {overviewPrimary}
+              </p>
+              <p className="mt-4 font-body text-sm leading-relaxed text-hb-white/60">
+                {overviewSecondary}
+              </p>
+            </div>
+
+            <div>
+              <p className="font-body text-[10px] uppercase tracking-[0.35em] text-hb-gold">
+                {t("productDetail.specs.kicker")}
+              </p>
+              <h3 className="mt-3 font-display text-2xl tracking-[0.08em] text-hb-white">
+                {t("productDetail.specs.title")}
+              </h3>
+              <div className="mt-5 grid gap-px bg-hb-border sm:grid-cols-2">
+                <div className="bg-hb-gray p-4">
+                  <p className="font-body text-[9px] uppercase tracking-[0.25em] text-hb-white/35">
+                    {t("productDetail.specs.material")}
+                  </p>
+                  <p className="mt-2 font-body text-sm text-hb-white/80">
+                    {specsMaterial}
+                  </p>
+                </div>
+                <div className="bg-hb-gray p-4">
+                  <p className="font-body text-[9px] uppercase tracking-[0.25em] text-hb-white/35">
+                    {t("productDetail.specs.fit")}
+                  </p>
+                  <p className="mt-2 font-body text-sm text-hb-white/80">
+                    {specsFit}
+                  </p>
+                </div>
+                <div className="bg-hb-gray p-4">
+                  <p className="font-body text-[9px] uppercase tracking-[0.25em] text-hb-white/35">
+                    {t("productDetail.specs.securePrint")}
+                  </p>
+                  <p className="mt-2 flex items-center gap-2 font-body text-sm text-hb-white/80">
+                    <ShieldCheck className="h-4 w-4 text-hb-gold" />
+                    {specsSecurePrint}
+                  </p>
+                </div>
+                <div className="bg-hb-gray p-4">
+                  <p className="font-body text-[9px] uppercase tracking-[0.25em] text-hb-white/35">
+                    {t("productDetail.specs.origin")}
+                  </p>
+                  <p className="mt-2 flex items-center gap-2 font-body text-sm text-hb-white/80">
+                    <Check className="h-4 w-4 text-hb-gold" />
+                    {specsOrigin}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-sm border border-hb-border bg-hb-gray/60 p-6">
+            <p className="font-body text-[10px] uppercase tracking-[0.35em] text-hb-gold">
+              {t("productDetail.reviews.kicker")}
+            </p>
+            <h3 className="mt-3 font-display text-2xl tracking-[0.08em] text-hb-white">
+              {t("productDetail.reviews.title")}
+            </h3>
+
+            <div className="mt-5 flex items-center justify-between border-y border-hb-border py-4">
+              <div>
+                <p className="font-display text-4xl text-hb-white">
+                  {averageRating.toFixed(1)}
+                </p>
+                <p className="font-body text-xs text-hb-white/45">
+                  {t("productDetail.reviews.averageLabel")}
+                </p>
+              </div>
+              <div className="text-right">
+                <div className="flex justify-end gap-1 text-hb-gold">
+                  {[1, 2, 3, 4, 5].map((value) => (
+                    <Star
+                      key={value}
+                      className="h-4 w-4"
+                      fill={value <= Math.round(averageRating) ? "currentColor" : "none"}
+                    />
+                  ))}
+                </div>
+                <p className="mt-2 font-body text-xs text-hb-white/45">
+                  {t("productDetail.reviews.totalLabel", {
+                    count: seededReviews.length,
+                  })}
+                </p>
+              </div>
+            </div>
+
+            <ul className="mt-6 space-y-4">
+              {seededReviews.map((review) => (
+                <li key={review.key} className="border-b border-hb-border/70 pb-4 last:border-b-0">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="font-body text-sm font-medium text-hb-white">
+                        {review.author}
+                      </p>
+                      <p className="mt-1 font-body text-[11px] text-hb-white/40">
+                        {new Date(review.date).toLocaleDateString(
+                          language === "vi" ? "vi-VN" : "en-US",
+                        )}
+                      </p>
+                    </div>
+                    <div className="flex gap-0.5 text-hb-gold">
+                      {[1, 2, 3, 4, 5].map((value) => (
+                        <Star
+                          key={value}
+                          className="h-3.5 w-3.5"
+                          fill={value <= review.rating ? "currentColor" : "none"}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="mt-3 font-body text-sm leading-relaxed text-hb-white/65">
+                    {review.content}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
 
         {related.length > 0 && (
           <section className="mt-20 border-t border-hb-border pt-16">

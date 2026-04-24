@@ -13,6 +13,18 @@ export interface Product {
   tags: string[];
   featured: boolean;
   isNew: boolean;
+  content?: {
+    overview?: {
+      primary?: { en?: string; vi?: string };
+      secondary?: { en?: string; vi?: string };
+    };
+    specs?: {
+      material?: { en?: string; vi?: string };
+      fit?: { en?: string; vi?: string };
+      securePrint?: { en?: string; vi?: string };
+      origin?: { en?: string; vi?: string };
+    };
+  };
   createdAt: string;
   updatedAt: string;
 }

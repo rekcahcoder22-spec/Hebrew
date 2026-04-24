@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PolicyLayout } from "@/components/layouts/PolicyLayout";
+import { LanguageText } from "@/components/i18n/LanguageText";
 import { CareersClient } from "./CareersClient";
 
 export const metadata: Metadata = {
@@ -10,7 +11,10 @@ export const metadata: Metadata = {
 
 export default function CareersPage() {
   return (
-    <PolicyLayout title="CAREERS" subtitle="JOIN THE MOVEMENT">
+    <PolicyLayout
+      title={<LanguageText en="CAREERS" vi="TUYỂN DỤNG" />}
+      subtitle={<LanguageText en="JOIN THE MOVEMENT" vi="THAM GIA CÙNG CHÚNG TÔI" />}
+    >
       <CareersClient />
     </PolicyLayout>
   );
