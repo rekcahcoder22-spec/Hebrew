@@ -141,7 +141,7 @@ export function FeedbackClient() {
                   type="button"
                   onClick={() => setRating(value)}
                   className={`cursor-pointer font-display text-3xl transition-colors ${
-                    value <= rating ? "text-hb-gold" : "text-hb-white/15"
+                    value <= rating ? "text-hb-gold" : "text-hb-gold/35"
                   } hover:text-hb-gold`}
                 >
                   ★

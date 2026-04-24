@@ -24,6 +24,8 @@ export function ProductGrid({
   linkLabel,
   columnsLg = 4,
   hideHeader = false,
+  compactTop = false,
+  fullWidth = false,
 }: {
   products: Product[];
   title?: string;
@@ -33,14 +35,16 @@ export function ProductGrid({
   linkLabel?: string;
   columnsLg?: 2 | 4 | 5;
   hideHeader?: boolean;
+  compactTop?: boolean;
+  fullWidth?: boolean;
 }) {
   const { language } = useLanguage();
   const colClass = gridClass(columnsLg);
   const endText = linkLabel ?? (language === "vi" ? "XEM TẤT CẢ →" : "VIEW ALL →");
 
   return (
-    <section className="bg-void py-12 md:py-16">
-      <div className="mx-auto w-full max-w-[1600px] px-4 md:px-8">
+    <section className={cn("bg-void pb-12 md:pb-16", compactTop ? "pt-5" : "pt-12 md:pt-16")}>
+      <div className={cn("w-full px-4 md:px-8", fullWidth ? "" : "mx-auto max-w-[1600px]")}>
         {!hideHeader && (
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>

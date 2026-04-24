@@ -179,7 +179,7 @@ export function ProductCard({
         <h3 className="line-clamp-2 min-w-0 flex-1 font-product text-[13px] font-normal uppercase leading-snug tracking-[0.2em] text-white">
           {product.name}
         </h3>
-        <div className="flex shrink-0 items-center gap-1 font-product text-[11px] tracking-[0.14em] text-hb-muted">
+        <div className="flex shrink-0 items-center gap-1 font-product text-[11px] tracking-[0.14em] text-hb-gold">
           <span>{rating.toFixed(1)}</span>
           <span aria-hidden>★</span>
         </div>

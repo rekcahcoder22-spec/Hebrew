@@ -38,8 +38,13 @@ const cinzel = Cinzel({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
   title: {
-    default: "HEBREW — Vietnamese Streetwear",
+    default: "HEBREW - Streetwear",
     template: "%s | HEBREW",
   },
   description:
@@ -59,14 +64,14 @@ export const metadata: Metadata = {
     type: "website",
     url: "/",
     siteName: "HEBREW",
-    title: "HEBREW — Vietnamese Streetwear",
+    title: "HEBREW - Streetwear",
     description:
       "Limited drops. Handcrafted quality. Vietnamese streetwear built for the world.",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "HEBREW — Vietnamese Streetwear",
+    title: "HEBREW - Streetwear",
     description:
       "Limited drops. Handcrafted quality. Vietnamese streetwear built for the world.",
   },

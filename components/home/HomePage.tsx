@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { ConceptVisualSection } from "@/components/home/ConceptVisualSection";
-import { DropBanner } from "@/components/home/DropBanner";
 import { HeroSection } from "@/components/home/HeroSection";
 import { ProductGrid } from "@/components/home/ProductGrid";
 import { LookbookSection } from "@/components/home/LookbookSection";
@@ -88,8 +87,6 @@ export function HomePage() {
         headline={settings.dropTitle}
         tagline={settings.heroTagline}
       />
-      <DropBanner dropTitle={settings.dropTitle} dropDate={settings.dropDate} />
-      <HeroSection />
       <ProductGrid
         products={gridProducts}
         title={gridTitle}
@@ -97,7 +94,11 @@ export function HomePage() {
         viewAllHref={gridHref}
         linkLabel={t("home.viewProducts", { count: gridProducts.length })}
         columnsLg={gridCols}
+        hideHeader
+        compactTop
+        fullWidth
       />
+      <HeroSection />
       <LookbookSection />
       <ManifestoSection />
       <NewsletterSection />
