@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { cn } from "@/lib/utils";
 import { useClientMounted } from "@/hooks/useClientMounted";
+import { FreeShipMarquee } from "@/components/layout/FreeShipMarquee";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
@@ -43,6 +44,8 @@ export function Navbar() {
   const mounted = useClientMounted();
   const { t } = useLanguage();
   const cartCount = mounted ? totalItems : 0;
+  /** ≥3 món trong giờ — highlight banner (banner vẫn luôn hiển thị để dễ thấy). */
+  const freeShipUnlocked = mounted && totalItems > 2;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -60,16 +63,28 @@ export function Navbar() {
 
   return (
     <>
-      <div className="pointer-events-none fixed left-0 right-0 top-0 z-[60] h-px bg-hb-red" />
-      <header
-        className={cn(
-          "fixed left-0 right-0 top-px z-50 w-full transition-colors duration-300",
-          scrolled
-            ? "border-b border-hb-border bg-hb-black/95 backdrop-blur-md"
-            : "border-b border-transparent bg-transparent",
-        )}
-      >
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+      <div className="fixed left-0 right-0 top-0 z-[60] flex w-full flex-col">
+        <FreeShipMarquee unlocked={freeShipUnlocked} />
+        <div className="pointer-events-none h-px shrink-0 bg-hb-red" />
+        <header
+          className={cn(
+            "group/header w-full shrink-0 transition-[background-color,backdrop-filter,box-shadow,border-color] duration-500 ease-in-out motion-reduce:transition-none",
+            scrolled
+              ? "border-b border-white/[0.06] bg-void shadow-none"
+              : cn(
+                  "border-b border-transparent bg-transparent shadow-none",
+                  "hover:border-transparent hover:bg-void hover:shadow-none",
+                  "focus-within:border-transparent focus-within:bg-void",
+                ),
+          )}
+        >
+        <div
+          className={cn(
+            "mx-auto flex max-w-[1600px] items-center justify-between px-4 py-4 md:px-8",
+            !scrolled &&
+              "[&_svg]:drop-shadow-[0_1px_2px_rgba(0,0,0,0.75)] group-hover/header:[&_svg]:drop-shadow-none group-focus-within/header:[&_svg]:drop-shadow-none",
+          )}
+        >
           <Link
             href="/"
             className="font-display text-4xl tracking-[0.4em] text-hb-white"
@@ -123,7 +138,8 @@ export function Navbar() {
             </button>
           </div>
         </div>
-      </header>
+        </header>
+      </div>
 
       <div
         className={cn(
@@ -136,7 +152,7 @@ export function Navbar() {
 
       <div
         className={cn(
-          "fixed inset-y-0 right-0 z-[56] flex w-[min(100%,22rem)] flex-col bg-hb-black shadow-2xl transition-transform duration-300 ease-out md:hidden",
+          "fixed inset-y-0 right-0 z-[56] flex w-[min(100%,22rem)] flex-col bg-void shadow-2xl transition-transform duration-300 ease-out md:hidden",
           mobileOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
@@ -173,7 +189,10 @@ export function Navbar() {
         </nav>
       </div>
 
-      <div className="h-[calc(4rem+1px)] shrink-0" aria-hidden />
+      <div
+        className="h-[calc(4rem+1px+2.5rem)] shrink-0"
+        aria-hidden
+      />
     </>
   );
 }

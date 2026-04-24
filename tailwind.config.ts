@@ -9,18 +9,28 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        "hb-black": "#080808",
-        "hb-white": "#F0EDE6",
-        "hb-red": "#C0392B",
-        "hb-gold": "#B8963E",
-        "hb-gray": "#1A1A1A",
-        "hb-border": "#2A2A2A",
+        void: "var(--void)",
+        "blood-ink": "var(--blood-ink)",
+        "hb-muted": "var(--hb-muted)",
+        "luxury-gold": "var(--luxury-gold)",
+        "hb-black": "#0D0D0D",
+        "hb-white": "#F0EAE4",
+        "hb-red": "#8B1A1A",
+        "hb-gold": "#3D2B2B",
+        "hb-gray": "#1C0A0A",
+        "hb-border": "#3D2B2B",
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
       fontFamily: {
         display: ["var(--font-bebas)", "sans-serif"],
         body: ["var(--font-space-mono)", "monospace"],
+        product: ["var(--font-inter)", "system-ui", "sans-serif"],
+        "brand-serif": ["var(--font-cinzel)", "Georgia", "serif"],
+      },
+      backgroundImage: {
+        "card-well":
+          "radial-gradient(circle at 50% 45%, var(--blood-ink) 0%, var(--void) 72%, var(--void) 100%)",
       },
       animation: {
         glitch: "glitch 4s infinite",

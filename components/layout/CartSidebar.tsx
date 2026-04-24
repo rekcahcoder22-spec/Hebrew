@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useCartStore, type CartTotals } from "@/store/cartStore";
 import { formatPrice, cn } from "@/lib/utils";
 import { useClientMounted } from "@/hooks/useClientMounted";
+import { isUploadImagePath } from "@/lib/image";
 
 export function CartSidebar() {
   const open = useCartStore((s) => s.isOpen);
@@ -88,9 +89,7 @@ export function CartSidebar() {
                         fill
                         className="object-cover"
                         sizes="80px"
-                        unoptimized={line.product.images[0].startsWith(
-                          "/uploads",
-                        )}
+                        unoptimized={isUploadImagePath(line.product.images[0])}
                       />
                     ) : (
                       <div className="h-full w-full bg-hb-border" />

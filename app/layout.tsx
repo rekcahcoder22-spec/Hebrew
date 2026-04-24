@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Space_Mono } from "next/font/google";
+import { Bebas_Neue, Cinzel, Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { Navbar } from "@/components/layout/Navbar";
@@ -19,6 +19,21 @@ const spaceMono = Space_Mono({
   display: "swap",
 });
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+  weight: ["300", "400", "500"],
+});
+
+/** Helios-style brand mark — sharp stylized serif */
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  variable: "--font-cinzel",
+  display: "swap",
+  weight: ["500", "600"],
+});
+
 export const metadata: Metadata = {
   title: "HEBREW — Streetwear",
   description: "Sacred street. Built in silence.",
@@ -32,12 +47,12 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${bebas.variable} ${spaceMono.variable} min-h-screen bg-hb-black font-body text-hb-white antialiased`}
+        className={`${bebas.variable} ${spaceMono.variable} ${inter.variable} ${cinzel.variable} min-h-screen bg-void font-body text-hb-white antialiased`}
         suppressHydrationWarning
       >
         <AppProviders>
           <Navbar />
-          <main className="bg-hb-black text-hb-white">{children}</main>
+          <main className="bg-void text-hb-white">{children}</main>
           <Footer />
         </AppProviders>
       </body>

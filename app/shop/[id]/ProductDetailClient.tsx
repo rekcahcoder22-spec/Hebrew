@@ -1,11 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useClientMounted } from "@/hooks/useClientMounted";
-import Image from "next/image";
 import Link from "next/link";
 import { SizeSelector } from "@/components/shop/SizeSelector";
 import { ProductCard } from "@/components/shop/ProductCard";
+import { ProductImageGallery } from "@/components/shop/ProductImageGallery";
 import { StockBadge } from "@/components/ui/StockBadge";
 import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/store/cartStore";
@@ -33,7 +33,6 @@ export function ProductDetailClient({
   related: Product[];
 }) {
   const [size, setSize] = useState<Size | null>(product.sizes[0] ?? null);
-  const [img, setImg] = useState(0);
   const [qty, setQty] = useState(1);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
 
@@ -43,6 +42,20 @@ export function ProductDetailClient({
   const inWishlistStored = useWishlistStore((s) => s.has(product.id));
   const mounted = useClientMounted();
   const inWishlist = mounted && inWishlistStored;
+
+  useEffect(() => {
+    const first = product.images.filter(Boolean)[0];
+    if (!first) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = first;
+    link.setAttribute("fetchPriority", "high");
+    document.head.appendChild(link);
+    return () => {
+      link.remove();
+    };
+  }, [product.images]);
 
   const lowQty =
     product.stockStatus === "low-stock" ? totalStock(product) : undefined;
@@ -81,40 +94,7 @@ export function ProductDetailClient({
 
         <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-14">
           <div>
-            <div className="relative aspect-[3/4] overflow-hidden bg-hb-gray">
-              <Image
-                src={product.images[img] ?? product.images[0]}
-                alt={product.name}
-                fill
-                className="object-cover"
-                sizes="(max-width:1024px) 100vw, 50vw"
-                priority
-              />
-            </div>
-            {product.images.length > 1 && (
-              <div className="mt-4 flex flex-wrap gap-2">
-                {product.images.map((src, i) => (
-                  <button
-                    key={src}
-                    type="button"
-                    onClick={() => setImg(i)}
-                    className={`relative h-20 w-16 overflow-hidden border transition ${
-                      i === img
-                        ? "border-hb-gold ring-1 ring-hb-gold"
-                        : "border-hb-border hover:border-hb-white/30"
-                    }`}
-                  >
-                    <Image
-                      src={src}
-                      alt=""
-                      fill
-                      className="object-cover"
-                      sizes="64px"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
+            <ProductImageGallery images={product.images} productName={product.name} />
           </div>
 
           <div>
@@ -243,8 +223,13 @@ export function ProductDetailClient({
               MORE IN {product.category.toUpperCase()}
             </h2>
             <div className="mt-10 grid gap-px bg-hb-border sm:grid-cols-2 lg:grid-cols-3">
-              {related.map((p) => (
-                <ProductCard key={p.id} product={p} />
+              {related.map((p, index) => (
+                <ProductCard
+                  key={p.id}
+                  product={p}
+                  priorityImage={index === 0}
+                  eagerVisual={index === 0}
+                />
               ))}
             </div>
           </section>

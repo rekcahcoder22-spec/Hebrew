@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { isUploadImagePath } from "@/lib/image";
 import type { CartItem } from "@/types";
 
 const stripeStyle = {
@@ -60,7 +61,7 @@ export function OrderSummary({
                     fill
                     className="object-cover"
                     sizes="64px"
-                    unoptimized={img.startsWith("/uploads")}
+                    unoptimized={isUploadImagePath(img)}
                   />
                 ) : (
                   <div

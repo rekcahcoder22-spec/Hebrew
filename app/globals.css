@@ -3,14 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --background: #080808;
-  --foreground: #f0ede6;
-  --hb-black: #080808;
-  --hb-white: #f0ede6;
-  --hb-red: #c0392b;
-  --hb-gold: #b8963e;
-  --hb-gray: #1a1a1a;
-  --hb-border: #2a2a2a;
+  --void: #0d0d0d;
+  --blood-ink: #1c0a0a;
+  --hb-muted: #888888;
+  --luxury-gold: #c9a962;
+  --background: var(--void);
+  --foreground: #f0eae4; /* PALE SKIN */
+  --hb-black: var(--void);
+  --hb-white: #f0eae4; /* PALE SKIN */
+  --hb-red: #8b1a1a; /* BROKEN RED */
+  --hb-gray: var(--blood-ink); /* BLOOD INK */
+  --hb-border: #3d2b2b; /* ASH ROSE */
+  --hb-gold: #3d2b2b; /* Legacy alias -> ASH ROSE */
 }
 
 body {
@@ -27,8 +31,148 @@ body {
 @media (pointer: fine) {
   .hb-hero-cursor,
   .hb-hero-cursor * {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Ccircle cx='7' cy='7' r='5' fill='%23C0392B' stroke='%23080808' stroke-width='1'/%3E%3C/svg%3E")
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Ccircle cx='7' cy='7' r='5' fill='%238B1A1A' stroke='%230D0D0D' stroke-width='1'/%3E%3C/svg%3E")
         7 7,
       auto;
   }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #1c0a0a 25%, #3d2b2b 37%, #1c0a0a 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+.gallery-img-enter {
+  opacity: 0;
+  transform: scale(1.04);
+}
+
+.gallery-img-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+
+/* Concept hero — film grain (subtle motion, no harsh flicker) */
+@keyframes concept-grain-drift {
+  0%,
+  100% {
+    opacity: 0.22;
+  }
+  33% {
+    opacity: 0.28;
+  }
+  66% {
+    opacity: 0.18;
+  }
+}
+
+@keyframes concept-grain-micro {
+  0%,
+  100% {
+    opacity: 0.12;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.concept-grain-coarse {
+  animation: concept-grain-drift 5.5s ease-in-out infinite;
+}
+
+.concept-grain-fine {
+  animation: concept-grain-micro 0.35s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .concept-grain-coarse,
+  .concept-grain-fine {
+    animation: none;
+  }
+
+  .concept-grain-coarse {
+    opacity: 0.24;
+  }
+
+  .concept-grain-fine {
+    opacity: 0.14;
+  }
+
+  .lightning-flash-layer,
+  .lightning-bolt-layer {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
+
+/* Site-wide ambient lightning */
+@keyframes lightning-flash-screen {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  9% {
+    opacity: 0.12;
+  }
+  14% {
+    opacity: 0.85;
+  }
+  20% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes lightning-bolt-strike {
+  0% {
+    opacity: 0;
+    filter: brightness(1.4) blur(0);
+  }
+  6% {
+    opacity: 0.92;
+    filter: brightness(1.8) blur(0);
+  }
+  14% {
+    opacity: 0.35;
+    filter: brightness(1.2) blur(0.5px);
+  }
+  26% {
+    opacity: 0;
+    filter: brightness(1) blur(0);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.lightning-flash-layer {
+  animation: lightning-flash-screen 0.72s ease-out forwards;
+}
+
+.lightning-bolt-layer {
+  animation: lightning-bolt-strike 0.68s ease-out forwards;
 }

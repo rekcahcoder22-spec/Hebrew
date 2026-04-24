@@ -6,7 +6,7 @@ import type { BrandSettings, Product } from "@/types";
 
 const DEFAULT_SETTINGS: BrandSettings = {
   dropDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-  dropTitle: "DROP 001 — THE COVENANT COLLECTION",
+  dropTitle: "DROP 001 - THE ADORE COLLECTION",
   heroTagline: "ROOTED IN THE STREETS. WRITTEN IN STONE.",
   announcement: "FREE SHIPPING ON ORDERS OVER 1,000,000 ₫",
   instagramUrl: "",
@@ -14,6 +14,15 @@ const DEFAULT_SETTINGS: BrandSettings = {
   adminPassword:
     "$2a$10$fef59OoILdLzIoQfdhK4X.PY/cV68mQXPQO3g5xNOAxM4D2w2dULS", // "hebrew123"
 };
+
+/** Mongo may still store the old hero / banner title; migrate once when read. */
+function shouldMigrateDropTitle(title: string): boolean {
+  const t = title.trim();
+  if (!t) return false;
+  if (/covenant collection/i.test(t)) return true;
+  if (/^covenant ss/i.test(t)) return true;
+  return false;
+}
 
 type ProductLike = Product & {
   stock?: Record<string, number> | Map<string, number>;
@@ -142,7 +151,20 @@ export async function getSettings(): Promise<BrandSettings> {
     key: string;
     value: BrandSettings;
   } | null>();
-  return doc?.value ?? DEFAULT_SETTINGS;
+  const value = doc?.value ?? DEFAULT_SETTINGS;
+  if (doc && shouldMigrateDropTitle(value.dropTitle)) {
+    const next: BrandSettings = {
+      ...value,
+      dropTitle: DEFAULT_SETTINGS.dropTitle,
+    };
+    await SettingsModel.findOneAndUpdate(
+      { key: "brand" },
+      { key: "brand", value: next },
+      { upsert: true, new: true },
+    );
+    return next;
+  }
+  return value;
 }
 
 export async function saveSettings(settings: BrandSettings): Promise<void> {

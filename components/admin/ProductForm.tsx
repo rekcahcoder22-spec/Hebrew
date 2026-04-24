@@ -85,6 +85,8 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
     register,
     handleSubmit,
     control,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -125,6 +127,8 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
       await onSubmit(out);
     }
   };
+
+  const watchedImages = watch("images");
 
   return (
     <form
@@ -285,16 +289,33 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
         </label>
       </div>
 
-      <Controller
-        name="images"
-        control={control}
-        render={({ field }) => (
-          <ImageUpload value={field.value} onChange={field.onChange} />
+      <section className="mt-8">
+        <p className="mb-4 font-body text-[9px] uppercase tracking-[0.2em] text-hb-white/40">
+          PRODUCT IMAGES
+        </p>
+        <div className="mb-4 flex flex-wrap gap-4">
+          {["3:4 RATIO", "AUTO FIT", "900×1200px", "MAX 4 IMAGES"].map((spec) => (
+            <span
+              key={spec}
+              className="border border-hb-border/40 px-2 py-1 font-body text-[8px] uppercase tracking-wider text-hb-white/20"
+            >
+              {spec}
+            </span>
+          ))}
+        </div>
+        <ImageUpload
+          value={watchedImages}
+          onChange={(urls) =>
+            setValue("images", urls, { shouldDirty: true, shouldValidate: true })
+          }
+          maxImages={4}
+        />
+        {errors.images && (
+          <p className="mt-2 font-body text-[9px] text-hb-red">
+            At least 1 product image is required
+          </p>
         )}
-      />
-      {errors.images && (
-        <p className="font-mono text-xs text-red-600">{errors.images.message}</p>
-      )}
+      </section>
 
       <button
         type="submit"

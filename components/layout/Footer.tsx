@@ -35,7 +35,7 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-hb-gold/30 bg-hb-black">
+    <footer className="border-t border-blood-ink bg-void">
       <div className="grid gap-12 px-8 pb-8 pt-16 lg:grid-cols-[2fr,1fr,1fr,1fr]">
         <div>
           <p className="font-display text-5xl tracking-[.08em] text-hb-white">

@@ -1,51 +1,53 @@
-import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongodb";
+import { NextRequest, NextResponse } from "next/server";
+import { writeFile, mkdir } from "node:fs/promises";
+import { existsSync } from "node:fs";
+import path from "node:path";
+import { nanoid } from "nanoid";
 
-export const runtime = "nodejs";
-
-const MAX_BYTES = 5 * 1024 * 1024;
-const ALLOWED = new Set(["image/jpeg", "image/jpg", "image/png", "image/webp"]);
-
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const formData = await request.formData();
+    const formData = await req.formData();
     const file = formData.get("file");
-    if (!(file instanceof Blob)) {
+
+    if (!(file instanceof File)) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    const mime = (file.type || "").toLowerCase();
-    if (!ALLOWED.has(mime)) {
+    const validTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!validTypes.includes(file.type)) {
       return NextResponse.json(
-        { error: "Invalid file type. Only JPEG, PNG, WebP are allowed." },
+        { error: "Invalid file type. Use JPG, PNG, or WEBP." },
         { status: 400 },
       );
     }
 
-    if (file.size <= 0) {
-      return NextResponse.json({ error: "Empty file" }, { status: 400 });
+    if (file.size > 5 * 1024 * 1024) {
+      return NextResponse.json(
+        { error: "File too large. Maximum 5MB." },
+        { status: 400 },
+      );
     }
 
-    if (file.size > MAX_BYTES) {
-      return NextResponse.json({ error: "Max file size is 5MB" }, { status: 400 });
+    const uploadDir = path.join(process.cwd(), "public/uploads/products");
+    if (!existsSync(uploadDir)) {
+      await mkdir(uploadDir, { recursive: true });
     }
 
-    const db = (await connectDB()).connection.db;
-    if (!db) {
-      throw new Error("Database connection unavailable");
-    }
+    const ext = file.type === "image/webp" ? "webp" : "jpg";
+    const filename = `hb_${Date.now()}_${nanoid(10)}.${ext}`;
+    const filepath = path.join(uploadDir, filename);
 
-    const binary = Buffer.from(await file.arrayBuffer());
-    const res = await db.collection("uploads").insertOne({
-      mime,
+    const bytes = await file.arrayBuffer();
+    await writeFile(filepath, Buffer.from(bytes));
+
+    return NextResponse.json({
+      success: true,
+      url: `/uploads/products/${filename}`,
+      filename,
       size: file.size,
-      data: binary,
-      createdAt: new Date().toISOString(),
     });
-
-    return NextResponse.json({ url: `/api/upload/${res.insertedId.toString()}` });
-  } catch (error) {
-    console.error("POST /api/upload error:", error);
+  } catch (err) {
+    console.error("Upload error:", err);
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }

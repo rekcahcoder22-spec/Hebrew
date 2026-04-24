@@ -4,6 +4,7 @@ import { getOrders, getOrderStats } from "@/lib/orders";
 import { getProducts } from "@/lib/products";
 import { isInStock, totalStock } from "@/lib/inventoryUtils";
 import { formatPrice } from "@/lib/utils";
+import { isUploadImagePath } from "@/lib/image";
 import type { Order } from "@/types";
 
 const ORDER_BADGE: Record<Order["status"], string> = {
@@ -181,7 +182,7 @@ export default async function AdminDashboard() {
                           fill
                           className="object-cover"
                           sizes="40px"
-                          unoptimized={p.images[0].startsWith("/uploads")}
+                          unoptimized={isUploadImagePath(p.images[0])}
                         />
                       ) : null}
                     </div>

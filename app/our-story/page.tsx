@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import {
   Paragraph,
   PolicyLayout,
@@ -12,6 +13,15 @@ export const metadata: Metadata = {
 };
 
 export default function OurStoryPage() {
+  const storyFrames = [
+    { src: "/images/our-story/nham-mat.png", alt: "Abstract portrait in deep shadow" },
+    { src: "/images/our-story/thanh-pho.png", alt: "Night alley with old architecture" },
+    { src: "/images/our-story/gat-tan.png", alt: "Discarded cigarette scene in monochrome" },
+    { src: "/images/our-story/mat-ho.png", alt: "Ripples over face silhouette" },
+    { src: "/images/our-story/kinh-vo.png", alt: "Shattered glass close-up" },
+    { src: "/images/our-story/ban-tay.png", alt: "Hand silhouette on wet window" },
+  ] as const;
+
   return (
     <PolicyLayout title="OUR STORY" subtitle="THE STORY OF HEBREW">
       <div className="relative left-1/2 w-screen max-w-none -translate-x-1/2 px-6">
@@ -31,7 +41,7 @@ export default function OurStoryPage() {
             2024 — DA NANG, VIETNAM
           </p>
           <p className="absolute bottom-6 right-8 font-body text-[9px] uppercase tracking-[.2em] text-hb-red/60">
-            DROP 001 — THE COVENANT
+            DROP 001 - THE ADORE COLLECTION
           </p>
         </section>
 
@@ -59,31 +69,42 @@ export default function OurStoryPage() {
             </Paragraph>
           </div>
           <div className="relative aspect-[3/4] overflow-hidden bg-hb-gray">
+            <Image
+              src={storyFrames[0].src}
+              alt={storyFrames[0].alt}
+              fill
+              className="object-cover grayscale contrast-125 brightness-90"
+              sizes="(max-width:1024px) 100vw, 50vw"
+              priority
+            />
             <div
-              className="absolute inset-0"
+              className="pointer-events-none absolute inset-0 mix-blend-soft-light opacity-50"
               style={{
-                background:
-                  "repeating-linear-gradient(45deg, rgba(255,255,255,0.06), rgba(255,255,255,0.06) 1px, transparent 1px, transparent 16px)",
+                backgroundImage:
+                  "radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)",
+                backgroundSize: "3px 3px",
               }}
             />
-            <div className="absolute inset-0 flex items-center justify-center font-display text-[8vw] text-hb-white/5">
-              HB
-            </div>
           </div>
         </section>
 
         <section className="mb-20 grid items-center gap-16 lg:grid-cols-2">
           <div className="relative order-2 aspect-[3/4] overflow-hidden bg-hb-gray lg:order-1">
+            <Image
+              src={storyFrames[1].src}
+              alt={storyFrames[1].alt}
+              fill
+              className="object-cover grayscale contrast-125 brightness-90"
+              sizes="(max-width:1024px) 100vw, 50vw"
+            />
             <div
-              className="absolute inset-0"
+              className="pointer-events-none absolute inset-0 mix-blend-soft-light opacity-50"
               style={{
-                background:
-                  "repeating-linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.06) 1px, transparent 1px, transparent 14px)",
+                backgroundImage:
+                  "radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)",
+                backgroundSize: "3px 3px",
               }}
             />
-            <div className="absolute inset-0 flex items-center justify-center font-display text-[8vw] text-hb-white/5">
-              HB
-            </div>
           </div>
           <div className="order-1 lg:order-2">
             <SectionHeading>THE PHILOSOPHY</SectionHeading>
@@ -98,6 +119,40 @@ export default function OurStoryPage() {
               military heritage, and the energy of urban Vietnam to create
               clothing that means something — clothing that tells a story.
             </Paragraph>
+          </div>
+        </section>
+
+        <section className="mb-20">
+          <SectionHeading>VISUAL MEMORY</SectionHeading>
+          <p className="mb-6 max-w-3xl font-body text-xs uppercase tracking-[0.22em] text-hb-white/35">
+            fragments of silence, damage, and shadow
+          </p>
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+            {storyFrames.map((frame, idx) => (
+              <div
+                key={frame.src}
+                className={`group relative overflow-hidden bg-hb-black ${
+                  idx === 1 ? "md:row-span-2 md:aspect-[3/6]" : "aspect-[3/4]"
+                }`}
+              >
+                <Image
+                  src={frame.src}
+                  alt={frame.alt}
+                  fill
+                  className="object-cover grayscale contrast-125 brightness-90 transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width:768px) 50vw, 33vw"
+                />
+                <div
+                  className="pointer-events-none absolute inset-0 mix-blend-soft-light opacity-50"
+                  style={{
+                    backgroundImage:
+                      "radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)",
+                    backgroundSize: "3px 3px",
+                  }}
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-hb-black/65 via-transparent to-transparent" />
+              </div>
+            ))}
           </div>
         </section>
 

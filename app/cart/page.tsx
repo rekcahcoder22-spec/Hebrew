@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useClientMounted } from "@/hooks/useClientMounted";
 import { useCartStore } from "@/store/cartStore";
+import { isUploadImagePath } from "@/lib/image";
 
 export default function CartPage() {
   const router = useRouter();
@@ -65,7 +66,7 @@ export default function CartPage() {
                   fill
                   className="object-cover"
                   sizes="96px"
-                  unoptimized={line.product.images[0].startsWith("/uploads")}
+                  unoptimized={isUploadImagePath(line.product.images[0])}
                 />
               ) : (
                 <div className="h-full w-full bg-hb-border" />

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { formatPrice } from "@/lib/utils";
 import { StockBadge } from "@/components/ui/StockBadge";
 import { totalStock } from "@/lib/inventoryUtils";
+import { isUploadImagePath } from "@/lib/image";
 import type { Product } from "@/types";
 import { toast } from "sonner";
 
@@ -60,7 +61,7 @@ export function ProductTable({
                         fill
                         className="object-cover"
                         sizes="48px"
-                        unoptimized={p.images[0].startsWith("/uploads")}
+                        unoptimized={isUploadImagePath(p.images[0])}
                       />
                     ) : null}
                   </div>

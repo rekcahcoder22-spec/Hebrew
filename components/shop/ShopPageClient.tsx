@@ -327,15 +327,12 @@ export function ShopPageClient() {
 
   return (
     <div className="border-b border-hb-border bg-hb-black px-4 py-12">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-[1600px]">
         <p className="font-body text-[10px] uppercase tracking-[0.35em] text-hb-gold">
-          Shop
+          Shop / Catalog
         </p>
-        <h1 className="mt-2 font-display text-5xl tracking-[0.12em] text-hb-white">
-          ALL PIECES
-        </h1>
 
-        <div className="mt-10 flex flex-col gap-8 lg:flex-row">
+        <div className="mt-8 flex flex-col gap-8 lg:flex-row">
           <aside className="hidden w-64 shrink-0 lg:block">
             <div className="sticky top-28 border border-hb-border bg-hb-gray/40 p-5">
               <p className="mb-4 font-display text-lg tracking-widest text-hb-white">
@@ -366,7 +363,14 @@ export function ShopPageClient() {
             {loading ? (
               <p className="font-body text-sm text-hb-white/50">Loading…</p>
             ) : (
-              <ProductGrid products={filtered} title="" hideHeader />
+              <ProductGrid
+                products={filtered}
+                title="ALL PIECES"
+                subtitle="HEBREW — NEW & CORE"
+                viewAllHref="/shop"
+                linkLabel={`Xem ${filtered.length} sản phẩm →`}
+                columnsLg={4}
+              />
             )}
           </div>
         </div>

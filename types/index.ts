@@ -41,6 +41,43 @@ export interface BrandSettings {
   adminPassword: string;
 }
 
+export type CollectionProductFilterMode =
+  | "featured"
+  | "tag"
+  | "category"
+  | "ids"
+  | "all";
+
+export interface CollectionProductFilter {
+  mode: CollectionProductFilterMode;
+  tag?: string;
+  category?: string;
+  ids?: string[];
+  limit?: number;
+}
+
+export interface CollectionLayout {
+  columnsLg?: 2 | 4 | 5;
+}
+
+/** Stored in Mongo; used by admin / API */
+export interface Collection {
+  slug: string;
+  title: string;
+  subtitle: string;
+  viewAllHref: string;
+  isHome: boolean;
+  active: boolean;
+  order: number;
+  productFilter: CollectionProductFilter;
+  layout?: CollectionLayout;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/** Public payload (no secrets) */
+export type PublicCollection = Omit<Collection, never>;
+
 export interface CustomerInfo {
   firstName: string;
   lastName: string;
