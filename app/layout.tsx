@@ -30,7 +30,7 @@ const inter = Inter({
 
 /** Helios-style brand mark — sharp stylized serif */
 const cinzel = Cinzel({
-  subsets: ["latin", "vietnamese"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-cinzel",
   display: "swap",
   weight: ["500", "600"],
