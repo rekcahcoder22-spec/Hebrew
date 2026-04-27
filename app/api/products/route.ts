@@ -1,20 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-import { randomUUID } from "crypto";
 import { isAdminRequest } from "@/lib/adminAuth";
 import { createProduct, getProducts } from "@/lib/products";
 import { buildStockForSizes } from "@/lib/inventoryUtils";
+import { persistUploadImage } from "@/lib/storeImageUpload";
 import type { Product, Size, StockStatus } from "@/types";
 
-const ALLOWED = new Set(["image/jpeg", "image/png", "image/webp"]);
+export const runtime = "nodejs";
 
-function extFromMime(mime: string): string {
-  if (mime === "image/jpeg") return ".jpg";
-  if (mime === "image/png") return ".png";
-  if (mime === "image/webp") return ".webp";
-  return ".jpg";
-}
+const ALLOWED = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 async function saveUploadedImage(file: File): Promise<string | null> {
   if (!(file instanceof File) || file.size === 0) return null;
@@ -22,11 +15,11 @@ async function saveUploadedImage(file: File): Promise<string | null> {
   if (!ALLOWED.has(mime)) return null;
   if (file.size > 5 * 1024 * 1024) return null;
   const buffer = Buffer.from(await file.arrayBuffer());
-  const filename = `${randomUUID()}${extFromMime(mime)}`;
-  const dir = path.join(process.cwd(), "public", "uploads");
-  fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, filename), buffer);
-  return `/uploads/${filename}`;
+  try {
+    return await persistUploadImage(mime, buffer);
+  } catch {
+    return null;
+  }
 }
 
 export async function GET(request: Request) {

@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "node:fs/promises";
-import { existsSync } from "node:fs";
-import path from "node:path";
-import { nanoid } from "nanoid";
 import { isAdminRequest } from "@/lib/adminAuth";
+import { persistUploadImage } from "@/lib/storeImageUpload";
+
+export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
   try {
@@ -34,22 +33,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const uploadDir = path.join(process.cwd(), "public/uploads/products");
-    if (!existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
-    }
-
-    const ext = file.type === "image/webp" ? "webp" : "jpg";
-    const filename = `hb_${Date.now()}_${nanoid(10)}.${ext}`;
-    const filepath = path.join(uploadDir, filename);
-
     const bytes = await file.arrayBuffer();
-    await writeFile(filepath, Buffer.from(bytes));
+    const buffer = Buffer.from(bytes);
+    const url = await persistUploadImage(file.type, buffer);
 
     return NextResponse.json({
       success: true,
-      url: `/uploads/products/${filename}`,
-      filename,
+      url,
+      filename: url.replace(/^\/api\/upload\//, ""),
       size: file.size,
     });
   } catch (err) {
