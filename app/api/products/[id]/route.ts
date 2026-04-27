@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAdminRequest } from "@/lib/adminAuth";
+import { revalidateShopProductPage } from "@/lib/revalidateShopProduct";
 import {
   deleteProduct,
   getProductById,
@@ -43,6 +44,7 @@ export async function PUT(request: NextRequest, context: Ctx) {
       id,
     };
     const updated = await updateProduct(id, merged);
+    revalidateShopProductPage(id);
     return NextResponse.json(updated);
   } catch {
     return NextResponse.json(
@@ -64,6 +66,7 @@ export async function DELETE(request: NextRequest, context: Ctx) {
     if (!ok) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
+    revalidateShopProductPage(id);
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(

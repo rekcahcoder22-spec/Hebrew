@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { isAdminRequest } from "@/lib/adminAuth";
 import { createProduct, getProducts } from "@/lib/products";
 import { buildStockForSizes } from "@/lib/inventoryUtils";
+import { revalidateShopProductPage } from "@/lib/revalidateShopProduct";
 import { persistUploadImage } from "@/lib/storeImageUpload";
 import type { Product, Size, StockStatus } from "@/types";
 
@@ -58,6 +59,7 @@ export async function POST(request: NextRequest) {
         "id" | "createdAt" | "updatedAt"
       >;
       const created = await createProduct(body);
+      revalidateShopProductPage(created.id);
       return NextResponse.json(created, { status: 201 });
     }
 
@@ -153,6 +155,7 @@ export async function POST(request: NextRequest) {
     };
 
     const created = await createProduct(payload);
+    revalidateShopProductPage(created.id);
     return NextResponse.json(created, { status: 201 });
   } catch (e) {
     console.error(e);
