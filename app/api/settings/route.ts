@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { isAdminRequest } from "@/lib/adminAuth";
 import { getSettings, saveSettings } from "@/lib/products";
 import type { BrandSettings } from "@/types";
 
@@ -19,6 +20,11 @@ export async function GET() {
 
 async function saveSettingsHandler(request: NextRequest) {
   try {
+    const allowed = await isAdminRequest(request);
+    if (!allowed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const body = (await request.json()) as Partial<BrandSettings> & {
       newAdminPassword?: string;
     };

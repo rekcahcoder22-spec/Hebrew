@@ -48,6 +48,5 @@ export default function AdminLayout({
   if (!allowed) {
     return null;
   }
-
   return <AdminChrome>{children}</AdminChrome>;
 }

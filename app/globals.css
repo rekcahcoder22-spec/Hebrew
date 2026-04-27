@@ -5,12 +5,12 @@
 :root {
   --void: #0d0d0d;
   --blood-ink: #1c0a0a;
-  --hb-muted: #888888;
+  --hb-muted: #b8afa7;
   --luxury-gold: #c9a962;
   --background: var(--void);
-  --foreground: #f0eae4; /* PALE SKIN */
+  --foreground: #f7f2ec; /* warmer high-contrast text */
   --hb-black: var(--void);
-  --hb-white: #f0eae4; /* PALE SKIN */
+  --hb-white: #f7f2ec; /* primary text color */
   --hb-red: #8b1a1a; /* BROKEN RED */
   --hb-gray: var(--blood-ink); /* BLOOD INK */
   --hb-border: #3d2b2b; /* ASH ROSE */
@@ -19,7 +19,35 @@
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background-color: var(--background);
+  background-image:
+    radial-gradient(circle at 50% -20%, rgba(61, 43, 43, 0.34) 0%, rgba(13, 13, 13, 0) 52%),
+    radial-gradient(circle at 80% 18%, rgba(139, 26, 26, 0.08) 0%, rgba(13, 13, 13, 0) 38%),
+    linear-gradient(180deg, #0f0f11 0%, #0a0a0b 42%, #060607 100%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(247, 242, 236, 0.02) 0px,
+      rgba(247, 242, 236, 0.02) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  background-blend-mode: screen, normal, normal, overlay;
+  background-attachment: fixed;
+  font-size: clamp(15px, 0.2vw + 14px, 17px);
+  line-height: 1.72;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+    background-image:
+      radial-gradient(circle at 50% -20%, rgba(61, 43, 43, 0.28) 0%, rgba(13, 13, 13, 0) 52%),
+      radial-gradient(circle at 80% 16%, rgba(139, 26, 26, 0.06) 0%, rgba(13, 13, 13, 0) 36%),
+      linear-gradient(180deg, #101012 0%, #0a0a0b 44%, #060607 100%);
+  }
 }
 
 @layer utilities {

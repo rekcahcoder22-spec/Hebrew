@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://hebrew.vn";
+const ogImage = `${siteUrl}/icon.png`;
 
 const bebas = Bebas_Neue({
   weight: "400",
@@ -38,6 +39,9 @@ const cinzel = Cinzel({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  creator: "HEBREW",
+  publisher: "HEBREW",
+  category: "fashion",
   icons: {
     icon: "/icon.png",
     shortcut: "/icon.png",
@@ -68,12 +72,21 @@ export const metadata: Metadata = {
     description:
       "Limited drops. Handcrafted quality. Vietnamese streetwear built for the world.",
     locale: "en_US",
+    images: [
+      {
+        url: ogImage,
+        width: 1200,
+        height: 1200,
+        alt: "HEBREW Streetwear",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "HEBREW - Streetwear",
     description:
       "Limited drops. Handcrafted quality. Vietnamese streetwear built for the world.",
+    images: [ogImage],
   },
   robots: {
     index: true,
@@ -93,15 +106,40 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "HEBREW",
+    url: siteUrl,
+    logo: `${siteUrl}/icon.png`,
+    sameAs: [],
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "HEBREW",
+    url: siteUrl,
+    inLanguage: ["en", "vi"],
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${bebas.variable} ${spaceMono.variable} ${inter.variable} ${cinzel.variable} min-h-screen bg-void font-body text-hb-white antialiased`}
+        className={`${bebas.variable} ${spaceMono.variable} ${inter.variable} ${cinzel.variable} min-h-screen font-body text-hb-white antialiased`}
         suppressHydrationWarning
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
         <AppProviders>
           <Navbar />
-          <main className="bg-void text-hb-white">{children}</main>
+          <main className="text-hb-white">{children}</main>
           <Footer />
         </AppProviders>
       </body>

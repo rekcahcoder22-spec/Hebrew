@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isAdminRequest } from "@/lib/adminAuth";
 import { getOrderById, updateOrderStatus } from "@/lib/orders";
 import type { Order } from "@/types";
 
@@ -6,6 +7,11 @@ type RouteCtx = { params: Promise<{ id: string }> };
 
 export async function GET(_: NextRequest, context: RouteCtx) {
   try {
+    const allowed = await isAdminRequest(_);
+    if (!allowed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { id } = await context.params;
     const order = await getOrderById(decodeURIComponent(id));
     if (!order) {
@@ -19,6 +25,11 @@ export async function GET(_: NextRequest, context: RouteCtx) {
 
 export async function PATCH(req: NextRequest, context: RouteCtx) {
   try {
+    const allowed = await isAdminRequest(req);
+    if (!allowed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { id } = await context.params;
     const { status } = (await req.json()) as { status: Order["status"] };
 

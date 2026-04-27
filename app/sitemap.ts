@@ -12,8 +12,6 @@ const staticRoutes = [
   "/careers",
   "/cooperate",
   "/feedback",
-  "/checkout",
-  "/cart",
   "/size-guide",
   "/care-instructions",
   "/payment-policy",

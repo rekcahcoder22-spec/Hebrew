@@ -1,7 +1,12 @@
+import { redirect } from "next/navigation";
+import { isAdminSessionFromCookiesStore } from "@/lib/adminAuth";
 import { getSettings, toPublicSettings } from "@/lib/products";
 import { SettingsForm } from "./SettingsForm";
 
 export default async function AdminSettingsPage() {
+  const allowed = await isAdminSessionFromCookiesStore();
+  if (!allowed) redirect("/admin/login");
+
   const initial = toPublicSettings(await getSettings());
   return (
     <div>

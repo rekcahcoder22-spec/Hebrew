@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
           <span className="text-red-600">HEBREW</span> Admin
         </h1>
         <p className="mt-2 font-mono text-xs text-gray-500">
-          Enter the admin password from brand settings.
+          Enter the admin password to start a secured session.
         </p>
         <form onSubmit={onSubmit} className="mt-8 space-y-4">
           <div>

@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { randomUUID } from "crypto";
+import { isAdminRequest } from "@/lib/adminAuth";
 import { createProduct, getProducts } from "@/lib/products";
 import { buildStockForSizes } from "@/lib/inventoryUtils";
 import type { Product, Size, StockStatus } from "@/types";
@@ -49,8 +50,13 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
+    const allowed = await isAdminRequest(request);
+    if (!allowed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const ct = request.headers.get("content-type") || "";
 
     if (ct.includes("application/json")) {

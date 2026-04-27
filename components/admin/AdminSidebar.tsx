@@ -16,8 +16,13 @@ export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const logout = () => {
+  const logout = async () => {
     localStorage.removeItem("hb-admin-auth");
+    try {
+      await fetch("/api/auth/admin-logout", { method: "POST" });
+    } catch {
+      // Ignore network failures while logging out locally.
+    }
     router.push("/admin/login");
   };
 

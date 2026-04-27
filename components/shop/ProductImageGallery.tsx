@@ -62,7 +62,7 @@ export function ProductImageGallery({ images, productName }: Props) {
 
   if (safeImages.length === 0) {
     return (
-      <div className="flex aspect-[3/4] items-center justify-center bg-card-well">
+      <div className="flex aspect-square w-full items-center justify-center bg-card-well">
         <span className="font-display text-6xl text-hb-white/[0.04]">HB</span>
       </div>
     );
@@ -83,7 +83,7 @@ export function ProductImageGallery({ images, productName }: Props) {
             key={`${image}-${index}`}
             type="button"
             onClick={() => setActiveIndex(index)}
-            className={`relative aspect-[3/4] w-16 shrink-0 overflow-hidden border transition-all duration-200 lg:w-20 ${
+            className={`relative aspect-square w-16 shrink-0 overflow-hidden border transition-all duration-200 lg:w-20 ${
               activeIndex === index
                 ? "border-hb-white opacity-100"
                 : "border-hb-border opacity-50 hover:border-hb-border hover:opacity-80"
@@ -104,7 +104,7 @@ export function ProductImageGallery({ images, productName }: Props) {
       </div>
 
       <div
-        className={`group relative order-1 aspect-[3/4] flex-1 overflow-hidden bg-card-well ${
+        className={`group relative order-1 aspect-square w-full flex-1 overflow-hidden bg-card-well ${
           isZoomed ? "cursor-zoom-out" : "cursor-zoom-in"
         }`}
         onMouseMove={(e) => {

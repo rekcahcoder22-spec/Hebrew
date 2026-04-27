@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { isAdminRequest } from "@/lib/adminAuth";
 import {
   deleteProduct,
   getProductById,
@@ -24,8 +25,13 @@ export async function GET(_request: Request, context: Ctx) {
   }
 }
 
-export async function PUT(request: Request, context: Ctx) {
+export async function PUT(request: NextRequest, context: Ctx) {
   try {
+    const allowed = await isAdminRequest(request);
+    if (!allowed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { id } = await context.params;
     const body = (await request.json()) as Partial<Product>;
     const current = await getProductById(id);
@@ -46,8 +52,13 @@ export async function PUT(request: Request, context: Ctx) {
   }
 }
 
-export async function DELETE(_request: Request, context: Ctx) {
+export async function DELETE(request: NextRequest, context: Ctx) {
   try {
+    const allowed = await isAdminRequest(request);
+    if (!allowed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { id } = await context.params;
     const ok = await deleteProduct(id);
     if (!ok) {

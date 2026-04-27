@@ -3,9 +3,15 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { nanoid } from "nanoid";
+import { isAdminRequest } from "@/lib/adminAuth";
 
 export async function POST(req: NextRequest) {
   try {
+    const allowed = await isAdminRequest(req);
+    if (!allowed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const formData = await req.formData();
     const file = formData.get("file");
 

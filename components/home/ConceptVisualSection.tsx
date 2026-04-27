@@ -11,16 +11,28 @@ const SLIDE_INTERVAL_MS = 1500;
 /** Ảnh concept — carousel nền (3 slide) */
 const CONCEPT_SLIDES = [
   {
+    src: "/images/concept/00-gothic-wall-v2.png",
+    alt: "Concept — gothic wall collage",
+    imageClass:
+      "object-contain object-[50%_58%] [filter:grayscale(1)_saturate(0)_contrast(1.22)_brightness(0.72)]",
+  },
+  {
     src: "/images/concept/01-gat-tan.png",
     alt: "Concept — still life",
+    imageClass:
+      "object-cover object-center [image-rendering:auto] [filter:grayscale(1)_saturate(0)_contrast(1.16)_brightness(0.82)]",
   },
   {
     src: "/images/concept/02-ban-tay.png",
     alt: "Concept — hand on glass",
+    imageClass:
+      "object-cover object-center [image-rendering:auto] [filter:grayscale(1)_saturate(0)_contrast(1.16)_brightness(0.82)]",
   },
   {
     src: "/images/concept/03-kinh-vo.png",
     alt: "Concept — fractured glass",
+    imageClass:
+      "object-cover object-center [image-rendering:auto] [filter:grayscale(1)_saturate(0)_contrast(1.16)_brightness(0.82)]",
   },
 ] as const;
 
@@ -40,7 +52,6 @@ type Props = {
 export function ConceptVisualSection({ headline, tagline }: Props) {
   const { t } = useLanguage();
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const advance = useCallback(() => {
@@ -48,13 +59,6 @@ export function ConceptVisualSection({ headline, tagline }: Props) {
   }, []);
 
   useEffect(() => {
-    if (paused) {
-      if (tickRef.current) {
-        clearInterval(tickRef.current);
-        tickRef.current = null;
-      }
-      return;
-    }
     tickRef.current = setInterval(advance, SLIDE_INTERVAL_MS);
     return () => {
       if (tickRef.current) {
@@ -62,7 +66,7 @@ export function ConceptVisualSection({ headline, tagline }: Props) {
         tickRef.current = null;
       }
     };
-  }, [paused, advance]);
+  }, [advance]);
 
   const goTo = (index: number) => {
     setActive(index);
@@ -71,8 +75,6 @@ export function ConceptVisualSection({ headline, tagline }: Props) {
   return (
     <section
       className="relative min-h-[calc(52vh+200px)] w-full overflow-hidden bg-hb-black pt-20 md:min-h-[calc(56vh+200px)] md:pt-24"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
     >
       {/* —— Background carousel —— */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -91,7 +93,7 @@ export function ConceptVisualSection({ headline, tagline }: Props) {
               priority={index === 0}
               quality={96}
               sizes="100vw"
-              className="object-cover object-center [image-rendering:auto] [filter:grayscale(1)_saturate(0)_contrast(1.16)_brightness(0.82)]"
+              className={slide.imageClass}
             />
           </div>
         ))}

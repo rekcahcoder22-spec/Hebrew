@@ -95,7 +95,7 @@ export function ProductCard({
     >
       <div
         ref={visualRef}
-        className="relative aspect-square overflow-hidden bg-card-well"
+        className="relative w-full aspect-square overflow-hidden bg-card-well"
       >
         {n > 0 ? (
           images.map((src, index) => (

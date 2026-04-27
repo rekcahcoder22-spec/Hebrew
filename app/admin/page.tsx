@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import { redirect } from "next/navigation";
+import { isAdminSessionFromCookiesStore } from "@/lib/adminAuth";
 import { getOrders, getOrderStats } from "@/lib/orders";
 import { getProducts } from "@/lib/products";
 import { isInStock, totalStock } from "@/lib/inventoryUtils";
@@ -33,6 +35,9 @@ function formatOrderWhen(iso: string): string {
 }
 
 export default async function AdminDashboard() {
+  const allowed = await isAdminSessionFromCookiesStore();
+  if (!allowed) redirect("/admin/login");
+
   const [products, orderStats, orderList] = await Promise.all([
     getProducts(),
     getOrderStats(),

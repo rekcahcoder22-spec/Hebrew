@@ -1,12 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isAdminRequest } from "@/lib/adminAuth";
 import { sendOrderNotification } from "@/lib/mailer";
 import { createOrder, getOrders } from "@/lib/orders";
 import type { Order } from "@/types";
 
 export const runtime = "nodejs";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const allowed = await isAdminRequest(req);
+    if (!allowed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const orders = await getOrders();
     return NextResponse.json(orders);
   } catch (err) {
