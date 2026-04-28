@@ -159,7 +159,7 @@ export function ConceptVisualSection({ headline, tagline }: Props) {
             {t("concept.cta")}
           </Link>
           <Link
-            href="/shop"
+            href="/collections/adore"
             className="font-body text-[10px] uppercase tracking-[0.2em] text-hb-white/50 transition-colors hover:text-hb-gold"
           >
             {t("concept.shop")}

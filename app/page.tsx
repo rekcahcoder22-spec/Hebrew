@@ -1,5 +1,5 @@
-import { HomePageRoot } from "@/components/home/HomePageRoot";
+import { AdoreHomePage } from "@/components/home/AdoreHomePage";
 
 export default function Page() {
-  return <HomePageRoot />;
+  return <AdoreHomePage />;
 }

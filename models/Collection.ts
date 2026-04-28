@@ -11,6 +11,7 @@ export interface CollectionProductFilter {
   mode: CollectionProductFilterMode;
   tag?: string;
   category?: string;
+  categories?: string[];
   ids?: string[];
   limit?: number;
 }
@@ -40,6 +41,7 @@ const ProductFilterSchema = new Schema(
     },
     tag: { type: String },
     category: { type: String },
+    categories: { type: [String], default: undefined },
     ids: { type: [String], default: [] },
     limit: { type: Number, default: 24 },
   },

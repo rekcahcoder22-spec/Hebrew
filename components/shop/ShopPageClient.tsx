@@ -29,7 +29,9 @@ export function ShopPageClient() {
   const sortedProducts = useMemo(
     () =>
       [...products].sort((a, b) => {
-        if (a.featured !== b.featured) return a.featured ? -1 : 1;
+        const ca = new Date(a.createdAt).getTime();
+        const cb = new Date(b.createdAt).getTime();
+        if (cb !== ca) return cb - ca;
         return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
       }),
     [products],

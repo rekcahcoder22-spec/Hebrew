@@ -25,6 +25,7 @@ const config: Config = {
       fontFamily: {
         display: ["var(--font-bebas)", "sans-serif"],
         body: ["var(--font-inter)", "system-ui", "sans-serif"],
+        editorial: ["var(--font-cormorant)", "serif"],
         mono: ["var(--font-space-mono)", "ui-monospace", "monospace"],
         product: ["var(--font-inter)", "system-ui", "sans-serif"],
         "brand-serif": ["var(--font-cinzel)", "Georgia", "serif"],

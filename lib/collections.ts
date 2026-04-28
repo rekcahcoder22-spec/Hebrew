@@ -8,6 +8,7 @@ import {
 import type { Collection, Product, PublicCollection } from "@/types";
 
 const DEFAULT_HOME_SLUG = "signals";
+const ADORE_SLUG = "adore";
 
 const DEFAULT_HOME: Omit<
   Collection,
@@ -24,15 +25,48 @@ const DEFAULT_HOME: Omit<
   layout: { columnsLg: 4 },
 };
 
+/** Built-in ADORE: mọi sản phẩm có tag `adore` (không phụ thuộc category). */
+const ADORE_COLLECTION_UPSERT: Omit<
+  Collection,
+  "createdAt" | "updatedAt"
+> = {
+  slug: ADORE_SLUG,
+  title: "ADORE",
+  subtitle: "CONCEPT — mọi piece gắn tag adore",
+  viewAllHref: "/collections/adore",
+  isHome: false,
+  active: true,
+  order: 1,
+  productFilter: {
+    mode: "tag",
+    tag: "adore",
+    limit: 48,
+  },
+  layout: { columnsLg: 4 },
+};
+
 export function toPublicCollection(c: Collection): PublicCollection {
   return { ...c };
 }
 
+/** New listings first (by createdAt), then most recently touched. */
 function sortNewest(list: Product[]): Product[] {
-  return [...list].sort(
-    (a, b) =>
-      new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-  );
+  return [...list].sort((a, b) => {
+    const ca = new Date(a.createdAt).getTime();
+    const cb = new Date(b.createdAt).getTime();
+    if (cb !== ca) return cb - ca;
+    return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+  });
+}
+
+function narrowByCategories(
+  products: Product[],
+  categories: string[] | undefined,
+): Product[] {
+  const allow = categories?.map((c) => c.trim()).filter(Boolean) ?? [];
+  if (allow.length === 0) return products;
+  const set = new Set(allow);
+  return products.filter((p) => set.has(p.category));
 }
 
 function applyProductFilter(
@@ -47,9 +81,13 @@ function applyProductFilter(
     case "tag": {
       const tag = filter.tag?.trim().toLowerCase();
       if (!tag) return [];
-      return sortNewest(
-        products.filter((p) => p.tags.some((t) => t.toLowerCase() === tag)),
-      ).slice(0, limit);
+      const tagged = products.filter((p) =>
+        p.tags.some((t) => t.toLowerCase() === tag),
+      );
+      return sortNewest(narrowByCategories(tagged, filter.categories)).slice(
+        0,
+        limit,
+      );
     }
     case "category": {
       const cat = filter.category?.trim();
@@ -77,15 +115,37 @@ function applyProductFilter(
   }
 }
 
-export async function ensureDefaultHomeCollection(): Promise<void> {
+async function ensureBuiltinCollections(): Promise<void> {
   await connectDB();
-  const exists = await CollectionModel.exists({ slug: DEFAULT_HOME_SLUG });
-  if (exists) return;
+  const homeExists = await CollectionModel.exists({ slug: DEFAULT_HOME_SLUG });
+  if (!homeExists) {
+    await CollectionModel.create({
+      ...DEFAULT_HOME,
+      productFilter: { ...DEFAULT_HOME.productFilter },
+    });
+  }
 
-  await CollectionModel.create({
-    ...DEFAULT_HOME,
-    productFilter: { ...DEFAULT_HOME.productFilter },
-  });
+  await CollectionModel.findOneAndUpdate(
+    { slug: ADORE_SLUG },
+    {
+      $set: {
+        title: ADORE_COLLECTION_UPSERT.title,
+        subtitle: ADORE_COLLECTION_UPSERT.subtitle,
+        viewAllHref: ADORE_COLLECTION_UPSERT.viewAllHref,
+        isHome: ADORE_COLLECTION_UPSERT.isHome,
+        active: ADORE_COLLECTION_UPSERT.active,
+        order: ADORE_COLLECTION_UPSERT.order,
+        productFilter: { ...ADORE_COLLECTION_UPSERT.productFilter },
+        layout: ADORE_COLLECTION_UPSERT.layout,
+      },
+      $setOnInsert: { slug: ADORE_SLUG },
+    },
+    { upsert: true },
+  );
+}
+
+export async function ensureDefaultHomeCollection(): Promise<void> {
+  await ensureBuiltinCollections();
 }
 
 export async function getHomeCollection(): Promise<Collection | null> {
@@ -152,6 +212,7 @@ export async function getCollectionBySlug(
 
 export async function listCollections(): Promise<Collection[]> {
   await connectDB();
+  await ensureBuiltinCollections();
   const docs = await CollectionModel.find({ active: true })
     .sort({ order: 1, slug: 1 })
     .lean<CollectionDocument[]>();
@@ -207,6 +268,7 @@ export async function getHomeCollectionWithProducts(): Promise<{
 export async function getCollectionWithProductsBySlug(
   slug: string,
 ): Promise<{ collection: PublicCollection; products: Product[] } | null> {
+  await ensureBuiltinCollections();
   const collection = await getCollectionBySlug(slug);
   if (!collection) return null;
   const all = await getProducts();

@@ -28,7 +28,8 @@
     "tags": [
       "featured",
       "fleece",
-      "drop"
+      "drop",
+      "adore"
     ],
     "featured": true,
     "isNew": true,
@@ -62,7 +63,8 @@
     },
     "tags": [
       "graphic",
-      "core"
+      "core",
+      "adore"
     ],
     "featured": true,
     "isNew": false,
@@ -186,11 +188,52 @@
     },
     "tags": [
       "longsleeve",
-      "core"
+      "core",
+      "adore"
     ],
     "featured": false,
     "isNew": false,
     "createdAt": "2026-02-02T12:00:00.000Z",
     "updatedAt": "2026-03-15T14:45:00.000Z"
+  },
+  {
+    "id": "hb-007",
+    "name": "ADORE — Fractured Glass Tee",
+    "rating": 4.9,
+    "price": 1290000,
+    "description": "Concept ADORE: cracked-glass graphic, mineral wash black, oversized drape. 240gsm cotton — mẫu mới nhất trong dòng concept.",
+    "images": [
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=900&h=1200&fit=crop",
+      "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=900&h=1200&fit=crop"
+    ],
+    "category": "tees",
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "stockStatus": "in-stock",
+    "stock": { "S": 8, "M": 14, "L": 11, "XL": 9, "XXL": 4 },
+    "tags": ["adore", "concept", "graphic", "drop001"],
+    "featured": true,
+    "isNew": true,
+    "createdAt": "2026-04-28T10:00:00.000Z",
+    "updatedAt": "2026-04-28T10:00:00.000Z"
+  },
+  {
+    "id": "hb-008",
+    "name": "ADORE — Incense Veil Hoodie",
+    "rating": 4.85,
+    "price": 2150000,
+    "description": "Heavy fleece, tonal smoke gradient panel, embroidered ADORE mark at cuff. Dành riêng cho concept — silhouette boxy, nón có cấu trúc.",
+    "images": [
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=900&h=1200&fit=crop",
+      "https://images.unsplash.com/photo-1620799140408-ed534f3a17f6?w=900&h=1200&fit=crop"
+    ],
+    "category": "hoodies",
+    "sizes": ["S", "M", "L", "XL"],
+    "stockStatus": "in-stock",
+    "stock": { "S": 4, "M": 8, "L": 7, "XL": 3 },
+    "tags": ["adore", "concept", "fleece", "drop001"],
+    "featured": true,
+    "isNew": true,
+    "createdAt": "2026-04-27T14:30:00.000Z",
+    "updatedAt": "2026-04-27T14:30:00.000Z"
   }
 ]

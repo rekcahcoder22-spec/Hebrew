@@ -64,6 +64,8 @@ export interface CollectionProductFilter {
   mode: CollectionProductFilterMode;
   tag?: string;
   category?: string;
+  /** When set (e.g. with mode "tag"), only include products whose category is in this list. */
+  categories?: string[];
   ids?: string[];
   limit?: number;
 }

@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Cinzel, Inter, Space_Mono } from "next/font/google";
+import {
+  Bebas_Neue,
+  Cinzel,
+  Cormorant_Garamond,
+  Inter,
+  Space_Mono,
+} from "next/font/google";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { Navbar } from "@/components/layout/Navbar";
@@ -26,7 +32,15 @@ const inter = Inter({
   subsets: ["latin", "vietnamese"],
   variable: "--font-inter",
   display: "swap",
-  weight: ["300", "400", "500"],
+  weight: ["300", "400"],
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin", "vietnamese"],
+  variable: "--font-cormorant",
+  display: "swap",
+  weight: ["300"],
+  style: ["normal", "italic"],
 });
 
 /** Helios-style brand mark — sharp stylized serif */
@@ -126,7 +140,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${bebas.variable} ${spaceMono.variable} ${inter.variable} ${cinzel.variable} min-h-screen font-body text-hb-white antialiased`}
+        className={`${bebas.variable} ${spaceMono.variable} ${inter.variable} ${cinzel.variable} ${cormorant.variable} min-h-screen font-body text-hb-white antialiased`}
         suppressHydrationWarning
       >
         <script

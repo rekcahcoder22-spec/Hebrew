@@ -9,10 +9,19 @@ import type { Product, Size, StockStatus } from "@/types";
 
 const SIZES: Size[] = ["XS", "S", "M", "L", "XL", "XXL"];
 
+function parseVndInput(value: unknown): number {
+  if (typeof value === "number") return value;
+  const digits = String(value ?? "").replace(/[^\d]/g, "");
+  return digits ? Number(digits) : Number.NaN;
+}
+
 const schema = z.object({
   name: z.string().min(2, "Tối thiểu 2 ký tự"),
   description: z.string().min(10, "Tối thiểu 10 ký tự"),
-  price: z.coerce.number().positive("Giá phải > 0"),
+  price: z.preprocess(
+    parseVndInput,
+    z.number({ invalid_type_error: "Giá không hợp lệ" }).positive("Giá phải > 0"),
+  ),
   originalPriceStr: z.string().optional(),
   category: z.enum(
     ["hoodies", "tees", "pants", "accessories", "outerwear"],
@@ -361,7 +370,8 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
             Giá (VND) *
           </label>
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
             {...register("price")}
             className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
           />
@@ -459,7 +469,9 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
 
       <div>
         <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
-          Tags (phân tách bằng dấu phẩy)
+          Tags (phân tách bằng dấu phẩy) — gõ{" "}
+          <span className="text-gray-700">adore</span> để sản phẩm tự vào collection
+          ADORE (trang chủ + /collections/adore); không phụ thuộc danh mục
         </label>
         <input
           {...register("tags")}
