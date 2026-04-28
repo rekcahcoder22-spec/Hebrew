@@ -8,6 +8,7 @@ type Props = {
   hoverImageSrc?: string;
   imageAlt?: string;
   fit?: "cover" | "contain";
+  preserveOriginalColors?: boolean;
   className?: string;
 };
 
@@ -19,9 +20,11 @@ export function ImageSlot({
   hoverImageSrc,
   imageAlt,
   fit = "cover",
+  preserveOriginalColors = false,
   className = "",
 }: Props) {
   const fitClass = fit === "contain" ? "object-contain" : "object-cover";
+  const toneClass = preserveOriginalColors ? "" : "grayscale";
 
   return (
     <div
@@ -34,7 +37,7 @@ export function ImageSlot({
           alt={imageAlt ?? label}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
-          className={`${fitClass} grayscale transition-opacity duration-300 ${hoverImageSrc ? "opacity-100 group-hover:opacity-0" : "opacity-100"}`}
+          className={`${fitClass} ${toneClass} transition-opacity duration-300 ${hoverImageSrc ? "opacity-100 group-hover:opacity-0" : "opacity-100"}`}
         />
       ) : null}
       {imageSrc && hoverImageSrc ? (
@@ -43,10 +46,10 @@ export function ImageSlot({
           alt={`${imageAlt ?? label} back`}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
-          className={`${fitClass} grayscale opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
+          className={`${fitClass} ${toneClass} opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
         />
       ) : null}
-      {imageSrc ? (
+      {imageSrc && !preserveOriginalColors ? (
         <div className="pointer-events-none absolute inset-0 bg-[#0a0a0a]/20" />
       ) : null}
       <div

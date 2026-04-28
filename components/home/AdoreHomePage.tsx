@@ -14,6 +14,9 @@ import type { Product } from "@/types";
 
 export function AdoreHomePage() {
   const [imagePool, setImagePool] = useState<string[]>([]);
+  const [birthBackImage, setBirthBackImage] = useState<string | undefined>(undefined);
+  const [inevitableFrontImage, setInevitableFrontImage] = useState<string | undefined>(undefined);
+  const [inevitableBackImage, setInevitableBackImage] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     let cancelled = false;
@@ -23,9 +26,27 @@ export function AdoreHomePage() {
         const data = (await res.json()) as Product[];
         if (!cancelled && Array.isArray(data)) {
           setImagePool(getAdoreImagePool(data));
+          const birthProduct = data.find((product) => {
+            const hasAdoreTag = product.tags.some((tag) => tag.trim().toLowerCase() === "adore");
+            const name = product.name.toLowerCase();
+            return hasAdoreTag && name.includes("birth");
+          });
+          const inevitableProduct = data.find((product) => {
+            const hasAdoreTag = product.tags.some((tag) => tag.trim().toLowerCase() === "adore");
+            const name = product.name.toLowerCase();
+            return hasAdoreTag && name.includes("inevitable");
+          });
+          setBirthBackImage(birthProduct?.images[1]);
+          setInevitableFrontImage(inevitableProduct?.images[0]);
+          setInevitableBackImage(inevitableProduct?.images[1]);
         }
       } catch {
-        if (!cancelled) setImagePool([]);
+        if (!cancelled) {
+          setImagePool([]);
+          setBirthBackImage(undefined);
+          setInevitableFrontImage(undefined);
+          setInevitableBackImage(undefined);
+        }
       }
     })();
     return () => {
@@ -116,9 +137,17 @@ export function AdoreHomePage() {
               conceptLine={product.conceptLine}
               copy={product.copy}
               easterEgg={product.easterEgg}
-              imageSrc={index === 0 ? entryFront : cardImages[index]}
-              hoverImageSrc={index === 0 ? entryBack : undefined}
-              imageFit={index === 0 ? "contain" : "cover"}
+              imageSrc={
+                index === 0
+                  ? entryFront
+                  : index === 1
+                    ? "/images/adore/birth-front.png"
+                    : (inevitableFrontImage ?? cardImages[index])
+              }
+              hoverImageSrc={
+                index === 0 ? entryBack : index === 1 ? birthBackImage : inevitableBackImage
+              }
+              imageFit="contain"
             />
           ))}
         </SeamGrid>

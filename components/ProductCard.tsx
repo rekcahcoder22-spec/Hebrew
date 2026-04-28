@@ -40,6 +40,7 @@ export function ProductCard({
         hoverImageSrc={hoverImageSrc}
         imageAlt={name}
         fit={imageFit}
+        preserveOriginalColors
       />
       <div className="mt-6 space-y-4">
         <EyebrowLabel>{chapter}</EyebrowLabel>

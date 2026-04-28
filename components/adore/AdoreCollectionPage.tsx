@@ -82,6 +82,7 @@ export function AdoreCollectionPage() {
               label="ADORE HERO FRAME"
               hint="chapter-wide visual atmosphere"
               imageSrc={heroImage}
+              preserveOriginalColors
             />
           </div>
         </motion.section>
@@ -102,6 +103,7 @@ export function AdoreCollectionPage() {
                   label={`${product.name} SLOT`}
                   hint={`chapter ${product.chapter} still`}
                   imageSrc={productImages[index]}
+                  preserveOriginalColors
                 />
               </div>
               <div className="bg-[#0a0a0a] p-6">
@@ -161,6 +163,7 @@ export function AdoreCollectionPage() {
                     aspectRatio="1/1"
                     label={`FRAME ${index + 1}`}
                     imageSrc={src}
+                    preserveOriginalColors
                   />
                 </div>
               ))}
