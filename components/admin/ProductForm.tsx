@@ -52,7 +52,8 @@ const schema = z.object({
   specsOriginEn: z.string().optional(),
 });
 
-type FormValues = z.infer<typeof schema>;
+type FormValues = z.input<typeof schema>;
+type SubmitValues = z.output<typeof schema>;
 
 export type ProductFormSubmitData =
   | Omit<Product, "id" | "createdAt" | "updatedAt">
@@ -133,12 +134,12 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
     watch,
     setValue,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<FormValues, unknown, SubmitValues>({
     resolver: zodResolver(schema),
     defaultValues: defaults,
   });
 
-  const submit = async (v: FormValues) => {
+  const submit = async (v: SubmitValues) => {
     const op = v.originalPriceStr?.trim();
     const originalPrice =
       op && Number.isFinite(Number(op)) && Number(op) > 0
