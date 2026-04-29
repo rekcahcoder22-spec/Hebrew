@@ -12,30 +12,84 @@ import { homeContent, motionVariants } from "@/lib/content";
 import { getAdoreImagePool } from "@/lib/adoreImages";
 import type { Product } from "@/types";
 
+type AdoreCollectionResponse = {
+  products: Product[];
+};
+
+function isAdoreProduct(product: Product): boolean {
+  return product.tags.some((tag) => tag.trim().toLowerCase() === "adore");
+}
+
+function normalizeName(name: string): string {
+  return name.trim().toLowerCase();
+}
+
+function hasAnyKeyword(input: string, keywords: string[]): boolean {
+  return keywords.some((keyword) => input.includes(keyword));
+}
+
+type ProductSlotRule = {
+  idHints: string[];
+  nameKeywords: string[];
+};
+
+function normalizeId(id: string): string {
+  return id.trim().toLowerCase();
+}
+
+function matchProductByRule(
+  products: Product[],
+  rule: ProductSlotRule,
+): Product | undefined {
+  const byId = products.find((product) => {
+    const id = normalizeId(product.id);
+    return rule.idHints.some((hint) => id === hint || id.includes(hint));
+  });
+  if (byId) return byId;
+
+  return products.find((product) =>
+    hasAnyKeyword(normalizeName(product.name), rule.nameKeywords),
+  );
+}
+
 export function AdoreHomePage() {
   const [imagePool, setImagePool] = useState<string[]>([]);
   const [birthBackImage, setBirthBackImage] = useState<string | undefined>(undefined);
   const [inevitableFrontImage, setInevitableFrontImage] = useState<string | undefined>(undefined);
   const [inevitableBackImage, setInevitableBackImage] = useState<string | undefined>(undefined);
+  const [entryFrontImage, setEntryFrontImage] = useState<string | undefined>(undefined);
+  const [entryBackImage, setEntryBackImage] = useState<string | undefined>(undefined);
+  const [birthFrontImage, setBirthFrontImage] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("/api/products");
-        const data = (await res.json()) as Product[];
-        if (!cancelled && Array.isArray(data)) {
-          setImagePool(getAdoreImagePool(data));
-          const birthProduct = data.find((product) => {
-            const hasAdoreTag = product.tags.some((tag) => tag.trim().toLowerCase() === "adore");
-            const name = product.name.toLowerCase();
-            return hasAdoreTag && name.includes("birth");
-          });
-          const inevitableProduct = data.find((product) => {
-            const hasAdoreTag = product.tags.some((tag) => tag.trim().toLowerCase() === "adore");
-            const name = product.name.toLowerCase();
-            return hasAdoreTag && name.includes("inevitable");
-          });
+        const res = await fetch("/api/collections/adore");
+        const data = (await res.json()) as AdoreCollectionResponse;
+        if (!cancelled && Array.isArray(data?.products)) {
+          const adoreProducts = data.products.filter(isAdoreProduct);
+          setImagePool(getAdoreImagePool(adoreProducts));
+
+          const entryProduct =
+            matchProductByRule(adoreProducts, {
+              idHints: ["entry", "adore-entry", "the-entry"],
+              nameKeywords: ["entry"],
+            }) ?? adoreProducts[0];
+          const birthProduct =
+            matchProductByRule(adoreProducts, {
+              idHints: ["birth", "adore-birth", "the-birth"],
+              nameKeywords: ["birth"],
+            }) ?? adoreProducts[1];
+          const inevitableProduct =
+            matchProductByRule(adoreProducts, {
+              idHints: ["inevitable", "crypt", "adore-inevitable", "the-inevitable"],
+              nameKeywords: ["inevitable", "crypt"],
+            }) ?? adoreProducts[2];
+
+          setEntryFrontImage(entryProduct?.images[0]);
+          setEntryBackImage(entryProduct?.images[1]);
+          setBirthFrontImage(birthProduct?.images[0]);
           setBirthBackImage(birthProduct?.images[1]);
           setInevitableFrontImage(inevitableProduct?.images[0]);
           setInevitableBackImage(inevitableProduct?.images[1]);
@@ -43,6 +97,9 @@ export function AdoreHomePage() {
       } catch {
         if (!cancelled) {
           setImagePool([]);
+          setEntryFrontImage(undefined);
+          setEntryBackImage(undefined);
+          setBirthFrontImage(undefined);
           setBirthBackImage(undefined);
           setInevitableFrontImage(undefined);
           setInevitableBackImage(undefined);
@@ -55,8 +112,12 @@ export function AdoreHomePage() {
   }, []);
 
   const cardImages = useMemo(() => imagePool.slice(0, 3), [imagePool]);
-  const entryFront = "/images/adore/entry-front.png";
-  const entryBack = "/images/adore/entry-back.png";
+  const entryFront = entryFrontImage ?? cardImages[0] ?? "/images/adore/entry-front.png";
+  const entryBack = entryBackImage ?? imagePool[1] ?? entryFront;
+  const birthFront = birthFrontImage ?? cardImages[1] ?? "/images/adore/birth-front.png";
+  const birthBack = birthBackImage ?? imagePool[3] ?? imagePool[2] ?? birthFront;
+  const inevitableFront = inevitableFrontImage ?? cardImages[2] ?? imagePool[4] ?? birthFront;
+  const inevitableBack = inevitableBackImage ?? imagePool[5] ?? imagePool[4] ?? inevitableFront;
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-[#f0ece8]">
@@ -141,11 +202,11 @@ export function AdoreHomePage() {
                 index === 0
                   ? entryFront
                   : index === 1
-                    ? "/images/adore/birth-front.png"
-                    : (inevitableFrontImage ?? cardImages[index])
+                    ? birthFront
+                    : inevitableFront
               }
               hoverImageSrc={
-                index === 0 ? entryBack : index === 1 ? birthBackImage : inevitableBackImage
+                index === 0 ? entryBack : index === 1 ? birthBack : inevitableBack
               }
               imageFit="contain"
             />

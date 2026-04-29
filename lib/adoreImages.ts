@@ -20,15 +20,5 @@ export function getAdoreImagePool(products: Product[]): string[] {
       }
     }
   }
-  if (pool.size > 0) return Array.from(pool);
-
-  // Fallback: if no adore-tagged items yet, show newest product images.
-  for (const product of byNewest) {
-    for (const image of product.images) {
-      if (typeof image === "string" && image.trim()) {
-        pool.add(image);
-      }
-    }
-  }
   return Array.from(pool);
 }
