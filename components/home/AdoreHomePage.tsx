@@ -16,10 +16,6 @@ type AdoreCollectionResponse = {
   products: Product[];
 };
 
-function isAdoreProduct(product: Product): boolean {
-  return product.tags.some((tag) => tag.trim().toLowerCase() === "adore");
-}
-
 function normalizeName(name: string): string {
   return name.trim().toLowerCase();
 }
@@ -68,7 +64,7 @@ export function AdoreHomePage() {
         const res = await fetch("/api/collections/adore");
         const data = (await res.json()) as AdoreCollectionResponse;
         if (!cancelled && Array.isArray(data?.products)) {
-          const adoreProducts = data.products.filter(isAdoreProduct);
+          const adoreProducts = data.products;
           setImagePool(getAdoreImagePool(adoreProducts));
 
           const entryProduct =
@@ -83,7 +79,13 @@ export function AdoreHomePage() {
             }) ?? adoreProducts[1];
           const inevitableProduct =
             matchProductByRule(adoreProducts, {
-              idHints: ["inevitable", "crypt", "adore-inevitable", "the-inevitable"],
+              idHints: [
+                "hb-bx2yjbvomd",
+                "inevitable",
+                "crypt",
+                "adore-inevitable",
+                "the-inevitable",
+              ],
               nameKeywords: ["inevitable", "crypt"],
             }) ?? adoreProducts[2];
 
