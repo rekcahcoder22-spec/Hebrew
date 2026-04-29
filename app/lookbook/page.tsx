@@ -1,4 +1,21 @@
+import type { Metadata } from "next";
 import { LanguageText } from "@/components/i18n/LanguageText";
+
+export const metadata: Metadata = {
+  title: "Lookbook",
+  description:
+    "Bo anh lookbook HEBREW: editorial spread, on-body fit va visual language cua cac chapter.",
+  alternates: {
+    canonical: "/lookbook",
+  },
+  openGraph: {
+    title: "HEBREW Lookbook",
+    description:
+      "Xem bo anh lookbook moi nhat cua HEBREW voi on-body fit va concept visual.",
+    url: "/lookbook",
+    type: "article",
+  },
+};
 
 export default function LookbookPage() {
   return (

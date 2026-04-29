@@ -15,6 +15,7 @@ type Props = {
   imageSrc?: string;
   hoverImageSrc?: string;
   imageFit?: "cover" | "contain";
+  imagePriority?: boolean;
 };
 
 export function ProductCard({
@@ -26,6 +27,7 @@ export function ProductCard({
   imageSrc,
   hoverImageSrc,
   imageFit,
+  imagePriority = false,
 }: Props) {
   return (
     <motion.article
@@ -41,6 +43,7 @@ export function ProductCard({
         imageAlt={name}
         fit={imageFit}
         preserveOriginalColors
+        priority={imagePriority}
       />
       <div className="mt-6 space-y-4">
         <EyebrowLabel>{chapter}</EyebrowLabel>

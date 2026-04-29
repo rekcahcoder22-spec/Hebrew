@@ -1,4 +1,21 @@
+import type { Metadata } from "next";
 import { LanguageText } from "@/components/i18n/LanguageText";
+
+export const metadata: Metadata = {
+  title: "Gioi Thieu",
+  description:
+    "Gioi thieu ve HEBREW: local streetwear label voi triet ly thiet ke toi gian, ben vung va gioi han theo drop.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About HEBREW",
+    description:
+      "Tim hieu ve triet ly, chat lieu va ngon ngu thiet ke cua HEBREW.",
+    url: "/about",
+    type: "article",
+  },
+};
 
 export default function AboutPage() {
   return (

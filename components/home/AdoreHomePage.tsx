@@ -211,6 +211,7 @@ export function AdoreHomePage() {
                 index === 0 ? entryBack : index === 1 ? birthBack : inevitableBack
               }
               imageFit="contain"
+              imagePriority={index === 0}
             />
           ))}
         </SeamGrid>

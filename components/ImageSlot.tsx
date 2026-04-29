@@ -10,6 +10,8 @@ type Props = {
   fit?: "cover" | "contain";
   preserveOriginalColors?: boolean;
   className?: string;
+  sizes?: string;
+  priority?: boolean;
 };
 
 export function ImageSlot({
@@ -22,6 +24,8 @@ export function ImageSlot({
   fit = "cover",
   preserveOriginalColors = false,
   className = "",
+  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
+  priority = false,
 }: Props) {
   const fitClass = fit === "contain" ? "object-contain" : "object-cover";
   const toneClass = preserveOriginalColors ? "" : "grayscale";
@@ -36,7 +40,8 @@ export function ImageSlot({
           src={imageSrc}
           alt={imageAlt ?? label}
           fill
-          sizes="(max-width: 768px) 100vw, 50vw"
+          sizes={sizes}
+          priority={priority}
           className={`${fitClass} ${toneClass} transition-opacity duration-300 ${hoverImageSrc ? "opacity-100 group-hover:opacity-0" : "opacity-100"}`}
         />
       ) : null}
@@ -45,7 +50,7 @@ export function ImageSlot({
           src={hoverImageSrc}
           alt={`${imageAlt ?? label} back`}
           fill
-          sizes="(max-width: 768px) 100vw, 50vw"
+          sizes={sizes}
           className={`${fitClass} ${toneClass} opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
         />
       ) : null}

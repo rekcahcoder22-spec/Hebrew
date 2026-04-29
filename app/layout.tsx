@@ -126,7 +126,11 @@ export default async function RootLayout({
     name: "HEBREW",
     url: siteUrl,
     logo: `${siteUrl}/icon.png`,
-    sameAs: [],
+    sameAs: [
+      "https://www.facebook.com/hebrew.vietnam",
+      "https://www.instagram.com/hebrew.original",
+      "https://www.tiktok.com/@hebrew.original",
+    ],
   };
 
   const websiteJsonLd = {
@@ -135,10 +139,25 @@ export default async function RootLayout({
     name: "HEBREW",
     url: siteUrl,
     inLanguage: ["en", "vi"],
+    potentialAction: {
+      "@type": "ViewAction",
+      target: `${siteUrl}/shop`,
+    },
+  };
+
+  const siteNavigationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: [
+      { "@type": "SiteNavigationElement", position: 1, name: "Cua Hang", url: `${siteUrl}/shop` },
+      { "@type": "SiteNavigationElement", position: 2, name: "Lookbook", url: `${siteUrl}/lookbook` },
+      { "@type": "SiteNavigationElement", position: 3, name: "Gioi Thieu", url: `${siteUrl}/about` },
+      { "@type": "SiteNavigationElement", position: 4, name: "Our Story", url: `${siteUrl}/our-story` },
+    ],
   };
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="vi" suppressHydrationWarning>
       <body
         className={`${bebas.variable} ${spaceMono.variable} ${inter.variable} ${cinzel.variable} ${cormorant.variable} min-h-screen font-body text-hb-white antialiased`}
         suppressHydrationWarning
@@ -150,6 +169,10 @@ export default async function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationJsonLd) }}
         />
         <AppProviders>
           <Navbar />
