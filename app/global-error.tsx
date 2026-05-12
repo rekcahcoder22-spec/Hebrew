@@ -1,6 +1,7 @@
 "use client";
 
 import "./globals.css";
+import { HebrewWordButton } from "@/components/ui/HebrewWordMark";
 
 export default function GlobalError({
   error,
@@ -19,13 +20,9 @@ export default function GlobalError({
           <p className="max-w-md text-sm text-hb-white/70">
             {error.message || "An unexpected error occurred."}
           </p>
-          <button
-            type="button"
-            onClick={reset}
-            className="border border-hb-border bg-hb-gray px-6 py-2 text-sm uppercase tracking-wider text-hb-white transition hover:border-hb-red hover:text-hb-red"
-          >
+          <HebrewWordButton type="button" variant="blood" onClick={reset}>
             Try again
-          </button>
+          </HebrewWordButton>
         </div>
       </body>
     </html>

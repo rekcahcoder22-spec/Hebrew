@@ -2,7 +2,7 @@
  * Chuẩn hóa ảnh sản phẩm: vuông 1:1, crop từ giống object-cover trên grid.
  */
 export const IMAGE_CONFIG = {
-  /** Cạnh vuông đầu ra (px) — đủ nét cho retina + object-cover trên card */
+  /** Cạnh vuông đầu ra (px) - đủ nét cho retina + object-cover trên card */
   SIZE: 1600,
   get WIDTH() {
     return this.SIZE;
@@ -13,7 +13,7 @@ export const IMAGE_CONFIG = {
   QUALITY: 0.9,
   FORMAT: "image/jpeg" as const,
   MAX_FILE_MB: 5,
-  /** Lấp vùng trong suốt (PNG) — BLOOD INK, khớp nền ô sản phẩm */
+  /** Lấp vùng trong suốt (PNG) - BLOOD INK, khớp nền ô sản phẩm */
   BACKGROUND: "#1C0A0A",
 };
 
@@ -63,7 +63,7 @@ export async function processProductImage(file: File): Promise<ProcessedImageRes
         return;
       }
 
-      // Cover + center — giống object-cover object-center trên storefront
+      // Cover + center - giống object-cover object-center trên storefront
       const scale = Math.max(cw / srcW, ch / srcH);
       const drawW = Math.round(srcW * scale);
       const drawH = Math.round(srcH * scale);

@@ -2,7 +2,14 @@ import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
+/** Fewer connections = less RAM on local Mongo (driver default is high). Override via .env.local if needed. */
+const maxPoolSize = Math.min(
+  50,
+  Math.max(1, parseInt(process.env.MONGODB_MAX_POOL_SIZE || "5", 10) || 5),
+);
+
 declare global {
+  // eslint-disable-next-line no-var
   var _mongooseCache:
     | {
         conn: typeof mongoose | null;
@@ -28,6 +35,8 @@ export async function connectDB(): Promise<typeof mongoose> {
       .connect(MONGODB_URI, {
         bufferCommands: false,
         dbName: "hebrew-store",
+        maxPoolSize,
+        minPoolSize: 0,
       })
       .then((m) => {
         console.log("✅ MongoDB connected");

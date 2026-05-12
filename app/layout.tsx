@@ -43,7 +43,7 @@ const cormorant = Cormorant_Garamond({
   style: ["normal", "italic"],
 });
 
-/** Helios-style brand mark — sharp stylized serif */
+/** Helios-style brand mark - sharp stylized serif */
 const cinzel = Cinzel({
   subsets: ["latin", "latin-ext"],
   variable: "--font-cinzel",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     apple: "/icon.png",
   },
   title: {
-    default: "HEBREW - Streetwear",
+    default: "HEBREW | Local Streetwear Vietnam",
     template: "%s | HEBREW",
   },
   description:
@@ -82,10 +82,10 @@ export const metadata: Metadata = {
     type: "website",
     url: "/",
     siteName: "HEBREW",
-    title: "HEBREW - Streetwear",
+    title: "HEBREW | Local Streetwear Vietnam",
     description:
       "Limited drops. Handcrafted quality. Vietnamese streetwear built for the world.",
-    locale: "en_US",
+    locale: "vi_VN",
     images: [
       {
         url: ogImage,
@@ -97,7 +97,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "HEBREW - Streetwear",
+    title: "HEBREW | Local Streetwear Vietnam",
     description:
       "Limited drops. Handcrafted quality. Vietnamese streetwear built for the world.",
     images: [ogImage],
@@ -115,7 +115,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -138,7 +138,7 @@ export default async function RootLayout({
     "@type": "WebSite",
     name: "HEBREW",
     url: siteUrl,
-    inLanguage: ["en", "vi"],
+    inLanguage: ["vi", "en"],
     potentialAction: {
       "@type": "ViewAction",
       target: `${siteUrl}/shop`,

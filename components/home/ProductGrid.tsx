@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { ProductCard } from "@/components/shop/ProductCard";
+import { HebrewWordCTA } from "@/components/ui/HebrewWordMark";
 import type { Product } from "@/types";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/components/providers/LanguageProvider";
@@ -31,7 +31,7 @@ export function ProductGrid({
   title?: string;
   subtitle?: string;
   viewAllHref?: string;
-  /** Ví dụ: `Xem 12 sản phẩm →` — nếu không truyền dùng VIEW ALL → */
+  /** Ví dụ: `Xem 12 sản phẩm →` - nếu không truyền dùng VIEW ALL → */
   linkLabel?: string;
   columnsLg?: 2 | 4 | 5;
   hideHeader?: boolean;
@@ -40,7 +40,7 @@ export function ProductGrid({
 }) {
   const { language } = useLanguage();
   const colClass = gridClass(columnsLg);
-  const endText = linkLabel ?? (language === "vi" ? "XEM TẤT CẢ →" : "VIEW ALL →");
+  const endText = linkLabel ?? (language === "vi" ? "SHOP →" : "SHOP →");
 
   return (
     <section className={cn("bg-void pb-12 md:pb-16", compactTop ? "pt-5" : "pt-12 md:pt-16")}>
@@ -57,12 +57,9 @@ export function ProductGrid({
                 </p>
               ) : null}
             </div>
-            <Link
-              href={viewAllHref}
-              className="shrink-0 font-body text-[9px] uppercase tracking-[0.15em] text-hb-white/30 transition-colors hover:text-hb-red"
-            >
+            <HebrewWordCTA href={viewAllHref} variant="ghost" className="shrink-0">
               {endText}
-            </Link>
+            </HebrewWordCTA>
           </div>
         )}
 

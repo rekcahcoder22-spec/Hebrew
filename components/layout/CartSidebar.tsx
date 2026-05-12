@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
+import { HebrewWordCTA } from "@/components/ui/HebrewWordMark";
 import { useCartStore, type CartTotals } from "@/store/cartStore";
 import { formatPrice, cn } from "@/lib/utils";
 import { useClientMounted } from "@/hooks/useClientMounted";
@@ -66,13 +66,14 @@ export function CartSidebar() {
               <p className="font-display text-2xl tracking-[0.15em] text-hb-white">
                 YOUR CART IS EMPTY
               </p>
-              <Link
+              <HebrewWordCTA
                 href="/shop"
+                variant="blood"
                 onClick={closeCart}
-                className="mt-6 font-body text-xs uppercase tracking-[0.25em] text-hb-gold underline-offset-4 hover:underline"
+                className="mt-6"
               >
                 Continue to shop
-              </Link>
+              </HebrewWordCTA>
             </div>
           ) : (
             <ul className="space-y-6">
@@ -161,23 +162,25 @@ export function CartSidebar() {
               {formatPrice(totalPrice)}
             </span>
           </div>
-          <Link
+          <HebrewWordCTA
             href="/checkout"
             onClick={closeCart}
             aria-disabled={displayItems.length === 0}
-            className={`block w-full bg-hb-red py-4 text-center font-body text-xs uppercase tracking-[0.3em] text-white transition hover:bg-red-700 ${
+            block
+            className={
               displayItems.length === 0 ? "pointer-events-none opacity-40" : ""
-            }`}
+            }
           >
             CHECKOUT
-          </Link>
-          <Link
+          </HebrewWordCTA>
+          <HebrewWordCTA
             href="/shop"
             onClick={closeCart}
-            className="mt-4 block text-center font-body text-[10px] uppercase tracking-[0.25em] text-hb-white/45 hover:text-hb-gold"
+            variant="ghost"
+            className="mt-4 block text-center"
           >
             CONTINUE SHOPPING
-          </Link>
+          </HebrewWordCTA>
         </div>
       </aside>
     </div>

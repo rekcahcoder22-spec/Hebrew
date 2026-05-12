@@ -4,7 +4,7 @@ import { LanguageText } from "@/components/i18n/LanguageText";
 import { CareersClient } from "./CareersClient";
 
 export const metadata: Metadata = {
-  title: "Careers — HEBREW",
+  title: "Careers | HEBREW",
   description:
     "Join the HEBREW team. We are looking for bold, creative individuals.",
 };

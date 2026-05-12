@@ -38,7 +38,7 @@ export function HighlightBox({
 export function ListItem({ children }: { children: React.ReactNode }) {
   return (
     <div className="mb-2 flex gap-3">
-      <span className="font-body text-sm text-hb-red">—</span>
+      <span className="font-body text-sm text-hb-red">-</span>
       <p className="font-body text-sm leading-[2.2] text-hb-white/60">{children}</p>
     </div>
   );

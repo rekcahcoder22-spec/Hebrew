@@ -37,7 +37,7 @@ export function ProductCard({
       <ImageSlot
         aspectRatio="3/4"
         label={`${name} IMAGE SLOT`}
-        hint="editorial still — no stock photo"
+        hint="editorial still · no stock photo"
         imageSrc={imageSrc}
         hoverImageSrc={hoverImageSrc}
         imageAlt={name}

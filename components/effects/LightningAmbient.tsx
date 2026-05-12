@@ -6,7 +6,7 @@ const STRIKE_MIN_MS = 2000;
 const STRIKE_MAX_MS = 3200;
 const STRIKE_ANIM_MS = 780;
 
-/** Full-viewport ambient lightning — ~2–3s between strikes; respects reduced motion. */
+/** Full-viewport ambient lightning - ~2-3s between strikes; respects reduced motion. */
 export function LightningAmbient() {
   const [ready, setReady] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);

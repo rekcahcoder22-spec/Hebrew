@@ -5,6 +5,7 @@ import {
   SectionHeading,
   StepItem,
 } from "@/components/layouts/PolicyLayout";
+import { HebrewWordButton } from "@/components/ui/HebrewWordMark";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
 const positions = [
@@ -80,15 +81,16 @@ export function CareersClient() {
                 ))}
               </div>
             </div>
-            <button
+            <HebrewWordButton
               type="button"
+              variant="blood"
+              className="whitespace-nowrap"
               onClick={() => {
-                window.location.href = `mailto:careers@hebrew.vn?subject=Application — ${position.title}`;
+                window.location.href = `mailto:careers@hebrew.vn?subject=${encodeURIComponent(`Application: ${position.title}`)}`;
               }}
-              className="whitespace-nowrap border border-hb-red px-4 py-2 font-body text-[9px] uppercase tracking-[.2em] text-hb-red transition-all duration-200 hover:bg-hb-red hover:text-white"
             >
               {tr("APPLY →", "ỨNG TUYỂN →")}
-            </button>
+            </HebrewWordButton>
           </div>
         </article>
       ))}
@@ -103,14 +105,14 @@ export function CareersClient() {
         </StepItem>
         <StepItem number="02">
           {tr(
-            "Subject line: [Position] — [Your Full Name]",
-            "Tiêu đề email: [Vị trí] — [Họ và tên]",
+            "Subject line: [Position] | [Your Full Name]",
+            "Tiêu đề email: [Vị trí] | [Họ và tên]",
           )}
         </StepItem>
         <StepItem number="03">
           {tr(
-            "HEBREW will respond within 3–5 business days",
-            "HEBREW phản hồi trong vòng 3–5 ngày làm việc",
+            "HEBREW will respond within 3 to 5 business days",
+            "HEBREW phản hồi trong vòng 3 đến 5 ngày làm việc",
           )}
         </StepItem>
         <StepItem number="04">

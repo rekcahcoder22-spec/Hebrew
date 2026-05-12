@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { HebrewWordButton } from "@/components/ui/HebrewWordMark";
 import type { CartItem, CustomerInfo, ShippingInfo } from "@/types";
 
 function methodTitle(method: ShippingInfo["method"]): string {
@@ -100,21 +101,22 @@ export function OrderConfirmation({
         </span>
       </div>
 
-      <div className="mt-10 space-y-3">
-        <button
+      <div className="mt-10 space-y-4">
+        <HebrewWordButton
           type="button"
+          block
           onClick={() => router.push("/shop")}
-          className="w-full bg-hb-red py-4 font-body text-[10px] uppercase tracking-[.25em] text-white transition-colors hover:bg-red-700"
         >
-          TIẾP TỤC MUA SẮM →
-        </button>
-        <button
+          SHOP TIẾP →
+        </HebrewWordButton>
+        <HebrewWordButton
           type="button"
+          block
+          blockTone="muted"
           onClick={() => router.push("/")}
-          className="mt-3 w-full border border-hb-border py-3 font-body text-[10px] uppercase tracking-[.2em] text-hb-white/50 transition-colors hover:border-hb-white/40 hover:text-hb-white"
         >
-          VỀ TRANG CHỦ
-        </button>
+          HOME
+        </HebrewWordButton>
       </div>
     </div>
   );

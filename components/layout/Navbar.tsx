@@ -44,7 +44,7 @@ export function Navbar() {
   const mounted = useClientMounted();
   const { t } = useLanguage();
   const cartCount = mounted ? totalItems : 0;
-  /** ≥3 món trong giờ — highlight banner (banner vẫn luôn hiển thị để dễ thấy). */
+  /** ≥3 món trong giờ - highlight banner (banner vẫn luôn hiển thị để dễ thấy). */
   const freeShipUnlocked = mounted && totalItems > 2;
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import {
   HighlightBox,
   SectionHeading,
 } from "@/components/layouts/PolicyLayout";
+import { HebrewWordButton } from "@/components/ui/HebrewWordMark";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
 type FormState = {
@@ -115,8 +116,8 @@ export function CooperateClient() {
         {submitted ? (
           <HighlightBox accent="gold">
             {tr(
-              "\"We received your proposal. HEBREW will get back to you within 2–3 business days. Stay locked in.\"",
-              "\"Chúng tôi đã nhận được đề xuất của bạn. HEBREW sẽ phản hồi trong 2–3 ngày làm việc.\"",
+              "\"We received your proposal. HEBREW will get back to you within 2 to 3 business days. Stay locked in.\"",
+              "\"Chúng tôi đã nhận được đề xuất của bạn. HEBREW sẽ phản hồi trong 2 đến 3 ngày làm việc.\"",
             )}
           </HighlightBox>
         ) : (
@@ -200,13 +201,9 @@ export function CooperateClient() {
               />
             </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="mt-4 w-full bg-hb-red py-4 font-body text-[10px] uppercase tracking-[.25em] text-white transition hover:bg-red-700 disabled:opacity-60"
-            >
+            <HebrewWordButton type="submit" block disabled={isLoading} className="mt-4">
               {isLoading ? tr("SENDING...", "ĐANG GỬI...") : tr("SEND PROPOSAL →", "GỬI ĐỀ XUẤT →")}
-            </button>
+            </HebrewWordButton>
           </form>
         )}
       </section>

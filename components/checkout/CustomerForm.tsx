@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import type { CustomerInfo } from "@/types";
+import { HebrewWordButton } from "@/components/ui/HebrewWordMark";
 
 const customerSchema = z.object({
   firstName: z.string().min(2, "Nhập họ"),
@@ -144,12 +145,9 @@ export function CustomerForm({
         {errors.note && <p className={errorClass}>{errors.note.message}</p>}
       </div>
 
-      <button
-        type="submit"
-        className="mt-8 w-full bg-hb-red py-4 font-body text-[10px] uppercase tracking-[.25em] text-white transition-colors duration-200 hover:bg-red-700"
-      >
-        TIẾP THEO — GIAO HÀNG →
-      </button>
+      <HebrewWordButton type="submit" block className="mt-8">
+        TIẾP THEO · GIAO HÀNG →
+      </HebrewWordButton>
     </form>
   );
 }

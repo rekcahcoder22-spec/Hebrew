@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import { cn } from "@/lib/utils";
 import { isUploadImagePath } from "@/lib/image";
 import { PRODUCT_IMAGE_BLUR_DATA_URL } from "@/lib/lqip";
 

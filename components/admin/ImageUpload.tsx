@@ -329,11 +329,11 @@ export function ImageUpload({ value, onChange, maxImages = 4 }: Props) {
           <div className="flex items-center gap-3">
             <span className="font-body text-sm text-hb-gold">✓</span>
             <p className="font-body text-[9px] tracking-wider text-hb-white/30">
-              AUTO 1:1 — CENTER CROP — {IMAGE_CONFIG.SIZE}×{IMAGE_CONFIG.SIZE}px (KHỚP Ô GRID)
+              AUTO 1:1 · CENTER CROP · {IMAGE_CONFIG.SIZE}×{IMAGE_CONFIG.SIZE}px (KHỚP Ô GRID)
             </p>
             {hasSavings && (
               <span className="font-body text-[8px] text-hb-gold/60">
-                SAVED {savingsPercent}% — {formatFileSize(totalProcessed)}
+                SAVED {savingsPercent}% · {formatFileSize(totalProcessed)}
               </span>
             )}
           </div>
@@ -341,7 +341,7 @@ export function ImageUpload({ value, onChange, maxImages = 4 }: Props) {
       )}
       {formError && <p className="mt-2 font-body text-[9px] text-hb-red">{formError}</p>}
       <p className="mt-2 font-body text-[8px] uppercase tracking-wider text-hb-white/20">
-        FIRST IMAGE IS THE MAIN PRODUCT PHOTO — DRAG TO REORDER
+        FIRST IMAGE IS THE MAIN PRODUCT PHOTO · DRAG TO REORDER
       </p>
     </div>
   );

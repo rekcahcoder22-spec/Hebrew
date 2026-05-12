@@ -1,36 +1,36 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { HebrewWordCTA } from "@/components/ui/HebrewWordMark";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 import { cn } from "@/lib/utils";
 
 const SLIDE_INTERVAL_MS = 1500;
 
-/** Ảnh concept — carousel nền (3 slide) */
+/** Ảnh concept - carousel nền (3 slide) */
 const CONCEPT_SLIDES = [
   {
     src: "/images/concept/00-gothic-wall-v2.png",
-    alt: "Concept — gothic wall collage",
+    alt: "Concept · gothic wall collage",
     imageClass:
       "object-contain object-[50%_58%] [filter:grayscale(1)_saturate(0)_contrast(1.22)_brightness(0.72)]",
   },
   {
     src: "/images/concept/01-gat-tan.png",
-    alt: "Concept — still life",
+    alt: "Concept · still life",
     imageClass:
       "object-cover object-center [image-rendering:auto] [filter:grayscale(1)_saturate(0)_contrast(1.16)_brightness(0.82)]",
   },
   {
     src: "/images/concept/02-ban-tay.png",
-    alt: "Concept — hand on glass",
+    alt: "Concept · hand on glass",
     imageClass:
       "object-cover object-center [image-rendering:auto] [filter:grayscale(1)_saturate(0)_contrast(1.16)_brightness(0.82)]",
   },
   {
     src: "/images/concept/03-kinh-vo.png",
-    alt: "Concept — fractured glass",
+    alt: "Concept · fractured glass",
     imageClass:
       "object-cover object-center [image-rendering:auto] [filter:grayscale(1)_saturate(0)_contrast(1.16)_brightness(0.82)]",
   },
@@ -76,7 +76,7 @@ export function ConceptVisualSection({ headline, tagline }: Props) {
     <section
       className="relative min-h-[calc(52vh+200px)] w-full overflow-hidden bg-hb-black pt-20 md:min-h-[calc(56vh+200px)] md:pt-24"
     >
-      {/* —— Background carousel —— */}
+      {/*   Background carousel   */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         {CONCEPT_SLIDES.map((slide, index) => (
           <div
@@ -112,7 +112,7 @@ export function ConceptVisualSection({ headline, tagline }: Props) {
         className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_70%_60%_at_30%_40%,rgba(139,26,26,0.1),transparent_62%)]"
         aria-hidden
       />
-      {/* Film grain — trên toàn khung hình, blend giống ảnh in / celluloid */}
+      {/* Film grain - trên toàn khung hình, blend giống ảnh in / celluloid */}
       <div
         className="concept-grain-coarse pointer-events-none absolute inset-0 z-[3] mix-blend-overlay"
         style={{
@@ -151,19 +151,13 @@ export function ConceptVisualSection({ headline, tagline }: Props) {
         <p className="mt-8 max-w-xl font-body text-sm font-medium leading-relaxed tracking-wide text-hb-white/70 drop-shadow-[0_1px_12px_rgba(0,0,0,0.8)]">
           {tagline}
         </p>
-        <div className="mt-10 flex flex-wrap items-center gap-6">
-          <Link
-            href="/our-story"
-            className="inline-flex items-center border border-hb-border/60 bg-hb-black/50 px-5 py-2.5 font-body text-[10px] uppercase tracking-[0.25em] text-hb-white/90 backdrop-blur-sm transition-colors hover:border-hb-red hover:text-hb-red"
-          >
+        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <HebrewWordCTA href="/our-story" variant="blood">
             {t("concept.cta")}
-          </Link>
-          <Link
-            href="/collections/adore"
-            className="font-body text-[10px] uppercase tracking-[0.2em] text-hb-white/50 transition-colors hover:text-hb-gold"
-          >
+          </HebrewWordCTA>
+          <HebrewWordCTA href="/collections/adore" variant="ghost">
             {t("concept.shop")}
-          </Link>
+          </HebrewWordCTA>
         </div>
       </div>
 

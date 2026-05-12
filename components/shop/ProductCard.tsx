@@ -14,7 +14,7 @@ type Props = {
   product: Product;
   /** Ảnh đầu của card này được ưu tiên LCP (thường chỉ card đầu grid). */
   priorityImage?: boolean;
-  /** Bỏ chờ IO — tải ngay (sản phẩm đầu trên home/shop). */
+  /** Bỏ chờ IO - tải ngay (sản phẩm đầu trên home/shop). */
   eagerVisual?: boolean;
 };
 

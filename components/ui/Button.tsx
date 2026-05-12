@@ -5,22 +5,24 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "ghost" | "outline";
 };
 
+/** Newsletter / compact forms - word-mark style aligned with {@link HebrewWordMark}. */
 export function Button({
   className,
   variant = "primary",
+  type = "button",
   ...props
 }: Props) {
   const base =
-    "inline-flex items-center justify-center px-5 py-2.5 text-sm font-body uppercase tracking-widest transition-colors disabled:opacity-40";
+    "inline-flex items-center justify-center px-4 py-2.5 font-brand-serif text-[10px] font-semibold uppercase tracking-[0.26em] transition-colors duration-300 disabled:opacity-40 border-b pb-2.5 pt-1";
   const styles = {
-    primary: "bg-hb-red text-hb-white hover:bg-hb-red/90",
-    ghost: "text-hb-white hover:bg-hb-gray",
+    primary: "border-hb-red bg-transparent text-[#f0ece8] hover:border-[#f0ece8]",
+    ghost: "border-transparent text-hb-white hover:border-hb-white/35",
     outline:
-      "border border-hb-border text-hb-white hover:border-hb-gold hover:text-hb-gold",
+      "border-hb-border text-hb-white hover:border-hb-red hover:text-hb-red",
   };
   return (
     <button
-      type="button"
+      type={type}
       className={cn(base, styles[variant], className)}
       {...props}
     />

@@ -470,7 +470,7 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
 
       <div>
         <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
-          Tags (phân tách bằng dấu phẩy) — gõ{" "}
+          Tags (phân tách bằng dấu phẩy), gõ{" "}
           <span className="text-gray-700">adore</span> để sản phẩm tự vào collection
           ADORE (trang chủ + /collections/adore); không phụ thuộc danh mục
         </label>

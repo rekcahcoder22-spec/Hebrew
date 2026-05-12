@@ -9,7 +9,7 @@ import type { Product, PublicCollection } from "@/types";
 export function CollectionPageClient() {
   const params = useParams();
   const slug = typeof params.slug === "string" ? params.slug : "";
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const [collection, setCollection] = useState<PublicCollection | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -79,11 +79,7 @@ export function CollectionPageClient() {
           title={collection.title}
           subtitle={collection.subtitle}
           viewAllHref={collection.viewAllHref}
-          linkLabel={
-            language === "vi"
-              ? `Xem cửa hàng đầy đủ →`
-              : `Full shop →`
-          }
+          linkLabel={t("collection.fullCatalog")}
           columnsLg={cols}
         />
       </div>

@@ -4,7 +4,7 @@ import { LanguageText } from "@/components/i18n/LanguageText";
 import { FeedbackClient } from "./FeedbackClient";
 
 export const metadata: Metadata = {
-  title: "Feedback — HEBREW",
+  title: "Feedback | HEBREW",
   description: "Share your experience with HEBREW. We listen to improve.",
 };
 

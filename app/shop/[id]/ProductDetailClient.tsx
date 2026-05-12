@@ -2,13 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useClientMounted } from "@/hooks/useClientMounted";
-import Link from "next/link";
 import { Check, ShieldCheck, Star } from "lucide-react";
 import { SizeSelector } from "@/components/shop/SizeSelector";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { ProductImageGallery } from "@/components/shop/ProductImageGallery";
 import { StockBadge } from "@/components/ui/StockBadge";
-import { formatPrice } from "@/lib/utils";
+import { HebrewWordCTA, HebrewWordButton } from "@/components/ui/HebrewWordMark";
+import { cn, formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { useLanguage } from "@/components/providers/LanguageProvider";
@@ -19,12 +19,12 @@ function totalStock(product: Product) {
 }
 
 const SIZE_ROWS: { label: string; cm: string }[] = [
-  { label: "XS", cm: "44–46" },
-  { label: "S", cm: "46–48" },
-  { label: "M", cm: "48–50" },
-  { label: "L", cm: "50–52" },
-  { label: "XL", cm: "52–54" },
-  { label: "XXL", cm: "54–56" },
+  { label: "XS", cm: "44 to 46" },
+  { label: "S", cm: "46 to 48" },
+  { label: "M", cm: "48 to 50" },
+  { label: "L", cm: "50 to 52" },
+  { label: "XL", cm: "52 to 54" },
+  { label: "XXL", cm: "54 to 56" },
 ];
 
 const SEEDED_REVIEW_DATES = ["2026-03-12", "2026-03-20", "2026-04-02"] as const;
@@ -137,19 +137,24 @@ export function ProductDetailClient({
   return (
     <div className="border-b border-hb-border bg-hb-black px-4 py-12">
       <div className="mx-auto max-w-6xl">
-        <nav className="font-body text-[10px] uppercase tracking-[0.25em] text-hb-white/40">
-          <Link href="/shop" className="hover:text-hb-gold">
+        <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 font-brand-serif text-[9px] font-semibold uppercase tracking-[0.22em] text-hb-white/40">
+          <HebrewWordCTA
+            href="/shop"
+            variant="ghost"
+            className="pb-0.5 !border-transparent hover:!border-luxury-gold/50 hover:!text-luxury-gold"
+          >
             Shop
-          </Link>
-          <span className="mx-2">/</span>
-          <Link
+          </HebrewWordCTA>
+          <span className="text-hb-white/25">/</span>
+          <HebrewWordCTA
             href={`/shop?category=${encodeURIComponent(product.category)}`}
-            className="hover:text-hb-gold"
+            variant="ghost"
+            className="pb-0.5 !border-transparent hover:!border-luxury-gold/50 hover:!text-luxury-gold"
           >
             {product.category}
-          </Link>
-          <span className="mx-2">/</span>
-          <span className="text-hb-white/60">{product.name}</span>
+          </HebrewWordCTA>
+          <span className="text-hb-white/25">/</span>
+          <span className="border-b border-transparent pb-0.5 text-hb-white/60">{product.name}</span>
         </nav>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-14">
@@ -239,35 +244,37 @@ export function ProductDetailClient({
               </div>
             </div>
 
-            <button
+            <HebrewWordButton
               type="button"
               disabled={!canAdd}
+              block
+              className="mt-8"
               onClick={() => {
                 if (!size || !canAdd) return;
                 addItem(product, size, qty);
                 openCart();
               }}
-              className="mt-8 w-full bg-hb-red py-4 font-body text-xs uppercase tracking-[0.3em] text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-40"
             >
               ADD TO CART
-            </button>
+            </HebrewWordButton>
 
-            <button
+            <HebrewWordButton
               type="button"
+              block
+              blockTone="muted"
               onClick={() => toggleWishlist(product.id)}
-              className={`mt-3 w-full border py-3 font-body text-xs uppercase tracking-[0.3em] transition ${
-                inWishlist
-                  ? "border-hb-gold text-hb-gold"
-                  : "border-hb-border text-hb-white/50 hover:border-hb-white/40 hover:text-hb-white"
-              }`}
+              className={cn(
+                "mt-3",
+                inWishlist && "!border-luxury-gold !text-luxury-gold hover:!border-luxury-gold",
+              )}
             >
               {inWishlist ? "SAVED TO WISHLIST" : "ADD TO WISHLIST"}
-            </button>
+            </HebrewWordButton>
 
             <button
               type="button"
               onClick={() => setSizeGuideOpen(true)}
-              className="mt-4 font-body text-[10px] uppercase tracking-[0.3em] text-hb-gold underline-offset-4 hover:underline"
+              className="mt-4 font-brand-serif text-[10px] font-semibold uppercase tracking-[0.26em] text-luxury-gold underline-offset-4 transition-colors hover:underline"
             >
               Size guide
             </button>

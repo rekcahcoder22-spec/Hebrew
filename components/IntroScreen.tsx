@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { HebrewWordButton } from "@/components/ui/HebrewWordMark";
 
 type IntroScreenProps = {
   onEnter: () => void;
@@ -136,7 +137,7 @@ export function IntroScreen({ onEnter }: IntroScreenProps) {
         className="pointer-events-none absolute bottom-7 left-7 z-[5] font-body text-[9px] uppercase tracking-[.25em] text-hb-white/20 opacity-0"
         style={{ animation: "fadeCorner 0.5s ease 0.9s forwards" }}
       >
-        SS — 2026
+        SS 2026
       </div>
       <div
         className="pointer-events-none absolute bottom-7 right-7 z-[5] font-body text-[9px] uppercase tracking-[.25em] text-hb-white/20 opacity-0"
@@ -224,17 +225,16 @@ export function IntroScreen({ onEnter }: IntroScreenProps) {
           <div className="h-px w-10 bg-hb-red/50" />
         </div>
 
-        <button
+        <HebrewWordButton
           type="button"
           onClick={handleEnter}
-          className="group mt-10 inline-flex items-center gap-3 border border-hb-red/30 px-6 py-3 font-body text-[9px] uppercase tracking-[.3em] text-hb-white/50 opacity-0 transition-all duration-300 hover:border-hb-red hover:bg-hb-red hover:text-white"
+          variant="blood"
+          className="group mt-10 opacity-0 transition-all duration-300"
           style={{ animation: "fadeCorner 0.6s ease 1.2s forwards" }}
         >
           <span>ENTER SITE</span>
-          <span className="transition-transform group-hover:translate-x-1">
-            →
-          </span>
-        </button>
+          <span className="transition-transform group-hover:translate-x-1">→</span>
+        </HebrewWordButton>
       </div>
 
       <div

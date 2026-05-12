@@ -6,7 +6,7 @@ import type { Product } from "@/types";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
 export function ShopPageClient() {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -56,9 +56,9 @@ export function ShopPageClient() {
           <ProductGrid
             products={sortedProducts}
             title={language === "vi" ? "TẤT CẢ SẢN PHẨM" : "ALL PIECES"}
-            subtitle={language === "vi" ? "HEBREW — MỚI & CỐT LÕI" : "HEBREW — NEW & CORE"}
+            subtitle={language === "vi" ? "HEBREW · MỚI & CỐT LÕI" : "HEBREW · NEW & CORE"}
             viewAllHref="/shop"
-            linkLabel={`Xem ${sortedProducts.length} sản phẩm →`}
+            linkLabel={t("home.viewProducts", { count: sortedProducts.length })}
             columnsLg={4}
           />
         )}

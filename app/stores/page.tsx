@@ -7,7 +7,7 @@ import {
 import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
-  title: "Store Locations — HEBREW",
+  title: "Store Locations | HEBREW",
   description: "Find HEBREW stores in Hanoi and Ho Chi Minh City.",
 };
 
@@ -34,7 +34,7 @@ export default function StoresPage() {
     >
       <Paragraph>
         Visit us in person to experience HEBREW up close. Our stores are more
-        than retail spaces — they are part of the movement.
+        than retail spaces; they are part of the movement.
       </Paragraph>
 
       <section className="mb-16 grid gap-4 lg:grid-cols-2">
@@ -67,7 +67,7 @@ export default function StoresPage() {
                   HOURS
                 </span>
                 <span className="font-body text-xs text-hb-white/70">
-                  Mon–Sun: 9:00 AM – 9:00 PM
+                  Mon to Sun: 9:00 AM to 9:00 PM
                 </span>
               </div>
               <div className="flex">

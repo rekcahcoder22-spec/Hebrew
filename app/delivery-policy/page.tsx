@@ -9,7 +9,7 @@ import {
 import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
-  title: "Delivery Policy — HEBREW",
+  title: "Delivery Policy | HEBREW",
   description: "Shipping methods, timeframes and fees for HEBREW Store.",
 };
 
@@ -27,9 +27,9 @@ export default function DeliveryPolicyPage() {
       <PolicyTable
         headers={["REGION", "STANDARD", "EXPRESS"]}
         rows={[
-          ["Hanoi, Ho Chi Minh City", "1–2 days", "Same day (inner city)"],
-          ["Other provinces", "3–5 days", "2–3 days"],
-          ["Remote areas", "5–7 days", "3–5 days"],
+          ["Hanoi, Ho Chi Minh City", "1 to 2 days", "Same day (inner city)"],
+          ["Other provinces", "3 to 5 days", "2 to 3 days"],
+          ["Remote areas", "5 to 7 days", "3 to 5 days"],
         ]}
       />
       <Paragraph>
@@ -62,7 +62,7 @@ export default function DeliveryPolicyPage() {
 
       <SectionHeading>6. LOST OR DAMAGED PACKAGES</SectionHeading>
       <ListItem>100% refund if package is lost due to carrier error</ListItem>
-      <ListItem>Processing time: 3–7 business days</ListItem>
+      <ListItem>Processing time: 3 to 7 business days</ListItem>
       <ListItem>Contact us within 24 hours if you notice any issue</ListItem>
     </PolicyLayout>
   );

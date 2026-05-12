@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
@@ -26,12 +27,32 @@ const customerLinks = [
   { href: "/blog", labelKey: "footer.blog" },
 ];
 
-const socialLinks = [
-  { href: "https://www.facebook.com/hebrew.vietnam", label: "FB" },
-  { href: "https://www.instagram.com/hebrew.original", label: "IG" },
-  { href: "https://www.tiktok.com/@hebrew.original", label: "TK" },
-  { href: "https://www.youtube.com", label: "YT" },
-  { href: "https://www.pinterest.com", label: "PT" },
+const socialLinks: { href: string; name: string; imageSrc: string }[] = [
+  {
+    href: "https://www.facebook.com/hebrew.vietnam",
+    name: "Facebook",
+    imageSrc: "/images/social/facebook.svg",
+  },
+  {
+    href: "https://www.instagram.com/hebrew.original",
+    name: "Instagram",
+    imageSrc: "/images/social/instagram.svg",
+  },
+  {
+    href: "https://www.tiktok.com/@hebrew.original",
+    name: "TikTok",
+    imageSrc: "/images/social/tiktok.svg",
+  },
+  {
+    href: "https://www.youtube.com",
+    name: "YouTube",
+    imageSrc: "/images/social/youtube.svg",
+  },
+  {
+    href: "https://www.pinterest.com",
+    name: "Pinterest",
+    imageSrc: "/images/social/pinterest.svg",
+  },
 ];
 
 export function Footer() {
@@ -54,11 +75,11 @@ export function Footer() {
             {t("footer.supportHotline")}
           </p>
           <p className="font-body text-xs leading-[2.4] text-hb-white/50">
-            — {t("footer.hotline.hanoi")}: 039.327.8668
+            • {t("footer.hotline.hanoi")}: 039.327.8668
             <br />
-            — {t("footer.hotline.hcm")}: 0794.302.899
+            • {t("footer.hotline.hcm")}: 0794.302.899
             <br />
-            — {t("footer.hotline.qualityFeedback")}: 0981.956.116
+            • {t("footer.hotline.qualityFeedback")}: 0981.956.116
           </p>
           <a
             href="mailto:support@hebrew.vn"
@@ -67,15 +88,24 @@ export function Footer() {
             support@hebrew.vn
           </a>
           <div className="mt-6 flex gap-3">
-            {socialLinks.map((item) => (
+            {socialLinks.map(({ href, name, imageSrc }) => (
               <a
-                key={item.label}
-                href={item.href}
+                key={href}
+                href={href}
                 target="_blank"
                 rel="noreferrer"
-                className="flex h-9 w-9 cursor-pointer items-center justify-center border border-hb-border font-body text-[9px] uppercase text-hb-white/40 transition-all hover:border-hb-red hover:text-hb-red"
+                aria-label={name}
+                className="group flex h-9 w-9 cursor-pointer items-center justify-center border border-hb-border transition-all hover:border-hb-white/25 hover:bg-hb-white/[0.04] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-hb-red"
               >
-                {item.label}
+                <Image
+                  src={imageSrc}
+                  alt=""
+                  width={18}
+                  height={18}
+                  unoptimized
+                  loading="lazy"
+                  className="h-[18px] w-[18px] object-contain transition-transform duration-200 group-hover:scale-110"
+                />
               </a>
             ))}
           </div>

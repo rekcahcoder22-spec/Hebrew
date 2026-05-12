@@ -9,7 +9,7 @@ import {
 import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
-  title: "Payment Policy — HEBREW",
+  title: "Payment Policy | HEBREW",
   description: "Payment instructions and methods accepted at HEBREW Store.",
 };
 
@@ -21,7 +21,7 @@ export default function PaymentPolicyPage() {
     >
       <SectionHeading>1. ACCEPTED PAYMENT METHODS</SectionHeading>
       <Paragraph>We accept:</Paragraph>
-      <ListItem>Cash on Delivery (COD) — nationwide</ListItem>
+      <ListItem>Cash on Delivery (COD) nationwide</ListItem>
       <ListItem>Direct bank transfer</ListItem>
       <ListItem>E-wallets: MoMo, ZaloPay, VNPay</ListItem>
       <ListItem>Credit/Debit cards: Visa, Mastercard, JCB</ListItem>
@@ -57,7 +57,7 @@ export default function PaymentPolicyPage() {
       <HighlightBox accent="gold">
         Email: hebreworiginal@gmail.com
         <br />
-        Hotline: 032.668.9947 (Mon–Sun, 8AM–10PM)
+        Hotline: 032.668.9947 (Mon-Sun, 8AM-10PM)
       </HighlightBox>
     </PolicyLayout>
   );

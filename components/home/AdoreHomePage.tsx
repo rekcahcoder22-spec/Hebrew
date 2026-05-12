@@ -1,14 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { EyebrowLabel } from "@/components/EyebrowLabel";
+import { HebrewWordCTA } from "@/components/ui/HebrewWordMark";
 import { ProductCard } from "@/components/ProductCard";
 import { QuoteBlock } from "@/components/QuoteBlock";
 import { RedLine } from "@/components/RedLine";
 import { SeamGrid } from "@/components/SeamGrid";
-import { homeContent, motionVariants } from "@/lib/content";
+import { adoreEditorialCtas, homeContent, motionVariants } from "@/lib/content";
 import { getAdoreImagePool } from "@/lib/adoreImages";
 import type { Product } from "@/types";
 
@@ -27,6 +27,45 @@ function hasAnyKeyword(input: string, keywords: string[]): boolean {
 type ProductSlotRule = {
   idHints: string[];
   nameKeywords: string[];
+};
+
+type SlotImages = {
+  entryFront?: string;
+  entryBack?: string;
+  birthFront?: string;
+  birthBack?: string;
+  inevitableFront?: string;
+  inevitableBack?: string;
+};
+
+const EMPTY_SLOT_IMAGES: SlotImages = {
+  entryFront: undefined,
+  entryBack: undefined,
+  birthFront: undefined,
+  birthBack: undefined,
+  inevitableFront: undefined,
+  inevitableBack: undefined,
+};
+
+const ADORE_SLOT_RULES: Record<"entry" | "birth" | "inevitable", ProductSlotRule> = {
+  entry: {
+    idHints: ["entry", "adore-entry", "the-entry"],
+    nameKeywords: ["entry"],
+  },
+  birth: {
+    idHints: ["birth", "adore-birth", "the-birth"],
+    nameKeywords: ["birth"],
+  },
+  inevitable: {
+    idHints: [
+      "hb-bx2yjbvomd",
+      "inevitable",
+      "crypt",
+      "adore-inevitable",
+      "the-inevitable",
+    ],
+    nameKeywords: ["inevitable", "crypt"],
+  },
 };
 
 function normalizeId(id: string): string {
@@ -50,61 +89,39 @@ function matchProductByRule(
 
 export function AdoreHomePage() {
   const [imagePool, setImagePool] = useState<string[]>([]);
-  const [birthBackImage, setBirthBackImage] = useState<string | undefined>(undefined);
-  const [inevitableFrontImage, setInevitableFrontImage] = useState<string | undefined>(undefined);
-  const [inevitableBackImage, setInevitableBackImage] = useState<string | undefined>(undefined);
-  const [entryFrontImage, setEntryFrontImage] = useState<string | undefined>(undefined);
-  const [entryBackImage, setEntryBackImage] = useState<string | undefined>(undefined);
-  const [birthFrontImage, setBirthFrontImage] = useState<string | undefined>(undefined);
+  const [slotImages, setSlotImages] = useState<SlotImages>(EMPTY_SLOT_IMAGES);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
         const res = await fetch("/api/collections/adore");
+        if (!res.ok) throw new Error("Failed to load adore collection");
         const data = (await res.json()) as AdoreCollectionResponse;
         if (!cancelled && Array.isArray(data?.products)) {
           const adoreProducts = data.products;
           setImagePool(getAdoreImagePool(adoreProducts));
 
           const entryProduct =
-            matchProductByRule(adoreProducts, {
-              idHints: ["entry", "adore-entry", "the-entry"],
-              nameKeywords: ["entry"],
-            }) ?? adoreProducts[0];
+            matchProductByRule(adoreProducts, ADORE_SLOT_RULES.entry) ?? adoreProducts[0];
           const birthProduct =
-            matchProductByRule(adoreProducts, {
-              idHints: ["birth", "adore-birth", "the-birth"],
-              nameKeywords: ["birth"],
-            }) ?? adoreProducts[1];
+            matchProductByRule(adoreProducts, ADORE_SLOT_RULES.birth) ?? adoreProducts[1];
           const inevitableProduct =
-            matchProductByRule(adoreProducts, {
-              idHints: [
-                "hb-bx2yjbvomd",
-                "inevitable",
-                "crypt",
-                "adore-inevitable",
-                "the-inevitable",
-              ],
-              nameKeywords: ["inevitable", "crypt"],
-            }) ?? adoreProducts[2];
+            matchProductByRule(adoreProducts, ADORE_SLOT_RULES.inevitable) ?? adoreProducts[2];
 
-          setEntryFrontImage(entryProduct?.images[0]);
-          setEntryBackImage(entryProduct?.images[1]);
-          setBirthFrontImage(birthProduct?.images[0]);
-          setBirthBackImage(birthProduct?.images[1]);
-          setInevitableFrontImage(inevitableProduct?.images[0]);
-          setInevitableBackImage(inevitableProduct?.images[1]);
+          setSlotImages({
+            entryFront: entryProduct?.images[0],
+            entryBack: entryProduct?.images[1],
+            birthFront: birthProduct?.images[0],
+            birthBack: birthProduct?.images[1],
+            inevitableFront: inevitableProduct?.images[0],
+            inevitableBack: inevitableProduct?.images[1],
+          });
         }
       } catch {
         if (!cancelled) {
           setImagePool([]);
-          setEntryFrontImage(undefined);
-          setEntryBackImage(undefined);
-          setBirthFrontImage(undefined);
-          setBirthBackImage(undefined);
-          setInevitableFrontImage(undefined);
-          setInevitableBackImage(undefined);
+          setSlotImages(EMPTY_SLOT_IMAGES);
         }
       }
     })();
@@ -114,12 +131,13 @@ export function AdoreHomePage() {
   }, []);
 
   const cardImages = useMemo(() => imagePool.slice(0, 3), [imagePool]);
-  const entryFront = entryFrontImage ?? cardImages[0] ?? "/images/adore/entry-front.png";
-  const entryBack = entryBackImage ?? imagePool[1] ?? entryFront;
-  const birthFront = birthFrontImage ?? cardImages[1] ?? "/images/adore/birth-front.png";
-  const birthBack = birthBackImage ?? imagePool[3] ?? imagePool[2] ?? birthFront;
-  const inevitableFront = inevitableFrontImage ?? cardImages[2] ?? imagePool[4] ?? birthFront;
-  const inevitableBack = inevitableBackImage ?? imagePool[5] ?? imagePool[4] ?? inevitableFront;
+  const entryFront = slotImages.entryFront ?? cardImages[0] ?? "/images/adore/entry-front.png";
+  const entryBack = slotImages.entryBack ?? imagePool[1] ?? entryFront;
+  const birthFront = slotImages.birthFront ?? cardImages[1] ?? "/images/adore/birth-front.png";
+  const birthBack = slotImages.birthBack ?? imagePool[3] ?? imagePool[2] ?? birthFront;
+  const inevitableFront =
+    slotImages.inevitableFront ?? cardImages[2] ?? imagePool[4] ?? birthFront;
+  const inevitableBack = slotImages.inevitableBack ?? imagePool[5] ?? imagePool[4] ?? inevitableFront;
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-[#f0ece8]">
@@ -143,31 +161,19 @@ export function AdoreHomePage() {
           <div className="flex justify-center">
             <RedLine />
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/shop"
-              className="border border-[#8B1A1A] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-            >
-              Đặt Hàng Ngay
-            </Link>
-            <Link
-              href="/cart"
-              className="border border-[#8B1A1A] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-            >
-              Vào Giỏ Hàng
-            </Link>
-            <Link
-              href="/our-story"
-              className="border border-[#8B1A1A] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-            >
-              Xem Our Story
-            </Link>
-            <Link
-              href="/adore"
-              className="border border-[#1b1b1b] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-            >
-              Xem ADORE
-            </Link>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+            <HebrewWordCTA href="/shop" variant="blood">
+              {adoreEditorialCtas.orderInDrop}
+            </HebrewWordCTA>
+            <HebrewWordCTA href="/cart" variant="blood">
+              {adoreEditorialCtas.openCart}
+            </HebrewWordCTA>
+            <HebrewWordCTA href="/our-story" variant="blood">
+              {adoreEditorialCtas.readOurStory}
+            </HebrewWordCTA>
+            <HebrewWordCTA href="/adore" variant="ash">
+              {adoreEditorialCtas.stepIntoAdore}
+            </HebrewWordCTA>
           </div>
           <p className="font-body text-[10px] uppercase tracking-[0.45em] text-[#2a2525]">
             {homeContent.volumeLabel}
@@ -215,19 +221,13 @@ export function AdoreHomePage() {
             />
           ))}
         </SeamGrid>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link
-            href="/shop"
-            className="border border-[#8B1A1A] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-          >
-            Chọn Size & Đặt Hàng
-          </Link>
-          <Link
-            href="/cart"
-            className="border border-[#1b1b1b] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-          >
-            Xem Giỏ Hàng
-          </Link>
+        <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-4">
+          <HebrewWordCTA href="/shop" variant="blood">
+            {adoreEditorialCtas.sizeThenOrder}
+          </HebrewWordCTA>
+          <HebrewWordCTA href="/cart" variant="ash">
+            {adoreEditorialCtas.peekCart}
+          </HebrewWordCTA>
         </div>
       </motion.section>
 

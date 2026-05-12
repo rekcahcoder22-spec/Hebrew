@@ -1,17 +1,20 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ChapterHeader } from "@/components/ChapterHeader";
+import { HebrewWordCTA } from "@/components/ui/HebrewWordMark";
 import { ImageSlot } from "@/components/ImageSlot";
 import { ManifestoCol } from "@/components/ManifestoCol";
 import { QuoteBlock } from "@/components/QuoteBlock";
 import { SeamGrid } from "@/components/SeamGrid";
 import { EyebrowLabel } from "@/components/EyebrowLabel";
-import { motionVariants, ourStoryContent } from "@/lib/content";
+import { adoreEditorialCtas, motionVariants, ourStoryContent } from "@/lib/content";
 import { getAdoreImagePool } from "@/lib/adoreImages";
 import type { Product } from "@/types";
+
+/** Chapter 01 - cố định flat lay front basic tee (không lấy random từ pool). */
+const OUR_STORY_CHAPTER1_IMAGE = "/images/our-story/front-basic-tee.png";
 
 export function AdoreOurStoryPage() {
   const [imagePool, setImagePool] = useState<string[]>([]);
@@ -34,7 +37,8 @@ export function AdoreOurStoryPage() {
     };
   }, []);
 
-  const heroStoryImages = useMemo(() => imagePool.slice(0, 6), [imagePool]);
+  /** Bỏ slot đầu pool - Chapter 01 dùng ảnh static front basic tee. */
+  const heroStoryImages = useMemo(() => imagePool.slice(1, 6), [imagePool]);
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] px-6 py-24 text-[#f0ece8]">
@@ -43,31 +47,19 @@ export function AdoreOurStoryPage() {
         <h1 className="mt-4 font-editorial text-6xl font-light italic md:text-8xl">
           {ourStoryContent.title}
         </h1>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link
-            href="/shop"
-            className="border border-[#8B1A1A] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-          >
-            Đặt Hàng Ngay
-          </Link>
-          <Link
-            href="/cart"
-            className="border border-[#1b1b1b] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-          >
-            Vào Giỏ Hàng
-          </Link>
-          <Link
-            href="/adore"
-            className="border border-[#8B1A1A] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-          >
-            Xem Collection ADORE
-          </Link>
-          <Link
-            href="/"
-            className="border border-[#1b1b1b] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-          >
-            Xem Trang Chủ
-          </Link>
+        <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4">
+          <HebrewWordCTA href="/shop" variant="blood">
+            {adoreEditorialCtas.orderInDrop}
+          </HebrewWordCTA>
+          <HebrewWordCTA href="/cart" variant="ash">
+            {adoreEditorialCtas.openCart}
+          </HebrewWordCTA>
+          <HebrewWordCTA href="/adore" variant="blood">
+            {adoreEditorialCtas.collectionAdore}
+          </HebrewWordCTA>
+          <HebrewWordCTA href="/" variant="ash">
+            {adoreEditorialCtas.homeLayer}
+          </HebrewWordCTA>
         </div>
 
         <motion.section
@@ -75,7 +67,7 @@ export function AdoreOurStoryPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="mt-20 grid grid-cols-1 gap-10 md:grid-cols-2"
+          className="mt-20 grid grid-cols-1 items-start gap-10 md:grid-cols-2"
         >
           <div>
             <ChapterHeader
@@ -87,10 +79,16 @@ export function AdoreOurStoryPage() {
             </p>
           </div>
           <ImageSlot
-            aspectRatio="3/4"
-            label="Founder portrait — no face visible"
-            hint="portrait still / underexposed / anonymous"
-            imageSrc={heroStoryImages[0]}
+            aspectRatio="1/1"
+            fit="contain"
+            label="Front basic tee · HEBREW®"
+            hint="flat lay / studio"
+            imageSrc={OUR_STORY_CHAPTER1_IMAGE}
+            imageAlt="HEBREW front basic tee"
+            preserveOriginalColors
+            className="mx-auto w-full max-w-md md:mx-0 md:ml-auto md:max-w-lg"
+            sizes="(max-width: 768px) min(100vw, 28rem), (max-width: 1200px) 45vw, 32rem"
+            priority
           />
         </motion.section>
 
@@ -105,7 +103,8 @@ export function AdoreOurStoryPage() {
             aspectRatio="1/1"
             label="Close-up: handwritten Hebrew tag, dark red ink"
             hint="ink texture / paper grain / hand motion"
-            imageSrc={heroStoryImages[1]}
+            imageSrc={heroStoryImages[0]}
+            preserveOriginalColors
           />
           <div>
             <ChapterHeader
@@ -139,7 +138,8 @@ export function AdoreOurStoryPage() {
                   aspectRatio="1/1"
                   label={chapter.name}
                   hint={chapter.note}
-                  imageSrc={heroStoryImages[2 + index]}
+                  imageSrc={heroStoryImages[1 + index]}
+                  preserveOriginalColors
                 />
               </div>
             ))}
@@ -169,10 +169,14 @@ export function AdoreOurStoryPage() {
           </SeamGrid>
           <div className="mt-10">
             <ImageSlot
-              aspectRatio="16/7"
-              label="Two people, never facing each other. Red light. Underexposed."
-              hint="cinematic landscape still"
-              imageSrc={heroStoryImages[5]}
+              aspectRatio="3/2"
+              fit="contain"
+              label="Chapter still · product on set"
+              hint="full frame garment"
+              imageSrc={heroStoryImages[4]}
+              imageAlt="HEBREW · product still"
+              preserveOriginalColors
+              sizes="(max-width: 768px) 100vw, min(100vw, 72rem)"
             />
           </div>
         </motion.section>
@@ -182,19 +186,13 @@ export function AdoreOurStoryPage() {
             {ourStoryContent.closing.line}
           </p>
           <div className="mt-8">
-            <div className="flex flex-wrap justify-center gap-3">
-              <Link
-                href="/adore"
-                className="inline-block border border-[#8B1A1A] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-              >
-                Xem ADORE
-              </Link>
-              <Link
-                href="/shop"
-                className="inline-block border border-[#8B1A1A] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-              >
-                Mua Ngay
-              </Link>
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-4">
+              <HebrewWordCTA href="/adore" variant="blood">
+                {adoreEditorialCtas.closingAdore}
+              </HebrewWordCTA>
+              <HebrewWordCTA href="/shop" variant="blood">
+                {adoreEditorialCtas.closingShop}
+              </HebrewWordCTA>
             </div>
           </div>
           <p className="mt-8 font-body text-[9px] uppercase tracking-[0.45em] text-[#5a5550]">

@@ -9,7 +9,7 @@ import {
 import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
-  title: "Size Guide — HEBREW",
+  title: "Size Guide | HEBREW",
   description: "Size measurement guide for HEBREW tops and bottoms.",
 };
 
@@ -21,7 +21,7 @@ export default function SizeGuidePage() {
     >
       <Paragraph>
         All measurements are in centimetres (cm). Measure your body without
-        thick clothing for best accuracy. We recommend adding 1–2cm for
+        thick clothing for best accuracy. We recommend adding 1 to 2 cm for
         comfort.
       </Paragraph>
 
@@ -44,7 +44,7 @@ export default function SizeGuidePage() {
 
       <SectionHeading>TOPS</SectionHeading>
       <p className="mb-4 font-body text-[9px] text-hb-white/30">
-        Measurements in cm. HEBREW fits oversized — size up if between sizes.
+        Measurements in cm. HEBREW fits oversized; size up if between sizes.
       </p>
       <PolicyTable
         headers={["MEASUREMENT", "XS", "S", "M", "L", "XL", "XXL"]}

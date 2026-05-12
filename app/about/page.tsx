@@ -29,8 +29,8 @@ export default function AboutPage() {
         </h1>
         <p className="mt-8 font-body text-sm leading-relaxed text-hb-white/60">
           <LanguageText
-            en="Hebrew is an independent label obsessed with weight, drape, and durability. Each release is intentionally small: numbered pieces, honest materials, and silhouettes shaped for real movement — not runway posture."
-            vi="Hebrew là thương hiệu độc lập theo đuổi chất liệu, độ rũ và độ bền. Mỗi đợt phát hành đều giới hạn: sản phẩm đánh số, vật liệu trung thực và phom dáng dành cho chuyển động thực tế — không phải để trình diễn."
+            en="Hebrew is an independent label obsessed with weight, drape, and durability. Each release is intentionally small: numbered pieces, honest materials, and silhouettes shaped for real movement, not runway posture."
+            vi="Hebrew là thương hiệu độc lập theo đuổi chất liệu, độ rũ và độ bền. Mỗi đợt phát hành đều giới hạn: sản phẩm đánh số, vật liệu trung thực và phom dáng dành cho chuyển động thực tế, không phải để trình diễn."
           />
         </p>
         <p className="mt-4 font-body text-sm leading-relaxed text-hb-white/60">

@@ -100,7 +100,7 @@ body {
   transition: opacity 600ms ease, transform 600ms ease;
 }
 
-/* Concept hero — film grain (subtle motion, no harsh flicker) */
+/* Concept hero - film grain (subtle motion, no harsh flicker) */
 @keyframes concept-grain-drift {
   0%,
   100% {

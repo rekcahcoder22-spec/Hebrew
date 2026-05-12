@@ -16,7 +16,7 @@ const DEFAULT_HOME: Omit<
 > = {
   slug: DEFAULT_HOME_SLUG,
   title: "SIGNALS",
-  subtitle: "DROP 001 — LIMITED PIECES",
+  subtitle: "DROP 001 · LIMITED PIECES",
   viewAllHref: "/shop",
   isHome: true,
   active: true,
@@ -32,7 +32,7 @@ const ADORE_COLLECTION_UPSERT: Omit<
 > = {
   slug: ADORE_SLUG,
   title: "ADORE",
-  subtitle: "CONCEPT — mọi piece gắn tag adore",
+  subtitle: "CONCEPT · mọi piece gắn tag adore",
   viewAllHref: "/collections/adore",
   isHome: false,
   active: true,

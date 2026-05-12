@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { CountdownTimer } from "@/components/ui/CountdownTimer";
+import { HebrewWordCTA } from "@/components/ui/HebrewWordMark";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
 export function DropBanner({
@@ -17,18 +17,15 @@ export function DropBanner({
     <section className="bg-hb-red py-8">
       <div className="mx-auto max-w-6xl px-4 text-center">
         <p className="font-display text-4xl uppercase tracking-[0.08em] text-white">
-          🔴 {t("drop.liveNow")} — {dropTitle}
+          🔴 {t("drop.liveNow")} · {dropTitle}
         </p>
         <div className="mt-8 flex justify-center">
           <CountdownTimer targetDate={dropDate} />
         </div>
         <div className="mt-10">
-          <Link
-            href="/shop"
-            className="inline-block bg-white px-8 py-3 font-body uppercase tracking-widest text-hb-black transition hover:bg-hb-gold"
-          >
+          <HebrewWordCTA href="/shop" variant="onAccent" className="text-[11px] tracking-[0.3em]">
             {t("drop.shopNow")} →
-          </Link>
+          </HebrewWordCTA>
         </div>
       </div>
     </section>

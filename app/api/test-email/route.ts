@@ -1,5 +1,5 @@
 /**
- * DEV ONLY — delete this route before production deploy.
+ * DEV ONLY - delete this route before production deploy.
  */
 
 import { NextResponse } from "next/server";

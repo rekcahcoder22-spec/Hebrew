@@ -4,10 +4,10 @@ import { cn } from "@/lib/utils";
 
 /** Đoạn lặp cho animation marquee (2 bản sao = loop mượt). */
 const SEGMENT =
-  "FREESHIP — ĐƠN TỪ TRÊN 2 SẢN PHẨM — ƯU ĐÃI GIAO HÀNG — HEBREW — ";
+  "FREESHIP · ĐƠN TỪ TRÊN 2 SẢN PHẨM · ƯU ĐÃI GIAO HÀNG · HEBREW · ";
 
 type Props = {
-  /** Giỏ có trên 2 món (≥3) — nhấn mạnh viền/chữ */
+  /** Giỏ có trên 2 món (≥3) - nhấn mạnh viền/chữ */
   unlocked?: boolean;
 };
 

@@ -6,7 +6,7 @@ import type { BrandSettings, Product } from "@/types";
 
 const DEFAULT_SETTINGS: BrandSettings = {
   dropDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-  dropTitle: "DROP 001 - THE ADORE COLLECTION",
+  dropTitle: "DROP 001 · THE ADORE COLLECTION",
   heroTagline: "ROOTED IN THE STREETS. WRITTEN IN STONE.",
   announcement: "FREE SHIPPING ON ORDERS OVER 1,000,000 ₫",
   instagramUrl: "",

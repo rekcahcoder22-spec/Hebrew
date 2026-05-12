@@ -5,6 +5,7 @@ import {
   Paragraph,
   SectionHeading,
 } from "@/components/layouts/PolicyLayout";
+import { HebrewWordButton } from "@/components/ui/HebrewWordMark";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
 type FeedbackForm = {
@@ -29,7 +30,7 @@ function ratingText(rating: number, language: "vi" | "en"): string {
   if (rating === 2) return language === "vi" ? "Không hài lòng" : "Dissatisfied";
   if (rating === 3) return language === "vi" ? "Bình thường" : "Neutral";
   if (rating === 4) return language === "vi" ? "Hài lòng" : "Satisfied";
-  return language === "vi" ? "Rất hài lòng — 🔥" : "Very Satisfied — 🔥";
+  return language === "vi" ? "Rất hài lòng 🔥" : "Very Satisfied 🔥";
 }
 
 export function FeedbackClient() {
@@ -168,15 +169,11 @@ export function FeedbackClient() {
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full bg-hb-red py-4 font-body text-[10px] uppercase tracking-[.25em] text-white transition hover:bg-red-700 disabled:opacity-60"
-          >
+          <HebrewWordButton type="submit" block disabled={isLoading} className="mt-4">
             {isLoading
               ? tr("SENDING...", "ĐANG GỬI...")
               : tr("SUBMIT FEEDBACK →", "GỬI GÓP Ý →")}
-          </button>
+          </HebrewWordButton>
         </form>
       )}
 
@@ -204,8 +201,8 @@ export function FeedbackClient() {
               icon: "#",
               channel: "HOTLINE",
               details: tr(
-                "032.668.9947\nMon–Sun: 8:00 AM – 10:00 PM",
-                "032.668.9947\nThứ 2–CN: 08:00 – 22:00",
+                "032.668.9947\nMon to Sun: 8:00 AM to 10:00 PM",
+                "032.668.9947\nThứ 2-CN: 08:00 to 22:00",
               ),
             },
           ].map((item) => (

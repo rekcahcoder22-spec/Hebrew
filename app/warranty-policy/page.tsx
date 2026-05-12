@@ -9,7 +9,7 @@ import {
 import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
-  title: "Warranty Policy — HEBREW",
+  title: "Warranty Policy | HEBREW",
   description: "Quality guarantee and warranty terms for HEBREW products.",
 };
 
@@ -55,7 +55,7 @@ export default function WarrantyPolicyPage() {
         Ship item back (HEBREW covers one-way shipping)
       </StepItem>
       <StepItem number="05">
-        Receive replacement or refund within 5–7 business days
+        Receive replacement or refund within 5 to 7 business days
       </StepItem>
     </PolicyLayout>
   );

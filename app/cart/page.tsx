@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useClientMounted } from "@/hooks/useClientMounted";
 import { useCartStore } from "@/store/cartStore";
 import { isUploadImagePath } from "@/lib/image";
+import { HebrewWordCTA } from "@/components/ui/HebrewWordMark";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
 export default function CartPage() {
@@ -129,18 +129,12 @@ export default function CartPage() {
         </span>
       </div>
 
-      <Link
-        href="/checkout"
-        className="mt-8 block w-full bg-hb-red py-4 text-center font-body text-xs uppercase tracking-[0.3em] text-white transition hover:bg-red-700"
-      >
-        {language === "vi" ? "Thanh toán" : "Checkout"}
-      </Link>
-      <Link
-        href="/shop"
-        className="mt-4 block text-center font-body text-[10px] uppercase tracking-[0.25em] text-hb-white/45 hover:text-hb-gold"
-      >
-        {language === "vi" ? "Tiếp tục mua sắm" : "Continue shopping"}
-      </Link>
+      <HebrewWordCTA href="/checkout" block className="mt-8">
+        {language === "vi" ? "THANH TOÁN" : "Checkout"}
+      </HebrewWordCTA>
+      <HebrewWordCTA href="/shop" variant="ghost" className="mt-4 block text-center">
+        {language === "vi" ? "SHOP TIẾP" : "Continue shopping"}
+      </HebrewWordCTA>
     </div>
   );
 }

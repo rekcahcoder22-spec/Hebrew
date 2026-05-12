@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { EyebrowLabel } from "@/components/EyebrowLabel";
+import { HebrewWordCTA } from "@/components/ui/HebrewWordMark";
 import { EasterEgg } from "@/components/EasterEgg";
 import { ImageSlot } from "@/components/ImageSlot";
-import { motionVariants, adorePageContent } from "@/lib/content";
+import { adoreEditorialCtas, adorePageContent, motionVariants } from "@/lib/content";
 import { getAdoreImagePool } from "@/lib/adoreImages";
 import type { Product } from "@/types";
 
@@ -50,31 +50,19 @@ export function AdoreCollectionPage() {
           <p className="mt-6 max-w-3xl font-body text-sm font-light leading-8 text-[#5a5550]">
             {adorePageContent.concept}
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/shop"
-              className="border border-[#8B1A1A] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-            >
-              Đặt Hàng Ngay
-            </Link>
-            <Link
-              href="/cart"
-              className="border border-[#8B1A1A] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-            >
-              Vào Giỏ Hàng
-            </Link>
-            <Link
-              href="/our-story"
-              className="border border-[#8B1A1A] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-            >
-              Xem Our Story
-            </Link>
-            <Link
-              href="/shop"
-              className="border border-[#1b1b1b] px-4 py-2 font-body text-[9px] uppercase tracking-[0.35em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-            >
-              Xem Shop
-            </Link>
+          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4">
+            <HebrewWordCTA href="/shop" variant="blood">
+              {adoreEditorialCtas.orderInDrop}
+            </HebrewWordCTA>
+            <HebrewWordCTA href="/cart" variant="blood">
+              {adoreEditorialCtas.openCart}
+            </HebrewWordCTA>
+            <HebrewWordCTA href="/our-story" variant="blood">
+              {adoreEditorialCtas.readOurStory}
+            </HebrewWordCTA>
+            <HebrewWordCTA href="/shop" variant="ash">
+              {adoreEditorialCtas.fullCatalog}
+            </HebrewWordCTA>
           </div>
           <div className="mt-10">
             <ImageSlot
@@ -108,7 +96,7 @@ export function AdoreCollectionPage() {
               </div>
               <div className="bg-[#0a0a0a] p-6">
                 <EyebrowLabel>
-                  CHAPTER {product.chapter} — {product.name}
+                  CHAPTER {product.chapter} · {product.name}
                 </EyebrowLabel>
                 <div className="mt-6 border border-[#1b1b1b]">
                   {product.details.map(([label, value]) => (
@@ -128,19 +116,13 @@ export function AdoreCollectionPage() {
                 <div className="mt-6">
                   <EasterEgg text={product.easterEgg} />
                 </div>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Link
-                    href="/shop"
-                    className="border border-[#8B1A1A] px-3 py-2 font-body text-[9px] uppercase tracking-[0.3em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-                  >
-                    Đặt Hàng
-                  </Link>
-                  <Link
-                    href="/cart"
-                    className="border border-[#1b1b1b] px-3 py-2 font-body text-[9px] uppercase tracking-[0.3em] text-[#f0ece8] transition-transform duration-200 hover:scale-[0.98]"
-                  >
-                    Vào Giỏ
-                  </Link>
+                <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+                  <HebrewWordCTA href="/shop" variant="blood">
+                    {adoreEditorialCtas.orderShort}
+                  </HebrewWordCTA>
+                  <HebrewWordCTA href="/cart" variant="ash">
+                    {adoreEditorialCtas.cartShort}
+                  </HebrewWordCTA>
                 </div>
               </div>
             </motion.article>

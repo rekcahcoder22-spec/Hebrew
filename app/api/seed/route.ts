@@ -126,11 +126,11 @@ const SAMPLE_PRODUCTS = [
   },
   {
     id: "p7",
-    name: "ADORE — FRACTURED GLASS TEE",
+    name: "ADORE · FRACTURED GLASS TEE",
     rating: 4.9,
     price: 1290000,
     description:
-      "Concept ADORE graphic tee — mineral wash, oversized fit, 240gsm cotton.",
+      "Concept ADORE graphic tee · mineral wash, oversized fit, 240gsm cotton.",
     images: [
       "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=900&h=1200&fit=crop",
     ],

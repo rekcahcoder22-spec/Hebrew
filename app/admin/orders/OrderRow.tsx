@@ -91,7 +91,7 @@ export function OrderRow({
       ? order.items[0]!.name.length > 20
         ? `${order.items[0]!.name.slice(0, 20)}…`
         : order.items[0]!.name
-      : "—";
+      : "-";
   const extra =
     order.items.length > 1 ? `+ ${order.items.length - 1} sản phẩm khác` : null;
 
@@ -176,7 +176,7 @@ export function OrderRow({
                         {item.name}
                       </p>
                       <p className="text-[9px] text-hb-white/40">
-                        Size: {item.size} — SL: {item.quantity}
+                        Size: {item.size} · SL: {item.quantity}
                       </p>
                     </div>
                     <p className="font-display text-base text-hb-gold">
@@ -256,7 +256,7 @@ export function OrderRow({
                     GHI CHÚ:
                   </dt>
                   <dd className="ml-2 inline text-hb-white">
-                    {order.customer.note?.trim() ? order.customer.note : "—"}
+                    {order.customer.note?.trim() ? order.customer.note : "-"}
                   </dd>
                 </div>
               </dl>

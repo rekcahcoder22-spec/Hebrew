@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import type { ShippingInfo } from "@/types";
+import { HebrewWordButton } from "@/components/ui/HebrewWordMark";
 
 const shippingSchema = z.object({
   address: z.string().min(5, "Nhập địa chỉ"),
@@ -25,13 +26,13 @@ const METHODS: {
   {
     id: "standard",
     name: "GIAO HÀNG TIÊU CHUẨN",
-    desc: "3-5 NGÀY LÀM VIỆC",
+    desc: "3 ĐẾN 5 NGÀY LÀM VIỆC",
     price: 30000,
   },
   {
     id: "express",
     name: "GIAO HÀNG NHANH",
-    desc: "1-2 NGÀY LÀM VIỆC",
+    desc: "1 ĐẾN 2 NGÀY LÀM VIỆC",
     price: 50000,
   },
   {
@@ -225,23 +226,25 @@ export function ShippingForm({
       </p>
 
       <div className="mt-8 flex gap-4">
-        <button
+        <HebrewWordButton
           type="button"
-          onClick={onBack}
+          variant="ash"
           disabled={isSubmitting}
-          className="w-1/3 border border-hb-border bg-transparent py-4 font-body text-[10px] uppercase tracking-[.2em] text-hb-white/50 transition-colors hover:border-hb-white/50 hover:text-hb-white disabled:opacity-40"
+          onClick={onBack}
+          className="w-1/3 shrink-0 justify-center py-4 disabled:opacity-40"
         >
           ← QUAY LẠI
-        </button>
-        <button
+        </HebrewWordButton>
+        <HebrewWordButton
           type="submit"
           disabled={isSubmitting}
-          className="flex w-2/3 items-center justify-center bg-hb-red py-4 font-body text-[10px] uppercase tracking-[.25em] text-white transition-colors hover:bg-red-700 disabled:opacity-60"
+          block
+          className="min-w-0 flex-1"
         >
           {isSubmitting ? (
             <>
               <span
-                className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
+                className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
                 aria-hidden
               />
               ĐANG XỬ LÝ…
@@ -249,7 +252,7 @@ export function ShippingForm({
           ) : (
             "ĐẶT HÀNG →"
           )}
-        </button>
+        </HebrewWordButton>
       </div>
     </form>
   );

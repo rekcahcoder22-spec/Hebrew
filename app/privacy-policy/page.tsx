@@ -8,7 +8,7 @@ import {
 import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — HEBREW",
+  title: "Privacy Policy | HEBREW",
   description:
     "How HEBREW collects, uses, and protects your personal data.",
 };

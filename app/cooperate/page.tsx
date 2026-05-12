@@ -4,7 +4,7 @@ import { LanguageText } from "@/components/i18n/LanguageText";
 import { CooperateClient } from "./CooperateClient";
 
 export const metadata: Metadata = {
-  title: "Cooperate — HEBREW",
+  title: "Cooperate | HEBREW",
   description:
     "Partner with HEBREW. Collabs, resellers, photographers, and more.",
 };

@@ -26,30 +26,30 @@ export const motionVariants = {
 } as const;
 
 export const homeContent = {
-  eyebrow: "HEBREW — CHAPTER 01",
+  eyebrow: "HEBREW CHAPTER 01",
   title: "ADORE",
   subtitle: "the moment before the storm",
   viLead:
     "Adore không phải tình yêu ngọt ngào. Đây là giai đoạn nguy hiểm nhất.",
-  volumeLabel: "THE BROKEN — VOLUME I",
+  volumeLabel: "THE BROKEN VOLUME I",
   manifestoQuote: "This is not a love song. This is the moment before.",
   products: [
     {
-      chapter: "I — Basic Tee",
+      chapter: "I BASIC TEE",
       name: "THE ENTRY",
       conceptLine: "The first step is never innocent.",
       copy: "Chiếc áo cho khoảnh khắc bạn bắt đầu\nkhông còn thuộc về ngày cũ nữa.",
-      easterEgg: "adore (v.) — to love dangerously.",
+      easterEgg: "adore v. to love dangerously.",
     },
     {
-      chapter: "II — Core Tee",
+      chapter: "II CORE TEE",
       name: "THE BIRTH",
       conceptLine: "Love arrives as a fracture.",
       copy: "Không có tiếng động lớn.\nChỉ là một vết nứt nhỏ\nmở ra cả một chương mới.",
       easterEgg: "you let them in.",
     },
     {
-      chapter: "III — Heavy Tee",
+      chapter: "III HEAVY TEE",
       name: "THE INEVITABLE",
       conceptLine: "After this point, there is no reset.",
       copy: "Bạn vẫn là bạn,\nnhưng mọi thứ đã lệch đi một chút.\nĐủ để không thể quay lại.",
@@ -67,21 +67,40 @@ export const homeContent = {
     ],
   },
   closingQuote: "ADORE là Chapter đẹp nhất và dễ tổn thương nhất.",
-  closingEyebrow: "Hebrew — The Broken — Vol. I",
+  closingEyebrow: "Hebrew | The Broken | Vol. I",
+} as const;
+
+/**
+ * CTA theo giọng HEBREW / The Broken, tránh ngôn ngữ sàn (“mua ngay”, “đặt hàng”).
+ */
+export const adoreEditorialCtas = {
+  orderInDrop: "GHIM DROP",
+  openCart: "MỞ GIỎ",
+  readOurStory: "OUR STORY",
+  stepIntoAdore: "VÀO ADORE",
+  fullCatalog: "SHOP",
+  sizeThenOrder: "SIZE → DROP",
+  peekCart: "XEM GIỎ",
+  orderShort: "GHIM DROP",
+  cartShort: "MỞ GIỎ",
+  collectionAdore: "ADORE FULL",
+  homeLayer: "HOME",
+  closingAdore: "ADORE",
+  closingShop: "SHOP",
 } as const;
 
 export const ourStoryContent = {
   title: "OUR STORY",
-  subtitle: "ADORE — CHAPTER 01 OF THE BROKEN",
+  subtitle: "ADORE CHAPTER 01 OF THE BROKEN",
   chapter1: {
     number: "CHAPTER 01",
     title: "THE BEGINNING",
-    body: "Hebrew ra đời không phải từ một ý tưởng kinh doanh. Nó ra đời từ một đêm — khi người sáng lập ngồi nhìn màn hình trắng và không biết mình đang cảm thấy gì. Không phải buồn. Không phải tức. Chỉ là một khoảng trống rất cụ thể — loại khoảng trống chỉ có thể hình thành khi ai đó từng chiếm đầy chỗ đó và ra đi. Câu hỏi đầu tiên không phải là: 'Tôi muốn làm gì?' Câu hỏi đầu tiên là: 'Tôi muốn mặc gì khi tôi cảm thấy thế này?' Và khi không tìm được câu trả lời trong bất kỳ tủ quần áo nào — Hebrew bắt đầu.",
+    body: "Hebrew ra đời không phải từ một ý tưởng kinh doanh. Nó ra đời từ một đêm, khi người sáng lập ngồi nhìn màn hình trắng và không biết mình đang cảm thấy gì. Không phải buồn. Không phải tức. Chỉ là một khoảng trống rất cụ thể, loại khoảng trống chỉ có thể hình thành khi ai đó từng chiếm đầy chỗ đó và ra đi. Câu hỏi đầu tiên không phải là: 'Tôi muốn làm gì?' Câu hỏi đầu tiên là: 'Tôi muốn mặc gì khi tôi cảm thấy thế này?' Và khi không tìm được câu trả lời trong bất kỳ tủ quần áo nào, Hebrew bắt đầu.",
   },
   chapter2: {
     number: "CHAPTER 02",
     title: "THE NAME",
-    body: "Tiếng Hebrew là một trong những ngôn ngữ lâu đời nhất thế giới. Trong đó, có những từ không thể dịch — những từ chỉ tồn tại để diễn tả trạng thái mà ngôn ngữ thông thường không chạm được tới. Đó là những gì chúng tôi muốn làm với quần áo. Tạo ra những thứ diễn tả được điều bạn không nói được. Mặc vào người — và ai hiểu, sẽ hiểu.",
+    body: "Tiếng Hebrew là một trong những ngôn ngữ lâu đời nhất thế giới. Trong đó, có những từ không thể dịch, những từ chỉ tồn tại để diễn tả trạng thái mà ngôn ngữ thông thường không chạm được tới. Đó là những gì chúng tôi muốn làm với quần áo. Tạo ra những thứ diễn tả được điều bạn không nói được. Mặc vào người, và ai hiểu, sẽ hiểu.",
   },
   chapter3: {
     number: "CHAPTER 03",
@@ -100,7 +119,7 @@ export const ourStoryContent = {
       {
         index: "01",
         title: "On Clothes",
-        body: "Quần áo không phải để che. Quần áo là cách bạn nói với thế giới: đây là thứ tôi đang cảm thấy — và tôi không cần giải thích.",
+        body: "Quần áo không phải để che. Quần áo là cách bạn nói với thế giới: đây là thứ tôi đang cảm thấy, và tôi không cần giải thích.",
       },
       {
         index: "02",
@@ -110,13 +129,13 @@ export const ourStoryContent = {
       {
         index: "03",
         title: "On Who We Dress",
-        body: "Những người đang ở giữa một chương nào đó của cuộc đời — chưa kết thúc, chưa bắt đầu. Chỉ đang đang.",
+        body: "Những người đang ở giữa một chương nào đó của cuộc đời, chưa kết thúc, chưa bắt đầu. Chỉ đang đang.",
       },
     ],
   },
   closing: {
     line: "Mỗi chiếc áo là một trang. Bạn đang ở Chapter nào?",
-    footer: "Hebrew | The Broken — Our Story | Vol. I",
+    footer: "Hebrew | The Broken | Our Story | Vol. I",
     quote:
       "The Broken is not a story about falling apart. It is a story about what you find when you look inside the cracks.",
   },
@@ -131,7 +150,7 @@ export const adorePageContent = {
     {
       chapter: "I",
       name: "THE ENTRY",
-      easterEgg: "adore (v.) — to love dangerously.",
+      easterEgg: "adore v. to love dangerously.",
       details: [
         ["Mặt trước", "Logo thêu mảnh, lệch tâm nhẹ"],
         ["Mặt sau", "Typography ADORE dạng kéo dãn"],

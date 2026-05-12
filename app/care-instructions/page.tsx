@@ -9,7 +9,7 @@ import {
 import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
-  title: "Care Instructions — HEBREW",
+  title: "Care Instructions | HEBREW",
   description: "How to wash, dry, and store your HEBREW products.",
 };
 

@@ -15,10 +15,10 @@
   → Check inbox of rekcahcoder22@gmail.com and mamdung1001@gmail.com
 
   COMMON ERRORS:
-  - "Invalid login": App Password is wrong or 2FA not enabled
-  - "Username and Password not accepted": Need App Password, not Gmail password
-  - "Connection timeout": Check internet, try again
-  - Email goes to SPAM: Normal for first sends, mark as "Not Spam"
+  • "Invalid login": App Password is wrong or 2FA not enabled
+  • "Username and Password not accepted": Need App Password, not Gmail password
+  • "Connection timeout": Check internet, try again
+  • Email goes to SPAM: Normal for first sends, mark as "Not Spam"
 
   PRODUCTION (Vercel):
   Add these in Vercel Dashboard → Settings → Environment Variables:
@@ -91,8 +91,8 @@ function formatDate(iso: string): string {
 
 function getShippingMethodLabel(method: string): string {
   const map: Record<string, string> = {
-    standard: "Giao hàng tiêu chuẩn (3-5 ngày)",
-    express: "Giao hàng nhanh (1-2 ngày)",
+    standard: "Giao hàng tiêu chuẩn (3 đến 5 ngày)",
+    express: "Giao hàng nhanh (1 đến 2 ngày)",
     pickup: "Nhận tại cửa hàng",
   };
   return map[method] ?? method;
@@ -406,7 +406,7 @@ function buildAdminEmailHTML(order: Order): string {
               <div style="font-family:monospace;font-size:9px;
                           color:#333;letter-spacing:2px;
                           text-transform:uppercase;margin-top:8px;">
-                © ${year} HEBREW — NO RIGHTS, ONLY DROPS.
+                © ${year} HEBREW · NO RIGHTS, ONLY DROPS.
               </div>
             </td>
           </tr>
@@ -429,7 +429,7 @@ function buildAdminEmailText(order: Order): string {
   const items = order.items
     .map(
       (i) =>
-        `  - ${i.name} | Size: ${i.size} | SL: ${i.quantity} | ${formatVND(i.price * i.quantity)}`,
+        `  • ${i.name} | Size: ${i.size} | SL: ${i.quantity} | ${formatVND(i.price * i.quantity)}`,
     )
     .join("\n");
 
@@ -437,7 +437,7 @@ function buildAdminEmailText(order: Order): string {
   const noteLine = noteTrim ? `Ghi chú: ${noteTrim}` : "";
 
   return `
-HEBREW — ĐƠN HÀNG MỚI
+HEBREW · ĐƠN HÀNG MỚI
 ══════════════════════════════════════
 
 Mã đơn:  #${order.id}
@@ -464,7 +464,7 @@ ${items}
 TỔNG CỘNG: ${formatVND(order.total)}
 
 ══════════════════════════════════════
-© ${new Date().getFullYear()} HEBREW — NO RIGHTS, ONLY DROPS.
+© ${new Date().getFullYear()} HEBREW · NO RIGHTS, ONLY DROPS.
   `.trim();
 }
 
@@ -488,8 +488,8 @@ export async function sendOrderNotification(order: Order): Promise<boolean> {
   }
 
   const subject =
-    `[HEBREW] Đơn hàng mới #${order.id} — ` +
-    `${order.customer.firstName} ${order.customer.lastName} — ` +
+    `[HEBREW] Đơn hàng mới #${order.id} · ` +
+    `${order.customer.firstName} ${order.customer.lastName} · ` +
     `${formatVND(order.total)}`;
 
   const mailOptions = {

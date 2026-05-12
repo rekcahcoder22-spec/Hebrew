@@ -10,7 +10,7 @@ import {
 import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
-  title: "Return Policy — HEBREW",
+  title: "Return Policy | HEBREW",
   description: "7-day return and exchange policy for HEBREW Store.",
 };
 
@@ -52,16 +52,16 @@ export default function ReturnPolicyPage() {
       <StepItem number="03">Receive return address from HEBREW</StepItem>
       <StepItem number="04">Ship item back (keep tracking number)</StepItem>
       <StepItem number="05">
-        HEBREW inspects and processes within 3–5 business days
+        HEBREW inspects and processes within 3 to 5 business days
       </StepItem>
 
       <SectionHeading>5. RESOLUTION OPTIONS</SectionHeading>
       <PolicyTable
         headers={["CASE", "RESOLUTION", "TIMEFRAME"]}
         rows={[
-          ["Exchange size/color", "New item shipped", "5–7 days"],
-          ["Defective item", "New item or refund", "3–5 days"],
-          ["Refund", "Bank transfer", "5–10 days"],
+          ["Exchange size/color", "New item shipped", "5 to 7 days"],
+          ["Defective item", "New item or refund", "3 to 5 days"],
+          ["Refund", "Bank transfer", "5 to 10 days"],
         ]}
       />
 
