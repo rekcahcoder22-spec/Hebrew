@@ -24,9 +24,9 @@ export async function GET() {
     },
     shipping: {
       address: "123 Nguyen Hue",
-      city: "Ho Chi Minh",
-      district: "Quan 1",
-      ward: "Ben Nghe",
+      city: "Da Nang",
+      district: "Hai Chau",
+      ward: "Thach Thang",
       method: "express",
     },
     items: [

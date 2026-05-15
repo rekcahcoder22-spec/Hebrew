@@ -50,7 +50,7 @@ export default function AdjustmentFeesPage() {
         <div className="border border-hb-border bg-hb-gray p-6">
           <h3 className="font-display text-2xl text-hb-white">DA NANG STORE</h3>
           <p className="mt-3 font-body text-xs leading-[2.2] text-hb-white/50">
-            [Specific address], 89/59 Le Van Huu, Da Nang
+            89 Lê Văn Hưu, Đà Nẵng
             <br />
             Mon to Sun: 9:00 AM to 9:00 PM
             <br />

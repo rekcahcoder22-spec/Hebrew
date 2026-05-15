@@ -7,19 +7,9 @@ const noiseDataUrl =
 
 const STORE_LOCATIONS = [
   {
-    city: "Ha Noi",
-    image: "/images/locations/hanoi.png",
-    note: "Flagship Atmosphere",
-  },
-  {
     city: "Da Nang",
     image: "/images/locations/da-nang.png",
     note: "Coastal Contrast",
-  },
-  {
-    city: "Sai Gon",
-    image: "/images/locations/sai-gon.png",
-    note: "Night Energy",
   },
 ] as const;
 
@@ -31,7 +21,7 @@ export function LookbookSection() {
           Store Presence
         </p>
         <p className="font-body text-[9px] uppercase tracking-[0.2em] text-hb-white/35">
-          Ha Noi / Sai Gon / Ho Chi Minh
+          Da Nang
         </p>
       </div>
 
@@ -40,9 +30,11 @@ export function LookbookSection() {
           <article
             key={location.city}
             className={`group relative overflow-hidden border border-hb-border bg-void ${
-              index === 0
-                ? "md:col-span-7 md:row-span-2 min-h-[460px]"
-                : "md:col-span-5 min-h-[320px]"
+              STORE_LOCATIONS.length === 1
+                ? "md:col-span-12 min-h-[460px]"
+                : index === 0
+                  ? "md:col-span-7 md:row-span-2 min-h-[460px]"
+                  : "md:col-span-5 min-h-[320px]"
             }`}
           >
             <div className="absolute inset-0">

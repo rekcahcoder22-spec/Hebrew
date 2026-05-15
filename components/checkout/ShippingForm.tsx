@@ -38,7 +38,7 @@ const METHODS: {
   {
     id: "pickup",
     name: "NHẬN TẠI CỬA HÀNG",
-    desc: "HÀ NỘI & HỒ CHÍ MINH",
+    desc: "ĐÀ NẴNG & HÀ TĨNH",
     price: 0,
   },
 ];
@@ -57,12 +57,15 @@ export function ShippingForm({
   defaultValues,
   isSubmitting,
   onMethodChange,
+  freeShipEligible = false,
 }: {
   onNext: (data: ShippingInfo) => void | Promise<void>;
   onBack: () => void;
   defaultValues?: ShippingInfo;
   isSubmitting: boolean;
   onMethodChange?: (method: ShippingInfo["method"]) => void;
+  /** Đơn từ 2 sản phẩm trở lên — miễn phí ship (tiêu chuẩn / nhanh). */
+  freeShipEligible?: boolean;
 }) {
   const {
     register,
@@ -174,6 +177,10 @@ export function ShippingForm({
         <div className="space-y-3">
           {METHODS.map((m) => {
             const selected = method === m.id;
+            const effectivePrice =
+              freeShipEligible && (m.id === "standard" || m.id === "express")
+                ? 0
+                : m.price;
             return (
               <button
                 key={m.id}
@@ -207,9 +214,12 @@ export function ShippingForm({
                   </div>
                 </div>
                 <p className="shrink-0 pl-3 font-display text-xl text-hb-gold">
-                  {m.price === 0
-                    ? "0 ₫"
-                    : `${m.price.toLocaleString("vi-VN")} ₫`}
+                  {effectivePrice === 0
+                    ? freeShipEligible &&
+                      (m.id === "standard" || m.id === "express")
+                      ? "MIỄN PHÍ"
+                      : "0 ₫"
+                    : `${effectivePrice.toLocaleString("vi-VN")} ₫`}
                 </p>
               </button>
             );

@@ -11,8 +11,8 @@ import { AppProviders } from "@/components/providers/AppProviders";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://hebrew.vn";
-const ogImage = `${siteUrl}/icon.png`;
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.hebrewstreet.com";
 
 const bebas = Bebas_Neue({
   weight: "400",
@@ -57,9 +57,9 @@ export const metadata: Metadata = {
   publisher: "HEBREW",
   category: "fashion",
   icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
-    apple: "/icon.png",
+    icon: [{ url: "/favicon.png", sizes: "512x512", type: "image/png" }],
+    apple: "/favicon.png",
+    shortcut: "/favicon.png",
   },
   title: {
     default: "HEBREW | Local Streetwear Vietnam",
@@ -69,10 +69,13 @@ export const metadata: Metadata = {
     "HEBREW is a Vietnamese streetwear label with limited drops, handcrafted quality, and bold urban identity.",
   keywords: [
     "HEBREW",
-    "Vietnamese streetwear",
-    "streetwear Vietnam",
+    "streetwear Việt Nam",
+    "local brand Việt Nam",
+    "áo thun streetwear",
+    "shop streetwear",
     "limited drop",
-    "local brand",
+    "Đà Nẵng",
+    "Hà Tĩnh",
   ],
   applicationName: "HEBREW",
   alternates: {
@@ -86,21 +89,12 @@ export const metadata: Metadata = {
     description:
       "Limited drops. Handcrafted quality. Vietnamese streetwear built for the world.",
     locale: "vi_VN",
-    images: [
-      {
-        url: ogImage,
-        width: 1200,
-        height: 1200,
-        alt: "HEBREW Streetwear",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "HEBREW | Local Streetwear Vietnam",
     description:
       "Limited drops. Handcrafted quality. Vietnamese streetwear built for the world.",
-    images: [ogImage],
   },
   robots: {
     index: true,
@@ -125,7 +119,9 @@ export default function RootLayout({
     "@type": "Organization",
     name: "HEBREW",
     url: siteUrl,
-    logo: `${siteUrl}/icon.png`,
+    logo: `${siteUrl}/favicon.png`,
+    description:
+      "Thương hiệu streetwear Việt Nam, limited drop, áo thun và hoodie chất lượng cao.",
     sameAs: [
       "https://www.facebook.com/hebrew.vietnam",
       "https://www.instagram.com/hebrew.original",
@@ -138,6 +134,8 @@ export default function RootLayout({
     "@type": "WebSite",
     name: "HEBREW",
     url: siteUrl,
+    description:
+      "Shop local brand streetwear Việt Nam — limited drop, lookbook, cửa hàng Đà Nẵng & Hà Tĩnh.",
     inLanguage: ["vi", "en"],
     potentialAction: {
       "@type": "ViewAction",
@@ -145,14 +143,59 @@ export default function RootLayout({
     },
   };
 
+  /** Các mục điều hướng chính (bổ sung JSON-LD) — Google có thể dùng kết hợp với liên kết nội bộ để gợi ý sitelinks. */
   const siteNavigationJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     itemListElement: [
-      { "@type": "SiteNavigationElement", position: 1, name: "Cua Hang", url: `${siteUrl}/shop` },
-      { "@type": "SiteNavigationElement", position: 2, name: "Lookbook", url: `${siteUrl}/lookbook` },
-      { "@type": "SiteNavigationElement", position: 3, name: "Gioi Thieu", url: `${siteUrl}/about` },
-      { "@type": "SiteNavigationElement", position: 4, name: "Our Story", url: `${siteUrl}/our-story` },
+      {
+        "@type": "SiteNavigationElement",
+        position: 1,
+        name: "Cửa hàng — Shop sản phẩm",
+        url: `${siteUrl}/shop`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 2,
+        name: "Lookbook",
+        url: `${siteUrl}/lookbook`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 3,
+        name: "Giới thiệu",
+        url: `${siteUrl}/about`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 4,
+        name: "Câu chuyện HEBREW",
+        url: `${siteUrl}/our-story`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 5,
+        name: "Hệ thống cửa hàng",
+        url: `${siteUrl}/stores`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 6,
+        name: "Hướng dẫn chọn size",
+        url: `${siteUrl}/size-guide`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 7,
+        name: "Chính sách giao hàng",
+        url: `${siteUrl}/delivery-policy`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 8,
+        name: "Góp ý & hỗ trợ",
+        url: `${siteUrl}/feedback`,
+      },
     ],
   };
 

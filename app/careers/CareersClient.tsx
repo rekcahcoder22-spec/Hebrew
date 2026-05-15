@@ -12,7 +12,7 @@ const positions = [
   {
     title: "PRODUCT DESIGNER",
     dept: "CREATIVE",
-    tags: ["Full-time", "Hanoi / HCMC", "Experience required"],
+    tags: ["Full-time", "Da Nang / Ha Tinh", "Experience required"],
     desc: "Design seasonal collections aligned with HEBREW aesthetic.",
   },
   {
@@ -24,7 +24,7 @@ const positions = [
   {
     title: "RETAIL STAFF",
     dept: "OPERATIONS",
-    tags: ["Part-time", "Hanoi & HCMC", "Fashion enthusiast"],
+    tags: ["Part-time", "Da Nang & Ha Tinh", "Fashion enthusiast"],
     desc: "Represent HEBREW in-store and deliver an exceptional experience.",
   },
   {
@@ -36,7 +36,7 @@ const positions = [
   {
     title: "WAREHOUSE & OPERATIONS",
     dept: "OPERATIONS",
-    tags: ["Full-time", "Hanoi", "Own transport required"],
+    tags: ["Full-time", "Da Nang", "Own transport required"],
     desc: "Manage inventory, packing, and daily warehouse operations.",
   },
 ];

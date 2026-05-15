@@ -42,8 +42,33 @@ export async function getOrderById(id: string): Promise<Order | null> {
 
 export async function createOrder(order: Order): Promise<Order> {
   await connectDB();
-  const doc = await OrderModel.create(order);
-  return docToOrder(doc.toObject() as Order);
+  const createdAt =
+    typeof order.createdAt === "string"
+      ? new Date(order.createdAt)
+      : new Date();
+
+  const insertDoc = {
+    id: order.id,
+    customer: {
+      firstName: order.customer.firstName,
+      lastName: order.customer.lastName ?? "",
+      email: order.customer.email ?? "",
+      phone: order.customer.phone,
+      note: order.customer.note ?? "",
+    },
+    shipping: order.shipping,
+    items: order.items,
+    total: order.total,
+    status: order.status,
+    createdAt,
+  };
+
+  const doc = await OrderModel.create(insertDoc as never);
+  const single = Array.isArray(doc) ? doc[0] : doc;
+  if (!single) {
+    throw new Error("OrderModel.create returned empty");
+  }
+  return docToOrder(single.toObject() as Order);
 }
 
 export async function updateOrderStatus(

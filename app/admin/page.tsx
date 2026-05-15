@@ -5,7 +5,7 @@ import { isAdminSessionFromCookiesStore } from "@/lib/adminAuth";
 import { getOrders, getOrderStats } from "@/lib/orders";
 import { getProducts } from "@/lib/products";
 import { isInStock, totalStock } from "@/lib/inventoryUtils";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, formatCustomerName } from "@/lib/utils";
 import { isUploadImagePath } from "@/lib/image";
 import type { Order } from "@/types";
 
@@ -134,7 +134,7 @@ export default async function AdminDashboard() {
                   #{order.id}
                 </Link>
                 <p className="font-body text-xs text-hb-white/50">
-                  {order.customer.firstName} {order.customer.lastName}
+                  {formatCustomerName(order.customer)}
                 </p>
               </div>
               <p className="hidden shrink-0 font-body text-[9px] text-hb-white/30 sm:block">

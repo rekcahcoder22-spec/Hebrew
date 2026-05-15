@@ -19,8 +19,8 @@ const OrderItemSchema = new Schema(
 const CustomerInfoSchema = new Schema(
   {
     firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    email: { type: String, required: true, lowercase: true, trim: true },
+    lastName: { type: String, default: "" },
+    email: { type: String, default: "", lowercase: true, trim: true },
     phone: { type: String, required: true },
     note: { type: String, default: "" },
   },
@@ -58,7 +58,12 @@ const OrderSchema = new Schema(
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date },
   },
-  { timestamps: false, versionKey: false },
+  {
+    timestamps: false,
+    versionKey: false,
+    /** Tránh xung đột với virtual `id` (mặc định trả về _id) — đơn dùng trường `id` là mã HB. */
+    id: false,
+  },
 );
 
 export const OrderModel: Model<OrderDocument> =

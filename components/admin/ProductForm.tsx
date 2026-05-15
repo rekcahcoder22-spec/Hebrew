@@ -312,7 +312,7 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
           </div>
           <div>
             <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
-              Độ bền in chuẩn Web3 (VI)
+              Độ bền in / họa tiết (VI)
             </label>
             <input
               {...register("specsSecurePrintVi")}
@@ -321,7 +321,7 @@ export function ProductForm({ mode, product, onSubmit, isLoading }: Props) {
           </div>
           <div>
             <label className="block font-mono text-[10px] uppercase tracking-widest text-gray-500">
-              Web3-grade Print Security (EN)
+              Print / artwork durability (EN)
             </label>
             <input
               {...register("specsSecurePrintEn")}

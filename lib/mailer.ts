@@ -34,6 +34,7 @@
 
 import nodemailer from "nodemailer";
 import type { Order } from "@/types";
+import { formatCustomerName, SHIPPING_MERGED_MARKER } from "@/lib/utils";
 
 function escapeHtml(text: string): string {
   return text
@@ -42,6 +43,26 @@ function escapeHtml(text: string): string {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+function shippingAddressLinesHtml(order: Order): string {
+  const addr = escapeHtml(order.shipping.address);
+  const city = escapeHtml(order.shipping.city);
+  if (
+    order.shipping.ward === SHIPPING_MERGED_MARKER &&
+    order.shipping.district === SHIPPING_MERGED_MARKER
+  ) {
+    return `${addr}<br>${city}`;
+  }
+  return `${addr}<br>${escapeHtml(order.shipping.ward)}, ${escapeHtml(order.shipping.district)}<br>${city}`;
+}
+
+function shippingAddressLinesPlain(order: Order): string {
+  const { address, ward, district, city } = order.shipping;
+  if (ward === SHIPPING_MERGED_MARKER && district === SHIPPING_MERGED_MARKER) {
+    return `${address}\n${city}`;
+  }
+  return `${address}\n${ward}, ${district}\n${city}`;
 }
 
 const gmailUser = process.env.GMAIL_USER?.trim();
@@ -241,7 +262,7 @@ function buildAdminEmailHTML(order: Order): string {
                       <tr>
                         <td style="font-family:monospace;font-size:14px;
                                    color:#F0EDE6;padding-bottom:16px;">
-                          ${escapeHtml(order.customer.firstName)} ${escapeHtml(order.customer.lastName)}
+                          ${escapeHtml(formatCustomerName(order.customer))}
                         </td>
                       </tr>
                       <tr>
@@ -255,7 +276,7 @@ function buildAdminEmailHTML(order: Order): string {
                       <tr>
                         <td style="font-family:monospace;font-size:13px;
                                    color:#F0EDE6;padding-bottom:16px;">
-                          ${escapeHtml(order.customer.email)}
+                          ${escapeHtml(order.customer.email?.trim() || "—")}
                         </td>
                       </tr>
                       <tr>
@@ -288,9 +309,7 @@ function buildAdminEmailHTML(order: Order): string {
                         <td style="font-family:monospace;font-size:13px;
                                    color:#F0EDE6;line-height:1.8;
                                    padding-bottom:16px;">
-                          ${escapeHtml(order.shipping.address)}<br>
-                          ${escapeHtml(order.shipping.ward)}, ${escapeHtml(order.shipping.district)}<br>
-                          ${escapeHtml(order.shipping.city)}
+                          ${shippingAddressLinesHtml(order)}
                         </td>
                       </tr>
                       <tr>
@@ -445,15 +464,13 @@ Thời gian: ${formatDate(order.createdAt)}
 
 KHÁCH HÀNG
 ──────────────────────────────────────
-Họ tên:  ${order.customer.firstName} ${order.customer.lastName}
-Email:   ${order.customer.email}
+Họ tên:  ${formatCustomerName(order.customer)}
+Email:   ${order.customer.email?.trim() || "—"}
 SĐT:     ${order.customer.phone}
 
 ĐỊA CHỈ GIAO HÀNG
 ──────────────────────────────────────
-${order.shipping.address}
-${order.shipping.ward}, ${order.shipping.district}
-${order.shipping.city}
+${shippingAddressLinesPlain(order)}
 Vận chuyển: ${getShippingMethodLabel(order.shipping.method)}
 ${noteLine}
 
@@ -489,7 +506,7 @@ export async function sendOrderNotification(order: Order): Promise<boolean> {
 
   const subject =
     `[HEBREW] Đơn hàng mới #${order.id} · ` +
-    `${order.customer.firstName} ${order.customer.lastName} · ` +
+    `${formatCustomerName(order.customer)} · ` +
     `${formatVND(order.total)}`;
 
   const mailOptions = {

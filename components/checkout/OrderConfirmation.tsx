@@ -3,6 +3,10 @@
 import { useRouter } from "next/navigation";
 import { HebrewWordButton } from "@/components/ui/HebrewWordMark";
 import type { CartItem, CustomerInfo, ShippingInfo } from "@/types";
+import {
+  formatCustomerName,
+  SHIPPING_MERGED_MARKER,
+} from "@/lib/utils";
 
 function methodTitle(method: ShippingInfo["method"]): string {
   if (method === "standard") return "GIAO HÀNG TIÊU CHUẨN";
@@ -53,11 +57,15 @@ export function OrderConfirmation({
             THÔNG TIN
           </h3>
           <p className="font-display text-lg text-hb-white">
-            {customer.firstName} {customer.lastName}
+            {formatCustomerName(customer)}
           </p>
           <p className="mt-2 font-body text-[10px] leading-loose text-hb-white/50">
-            {customer.email}
-            <br />
+            {customer.email ? (
+              <>
+                {customer.email}
+                <br />
+              </>
+            ) : null}
             {customer.phone}
           </p>
         </div>
@@ -67,10 +75,20 @@ export function OrderConfirmation({
           </h3>
           <p className="font-body text-[10px] leading-loose text-hb-white/50">
             {shipping.address}
-            <br />
-            {shipping.ward}, {shipping.district}
-            <br />
-            {shipping.city}
+            {shipping.ward === SHIPPING_MERGED_MARKER &&
+            shipping.district === SHIPPING_MERGED_MARKER ? (
+              <>
+                <br />
+                {shipping.city}
+              </>
+            ) : (
+              <>
+                <br />
+                {shipping.ward}, {shipping.district}
+                <br />
+                {shipping.city}
+              </>
+            )}
           </p>
           <p className="mt-2 font-body text-[9px] text-hb-gold">
             {methodTitle(shipping.method)}

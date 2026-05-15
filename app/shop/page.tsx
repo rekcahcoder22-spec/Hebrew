@@ -4,16 +4,16 @@ import { ShopPageClient } from "@/components/shop/ShopPageClient";
 import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
-  title: "Cua Hang",
+  title: "Cửa hàng — Shop streetwear & local brand HEBREW",
   description:
-    "Kham pha toan bo san pham HEBREW: streetwear limited drop, chat lieu ben, form dang toi gian.",
+    "Mua áo thun, hoodie và streetwear limited drop HEBREW — local brand Việt Nam, chất liệu bền, form dáng rõ ràng. Xem toàn bộ sản phẩm đang mở bán.",
   alternates: {
     canonical: "/shop",
   },
   openGraph: {
-    title: "HEBREW Shop",
+    title: "HEBREW Shop | Streetwear Vietnam",
     description:
-      "Kham pha toan bo san pham HEBREW voi drop gioi han va chat lieu duoc chon loc.",
+      "Shop online: tees, hoodies & limited drops — handcrafted Vietnamese streetwear.",
     url: "/shop",
     type: "website",
   },

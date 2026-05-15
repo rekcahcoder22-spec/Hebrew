@@ -7,14 +7,24 @@ import {
 import { LanguageText } from "@/components/i18n/LanguageText";
 
 export const metadata: Metadata = {
-  title: "Store Locations | HEBREW",
-  description: "Find HEBREW stores in Hanoi and Ho Chi Minh City.",
+  title: "Cửa hàng HEBREW Đà Nẵng & Hà Tĩnh | Hệ thống store",
+  description:
+    "Địa chỉ showroom HEBREW: 89 Lê Văn Hưu Đà Nẵng và cửa hàng Hà Tĩnh — ghé thử streetwear local brand, hotline & giờ mở cửa.",
+  alternates: {
+    canonical: "/stores",
+  },
+  openGraph: {
+    title: "HEBREW Stores | Đà Nẵng & Hà Tĩnh",
+    description: "Showroom streetwear Việt Nam — Đà Nẵng và Hà Tĩnh.",
+    url: "/stores",
+    type: "website",
+  },
 };
 
 const stores = [
   {
     city: "DA NANG",
-    address: "89/59 Le Van Huu, Danang",
+    address: "89 Lê Văn Hưu, Đà Nẵng",
     phone: "032.668.9947",
     email: "danang@hebrew.vn",
   },
@@ -101,7 +111,7 @@ export default function StoresPage() {
       <section className="mt-12">
         <SectionHeading>EXPANDING SOON</SectionHeading>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {["DA NANG", "DA LAT", "CAN THO", "HUE"].map((city) => (
+          {["DA LAT", "CAN THO", "HUE", "NHA TRANG"].map((city) => (
             <div
               key={city}
               className="relative border border-hb-border bg-hb-gray p-6 text-center opacity-60"

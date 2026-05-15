@@ -27,7 +27,7 @@ export default function DeliveryPolicyPage() {
       <PolicyTable
         headers={["REGION", "STANDARD", "EXPRESS"]}
         rows={[
-          ["Hanoi, Ho Chi Minh City", "1 to 2 days", "Same day (inner city)"],
+          ["Major cities", "1 to 2 days", "Same day (where available)"],
           ["Other provinces", "3 to 5 days", "2 to 3 days"],
           ["Remote areas", "5 to 7 days", "3 to 5 days"],
         ]}
@@ -43,7 +43,7 @@ export default function DeliveryPolicyPage() {
         rows={[
           ["Standard", "30,000 ₫", "Orders over 1,000,000 ₫"],
           ["Express", "50,000 ₫", "Orders over 2,000,000 ₫"],
-          ["Store Pickup", "Free", "Hanoi & Ho Chi Minh City"],
+          ["Store Pickup", "Free", "Da Nang & Ha Tinh stores"],
         ]}
       />
 

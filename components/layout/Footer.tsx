@@ -75,17 +75,19 @@ export function Footer() {
             {t("footer.supportHotline")}
           </p>
           <p className="font-body text-xs leading-[2.4] text-hb-white/50">
-            • {t("footer.hotline.hanoi")}: 039.327.8668
-            <br />
-            • {t("footer.hotline.hcm")}: 0794.302.899
-            <br />
-            • {t("footer.hotline.qualityFeedback")}: 0981.956.116
+            • {t("footer.hotline.qualityFeedback")}: 032.668.9947
+          </p>
+          <p className="mb-2 mt-6 font-body text-[9px] uppercase tracking-[.15em] text-hb-white/30">
+            {t("footer.daNangLocationTitle")}
+          </p>
+          <p className="max-w-md font-body text-xs leading-[2.4] text-hb-white/50">
+            {t("footer.daNangAddress")}
           </p>
           <a
-            href="mailto:support@hebrew.vn"
+            href="mailto:hebreworiginal@gmail.com"
             className="mt-2 block font-body text-xs text-hb-red"
           >
-            support@hebrew.vn
+            hebreworiginal@gmail.com
           </a>
           <div className="mt-6 flex gap-3">
             {socialLinks.map(({ href, name, imageSrc }) => (

@@ -78,8 +78,8 @@ export default function SizeGuidePage() {
         </p>
         <div className="mt-4 flex flex-col justify-center gap-4 sm:flex-row sm:gap-6">
           {[
-            { label: "ZALO / HOTLINE", value: "039.327.8668" },
-            { label: "EMAIL", value: "support@hebrew.vn" },
+            { label: "ZALO / HOTLINE", value: "032.668.9947" },
+            { label: "EMAIL", value: "hebreworiginal@gmail.com" },
           ].map((item) => (
             <div
               key={item.label}

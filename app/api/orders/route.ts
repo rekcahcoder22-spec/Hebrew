@@ -1,8 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
+import { MongoServerError } from "mongodb";
 import { isAdminRequest } from "@/lib/adminAuth";
 import { sendOrderNotification } from "@/lib/mailer";
 import { createOrder, getOrders } from "@/lib/orders";
 import type { Order } from "@/types";
+import { SHIPPING_MERGED_MARKER } from "@/lib/utils";
+
+function parseFiniteMoney(value: unknown): number | null {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string") {
+    const t = value.trim().replace(/\s+/g, "");
+    if (t === "") return null;
+    const n = Number(t);
+    return Number.isFinite(n) ? n : null;
+  }
+  return null;
+}
+
+function normalizePhoneDigits(value: unknown): string {
+  return String(value ?? "").replace(/\D/g, "");
+}
 
 export const runtime = "nodejs";
 
@@ -33,24 +51,31 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const totalNum = parseFiniteMoney(total);
+    if (totalNum == null || totalNum < 0) {
+      return NextResponse.json({ error: "Invalid total" }, { status: 400 });
+    }
+
     const c = customer as Order["customer"];
-    if (!c.firstName || !c.lastName || !c.email || !c.phone) {
+    const phoneDigits = normalizePhoneDigits(c.phone);
+    if (!c.firstName?.trim() || phoneDigits.length < 9 || phoneDigits.length > 12) {
       return NextResponse.json(
-        { error: "Missing customer info" },
+        { error: "Missing or invalid customer info" },
         { status: 400 },
       );
     }
 
     const s = shipping as Order["shipping"];
-    if (
-      !s.address ||
-      !s.city ||
-      !s.district ||
-      !s.ward ||
-      !s.method
-    ) {
+    if (!s.address || !s.city || !s.method) {
       return NextResponse.json(
         { error: "Missing shipping info" },
+        { status: 400 },
+      );
+    }
+
+    if (!["standard", "express", "pickup"].includes(s.method)) {
+      return NextResponse.json(
+        { error: "Invalid shipping method" },
         { status: 400 },
       );
     }
@@ -62,26 +87,71 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (typeof total !== "number" || !Number.isFinite(total)) {
-      return NextResponse.json(
-        { error: "Invalid total" },
-        { status: 400 },
-      );
+    const rawItems = items as unknown[];
+    const normalizedItems: Order["items"] = [];
+    for (const raw of rawItems) {
+      if (!raw || typeof raw !== "object") {
+        return NextResponse.json(
+          { error: "Invalid line items" },
+          { status: 400 },
+        );
+      }
+      const it = raw as Record<string, unknown>;
+      const productId = String(it.productId ?? "").trim();
+      const name = String(it.name ?? "").trim();
+      const size = String(it.size ?? "").trim();
+      const quantity = Math.trunc(Number(it.quantity));
+      const price = Number(it.price);
+      if (
+        !productId ||
+        !name ||
+        !size ||
+        !Number.isInteger(quantity) ||
+        quantity < 1 ||
+        !Number.isFinite(price) ||
+        price < 0
+      ) {
+        return NextResponse.json(
+          { error: "Invalid line items" },
+          { status: 400 },
+        );
+      }
+      normalizedItems.push({ productId, name, size, quantity, price });
     }
 
-    if (typeof orderNumber !== "string" || !orderNumber.trim()) {
+    const orderId =
+      typeof orderNumber === "string"
+        ? orderNumber.trim()
+        : String(orderNumber ?? "").trim();
+    if (!orderId) {
       return NextResponse.json(
         { error: "Invalid order number" },
         { status: 400 },
       );
     }
 
+    const normalizedCustomer: Order["customer"] = {
+      firstName: c.firstName.trim(),
+      lastName: (c.lastName ?? "").trim(),
+      email: (c.email ?? "").trim().toLowerCase(),
+      phone: phoneDigits,
+      note: typeof c.note === "string" && c.note.trim() ? c.note.trim() : "",
+    };
+
+    const normalizedShipping: Order["shipping"] = {
+      address: s.address.trim(),
+      city: s.city.trim(),
+      district: (s.district ?? "").trim() || SHIPPING_MERGED_MARKER,
+      ward: (s.ward ?? "").trim() || SHIPPING_MERGED_MARKER,
+      method: s.method,
+    };
+
     const order: Order = {
-      id: orderNumber.trim(),
-      customer: c,
-      shipping: s,
-      items: items as Order["items"],
-      total,
+      id: orderId,
+      customer: normalizedCustomer,
+      shipping: normalizedShipping,
+      items: normalizedItems,
+      total: totalNum,
       status: "pending",
       createdAt: new Date().toISOString(),
     };
@@ -103,6 +173,39 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     console.error("Order creation error:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+
+    if (err instanceof mongoose.Error.ValidationError) {
+      const detail = Object.values(err.errors)
+        .map((e) => e.message)
+        .join("; ");
+      return NextResponse.json(
+        { error: "Invalid order", detail },
+        { status: 400 },
+      );
+    }
+
+    if (err instanceof MongoServerError && err.code === 11000) {
+      return NextResponse.json(
+        {
+          error: "Duplicate order",
+          detail: "Mã đơn trùng — vui lòng thử lại.",
+        },
+        { status: 409 },
+      );
+    }
+
+    const detail =
+      err instanceof Error
+        ? err.message
+        : typeof err === "string"
+          ? err
+          : undefined;
+    return NextResponse.json(
+      {
+        error: "Server error",
+        ...(detail ? { detail } : {}),
+      },
+      { status: 500 },
+    );
   }
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import type { Order } from "@/types";
+import { formatCustomerName, SHIPPING_MERGED_MARKER } from "@/lib/utils";
 
 const STATUS_LABELS: Record<Order["status"], string> = {
   pending: "CHỜ XỬ LÝ",
@@ -114,10 +115,10 @@ export function OrderRow({
         </div>
         <div>
           <p className="font-body text-sm text-hb-white">
-            {order.customer.firstName} {order.customer.lastName}
+            {formatCustomerName(order.customer)}
           </p>
           <p className="mt-0.5 font-body text-[9px] text-hb-white/40">
-            {order.customer.email}
+            {order.customer.email?.trim() || "—"}
           </p>
           <p className="font-body text-[9px] text-hb-white/30">
             {order.customer.phone}
@@ -200,7 +201,7 @@ export function OrderRow({
                     HỌ TÊN:
                   </dt>
                   <dd className="ml-2 inline text-hb-white">
-                    {order.customer.firstName} {order.customer.lastName}
+                    {formatCustomerName(order.customer)}
                   </dd>
                 </div>
                 <div>
@@ -208,7 +209,7 @@ export function OrderRow({
                     EMAIL:
                   </dt>
                   <dd className="ml-2 inline text-hb-white">
-                    {order.customer.email}
+                    {order.customer.email?.trim() || "—"}
                   </dd>
                 </div>
                 <div>
@@ -227,14 +228,17 @@ export function OrderRow({
                     {order.shipping.address}
                   </dd>
                 </div>
-                <div>
-                  <dt className="inline tracking-wider text-hb-white/30">
-                    P/X:
-                  </dt>
-                  <dd className="ml-2 inline text-hb-white">
-                    {order.shipping.ward}, {order.shipping.district}
-                  </dd>
-                </div>
+                {order.shipping.ward === SHIPPING_MERGED_MARKER &&
+                order.shipping.district === SHIPPING_MERGED_MARKER ? null : (
+                  <div>
+                    <dt className="inline tracking-wider text-hb-white/30">
+                      P/X:
+                    </dt>
+                    <dd className="ml-2 inline text-hb-white">
+                      {order.shipping.ward}, {order.shipping.district}
+                    </dd>
+                  </div>
+                )}
                 <div>
                   <dt className="inline tracking-wider text-hb-white/30">
                     T/TP:

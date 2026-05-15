@@ -13,6 +13,7 @@ const links = [
   { href: "/shop", labelKey: "nav.shop" },
   { href: "/shop", labelKey: "nav.drops" },
   { href: "/lookbook", labelKey: "nav.lookbook" },
+  { href: "/our-story", labelKey: "nav.ourStory" },
   { href: "/about", labelKey: "nav.about" },
 ];
 
@@ -44,8 +45,7 @@ export function Navbar() {
   const mounted = useClientMounted();
   const { t } = useLanguage();
   const cartCount = mounted ? totalItems : 0;
-  /** ≥3 món trong giờ - highlight banner (banner vẫn luôn hiển thị để dễ thấy). */
-  const freeShipUnlocked = mounted && totalItems > 2;
+  const freeShipUnlocked = mounted && totalItems >= 2;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -102,12 +102,6 @@ export function Navbar() {
                 {t(l.labelKey)}
               </Link>
             ))}
-            <Link
-              href="/admin"
-              className="font-body text-xs uppercase tracking-widest text-hb-white/35 hover:text-hb-white/70"
-            >
-              {t("nav.admin")}
-            </Link>
           </nav>
 
           <div className="flex items-center gap-4">
@@ -179,13 +173,6 @@ export function Navbar() {
               {t(l.labelKey)}
             </Link>
           ))}
-          <Link
-            href="/admin"
-            onClick={() => setMobileOpen(false)}
-            className="mt-auto border-t border-hb-border pt-6 font-body text-xs uppercase tracking-widest text-hb-white/40"
-          >
-            {t("nav.admin")}
-          </Link>
         </nav>
       </div>
 

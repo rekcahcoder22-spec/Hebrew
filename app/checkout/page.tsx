@@ -7,13 +7,16 @@ import { toast } from "sonner";
 import { useClientMounted } from "@/hooks/useClientMounted";
 import { useCartStore } from "@/store/cartStore";
 import type { CartItem, CustomerInfo, ShippingInfo } from "@/types";
-import { CustomerForm } from "@/components/checkout/CustomerForm";
+import { CheckoutDetailsForm } from "@/components/checkout/CheckoutDetailsForm";
 import { OrderConfirmation } from "@/components/checkout/OrderConfirmation";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
-import { ShippingForm } from "@/components/checkout/ShippingForm";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
-function getShippingPrice(method: ShippingInfo["method"]): number {
+function getShippingPrice(
+  method: ShippingInfo["method"],
+  totalItemQty: number,
+): number {
+  if (totalItemQty >= 2) return 0;
   if (method === "standard") return 30000;
   if (method === "express") return 50000;
   return 0;
@@ -23,16 +26,15 @@ function CheckoutTopBar({
   step,
   language,
 }: {
-  step: 1 | 2 | 3;
+  step: 1 | 2;
   language: "vi" | "en";
 }) {
   const steps = [
-    { n: 1 as const, label: language === "vi" ? "THÔNG TIN" : "INFORMATION" },
-    { n: 2 as const, label: language === "vi" ? "GIAO HÀNG" : "SHIPPING" },
-    { n: 3 as const, label: language === "vi" ? "XÁC NHẬN" : "CONFIRMATION" },
+    { n: 1 as const, label: language === "vi" ? "ĐƠN HÀNG" : "ORDER" },
+    { n: 2 as const, label: language === "vi" ? "HOÀN TẤT" : "DONE" },
   ];
 
-  const circle = (n: 1 | 2 | 3) => {
+  const circle = (n: 1 | 2) => {
     const done = step > n;
     const active = step === n;
     if (done) {
@@ -74,10 +76,8 @@ function CheckoutTopBar({
                 <Fragment key={s.n}>
                   {idx > 0 ? (
                     <div
-                      className={`mx-1 h-0.5 w-10 shrink-0 sm:w-[40px] ${
-                        step > steps[idx - 1]!.n
-                          ? "bg-hb-red"
-                          : "bg-hb-border"
+                      className={`mx-1 h-0.5 w-12 shrink-0 sm:w-16 ${
+                        step > steps[idx - 1]!.n ? "bg-hb-red" : "bg-hb-border"
                       }`}
                       aria-hidden
                     />
@@ -86,11 +86,11 @@ function CheckoutTopBar({
                 </Fragment>
               ))}
             </div>
-            <div className="mt-1 flex max-w-[220px] justify-between gap-2 sm:max-w-[280px] sm:gap-4">
+            <div className="mt-1 flex justify-center gap-10 sm:gap-14">
               {steps.map((s) => (
                 <span
                   key={s.n}
-                  className="w-14 text-center font-body text-[7px] uppercase leading-tight tracking-[.12em] text-hb-white/40 sm:w-16 sm:text-[8px] sm:tracking-[.15em]"
+                  className="w-16 text-center font-body text-[7px] uppercase leading-tight tracking-[.12em] text-hb-white/40 sm:text-[8px] sm:tracking-[.15em]"
                 >
                   {s.label}
                 </span>
@@ -119,7 +119,7 @@ export default function CheckoutPage() {
   const getTotals = useCartStore((s) => s.getTotals);
   const clearCart = useCartStore((s) => s.clearCart);
 
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2>(1);
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
   const [shippingInfo, setShippingInfo] = useState<ShippingInfo | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -145,48 +145,30 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     if (!ready) return;
-    if (items.length === 0 && step !== 3) {
+    if (items.length === 0 && step !== 2) {
       router.push("/shop");
     }
   }, [ready, items.length, step, router]);
 
-  useEffect(() => {
-    if (step === 2) {
-      setLiveMethod("standard");
-    }
-  }, [step]);
-
-  const handleCustomerNext = useCallback((data: CustomerInfo) => {
-    setCustomerInfo(data);
-    setStep(2);
-    window.scrollTo(0, 0);
-  }, []);
-
-  const handleShippingNext = useCallback(
-    async (data: ShippingInfo) => {
-      if (!customerInfo) {
-        toast.error(
-          language === "vi"
-            ? "Thiếu thông tin khách hàng."
-            : "Missing customer information.",
-        );
-        return;
-      }
-
+  const handlePlaceOrder = useCallback(
+    async (customer: CustomerInfo, shipping: ShippingInfo) => {
       setIsSubmitting(true);
       const orderNum = `HB${Date.now().toString().slice(-6)}`;
-      const { totalPrice } = getTotals();
-      const shippingFee = getShippingPrice(data.method);
+      const { totalPrice, totalItems } = getTotals();
+      const shippingFee = getShippingPrice(shipping.method, totalItems);
       const grandTotal = totalPrice + shippingFee;
-      const itemsSnapshot = items.map((i) => ({ ...i, product: { ...i.product } }));
+      const itemsSnapshot = items.map((i) => ({
+        ...i,
+        product: { ...i.product },
+      }));
 
       try {
         const res = await fetch("/api/orders", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            customer: customerInfo,
-            shipping: data,
+            customer,
+            shipping,
             items: items.map((i) => ({
               productId: i.productId,
               size: i.size,
@@ -201,22 +183,21 @@ export default function CheckoutPage() {
 
         if (res.ok) {
           setOrderNumber(orderNum);
-          setShippingInfo(data);
+          setCustomerInfo(customer);
+          setShippingInfo(shipping);
           setOrderedItems(itemsSnapshot);
           setOrderTotal(grandTotal);
           clearCart();
-          setStep(3);
+          setStep(2);
           window.scrollTo(0, 0);
         } else {
           const err = (await res.json().catch(() => null)) as {
             error?: string;
+            detail?: string;
           } | null;
-          toast.error(
-            err?.error ??
-              (language === "vi"
-                ? "Đặt hàng thất bại."
-                : "Order placement failed."),
-          );
+          const fallback =
+            language === "vi" ? "Đặt hàng thất bại." : "Order placement failed.";
+          toast.error(err?.detail ?? err?.error ?? fallback);
         }
       } catch {
         toast.error(
@@ -228,16 +209,18 @@ export default function CheckoutPage() {
         setIsSubmitting(false);
       }
     },
-    [clearCart, customerInfo, getTotals, items, language],
+    [clearCart, getTotals, items, language],
   );
 
   const shippingSummaryPrice =
-    step === 2 ? getShippingPrice(liveMethod) : undefined;
+    step === 1
+      ? getShippingPrice(liveMethod, getTotals().totalItems)
+      : undefined;
 
   if (!ready) {
     return (
       <div className="min-h-screen bg-hb-black pt-24 font-body text-sm text-hb-white/40">
-          {language === "vi" ? "Đang tải…" : "Loading…"}
+        {language === "vi" ? "Đang tải…" : "Loading…"}
       </div>
     );
   }
@@ -248,29 +231,21 @@ export default function CheckoutPage() {
 
       <div className="mx-auto max-w-6xl pt-20 lg:grid lg:grid-cols-[1fr,400px] lg:gap-0">
         <div
-          className={`order-2 border-hb-border p-8 lg:order-1 lg:border-r lg:p-12 ${
-            step === 3 ? "lg:col-span-2 lg:border-r-0" : ""
+          className={`order-2 border-hb-border p-6 lg:order-1 lg:border-r lg:p-10 ${
+            step === 2 ? "lg:col-span-2 lg:border-r-0" : ""
           }`}
         >
-          {step === 1 && (
-            <CustomerForm
-              onNext={handleCustomerNext}
-              defaultValues={customerInfo ?? undefined}
-            />
-          )}
-          {step === 2 && (
-            <ShippingForm
-              onNext={handleShippingNext}
-              onBack={() => {
-                setStep(1);
-                window.scrollTo(0, 0);
-              }}
-              defaultValues={shippingInfo ?? undefined}
+          {step === 1 ? (
+            <CheckoutDetailsForm
+              onSubmit={handlePlaceOrder}
               isSubmitting={isSubmitting}
               onMethodChange={setLiveMethod}
+              freeShipEligible={getTotals().totalItems >= 2}
+              defaultCustomer={customerInfo}
+              defaultShipping={shippingInfo}
             />
-          )}
-          {step === 3 && customerInfo && shippingInfo ? (
+          ) : null}
+          {step === 2 && customerInfo && shippingInfo ? (
             <OrderConfirmation
               orderNumber={orderNumber}
               customer={customerInfo}
@@ -281,8 +256,8 @@ export default function CheckoutPage() {
           ) : null}
         </div>
 
-        {step !== 3 ? (
-          <div className="order-1 p-8 lg:order-2 lg:p-10">
+        {step === 1 ? (
+          <div className="order-1 p-6 lg:order-2 lg:p-10">
             <OrderSummary
               items={items}
               shippingPrice={shippingSummaryPrice}
