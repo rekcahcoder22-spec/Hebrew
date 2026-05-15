@@ -34,6 +34,7 @@
 
 import nodemailer from "nodemailer";
 import type { Order } from "@/types";
+import { formatPaymentMethod } from "@/lib/paymentInfo";
 import { formatCustomerName, SHIPPING_MERGED_MARKER } from "@/lib/utils";
 
 function escapeHtml(text: string): string {
@@ -119,6 +120,17 @@ function getShippingMethodLabel(method: string): string {
   return map[method] ?? method;
 }
 
+function orderEmailDiscountInfo(order: Order): {
+  code: string;
+  amount: number;
+} | null {
+  const code = order.promoCode?.trim();
+  if (!code || typeof order.discount !== "number" || order.discount <= 0) {
+    return null;
+  }
+  return { code, amount: order.discount };
+}
+
 function buildAdminEmailHTML(order: Order): string {
   const storeName = escapeHtml(process.env.STORE_NAME ?? "HEBREW");
   const storeUrlRaw = process.env.STORE_URL ?? "https://hebrewstore.com";
@@ -153,6 +165,20 @@ function buildAdminEmailHTML(order: Order): string {
     )
     .join("");
 
+  const emailDiscount = orderEmailDiscountInfo(order);
+  const discountBlock = emailDiscount
+    ? `
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px;">
+                <tr>
+                  <td style="font-family:monospace;font-size:11px;color:#888;">
+                    Giảm giá (${escapeHtml(emailDiscount.code)})
+                  </td>
+                  <td align="right" style="font-family:monospace;font-size:13px;color:#B8963E;">
+                    −${formatVND(emailDiscount.amount)}
+                  </td>
+                </tr>
+              </table>`
+    : "";
   const noteBlock =
     order.customer.note && order.customer.note.trim()
       ? `
@@ -322,9 +348,28 @@ function buildAdminEmailHTML(order: Order): string {
                       </tr>
                       <tr>
                         <td style="font-family:monospace;font-size:12px;
-                                   color:#B8963E;">
+                                   color:#B8963E;padding-bottom:12px;">
                           ${escapeHtml(
                             getShippingMethodLabel(order.shipping.method),
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-family:monospace;font-size:10px;
+                                   color:#555;letter-spacing:2px;
+                                   text-transform:uppercase;
+                                   padding-bottom:4px;">
+                          THANH TOÁN
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-family:monospace;font-size:12px;
+                                   color:#B8963E;">
+                          ${escapeHtml(
+                            formatPaymentMethod(
+                              order.shipping.paymentMethod,
+                              "vi",
+                            ),
                           )}
                         </td>
                       </tr>
@@ -380,6 +425,7 @@ function buildAdminEmailHTML(order: Order): string {
           <tr>
             <td style="background:#1A1A1A;padding:20px 40px;
                        border:1px solid #2A2A2A;border-top:none;">
+              ${discountBlock}
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td style="font-family:sans-serif;font-size:22px;
@@ -454,6 +500,10 @@ function buildAdminEmailText(order: Order): string {
 
   const noteTrim = order.customer.note?.trim();
   const noteLine = noteTrim ? `Ghi chú: ${noteTrim}` : "";
+  const emailDiscount = orderEmailDiscountInfo(order);
+  const discountLine = emailDiscount
+    ? `Giảm giá (${emailDiscount.code}): −${formatVND(emailDiscount.amount)}\n`
+    : "";
 
   return `
 HEBREW · ĐƠN HÀNG MỚI
@@ -472,13 +522,14 @@ SĐT:     ${order.customer.phone}
 ──────────────────────────────────────
 ${shippingAddressLinesPlain(order)}
 Vận chuyển: ${getShippingMethodLabel(order.shipping.method)}
+Thanh toán: ${formatPaymentMethod(order.shipping.paymentMethod, "vi")}
 ${noteLine}
 
 SẢN PHẨM
 ──────────────────────────────────────
 ${items}
 
-TỔNG CỘNG: ${formatVND(order.total)}
+${discountLine}TỔNG CỘNG: ${formatVND(order.total)}
 
 ══════════════════════════════════════
 © ${new Date().getFullYear()} HEBREW · NO RIGHTS, ONLY DROPS.

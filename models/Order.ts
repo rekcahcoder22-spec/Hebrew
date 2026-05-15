@@ -38,6 +38,10 @@ const ShippingInfoSchema = new Schema(
       required: true,
       enum: ["standard", "express", "pickup"],
     },
+    paymentMethod: {
+      type: String,
+      enum: ["bank_transfer", "cod", "vietqr"],
+    },
   },
   { _id: false },
 );
@@ -49,6 +53,8 @@ const OrderSchema = new Schema(
     shipping: { type: ShippingInfoSchema, required: true },
     items: { type: [OrderItemSchema], required: true },
     total: { type: Number, required: true, min: 0 },
+    promoCode: { type: String, trim: true },
+    discount: { type: Number, min: 0 },
     status: {
       type: String,
       enum: ["pending", "confirmed", "shipped", "delivered"],

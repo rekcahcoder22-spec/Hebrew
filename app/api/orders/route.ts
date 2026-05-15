@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { MongoServerError } from "mongodb";
+import { getCheckoutShippingFee } from "@/lib/checkoutShipping";
 import { isAdminRequest } from "@/lib/adminAuth";
 import { sendOrderNotification } from "@/lib/mailer";
 import { createOrder, getOrders } from "@/lib/orders";
+import { computeCampaignSubtotalDiscount } from "@/lib/voucherSignups";
 import type { Order } from "@/types";
 import { SHIPPING_MERGED_MARKER } from "@/lib/utils";
 
@@ -43,6 +45,8 @@ export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as Record<string, unknown>;
     const { customer, shipping, items, total, orderNumber } = body;
+    const promoCodeRaw =
+      typeof body.promoCode === "string" ? body.promoCode.trim() : "";
 
     if (!customer || !shipping || !items || total == null || !orderNumber) {
       return NextResponse.json(
@@ -76,6 +80,18 @@ export async function POST(req: NextRequest) {
     if (!["standard", "express", "pickup"].includes(s.method)) {
       return NextResponse.json(
         { error: "Invalid shipping method" },
+        { status: 400 },
+      );
+    }
+
+    const pay = s.paymentMethod;
+    if (
+      pay !== "bank_transfer" &&
+      pay !== "cod" &&
+      pay !== "vietqr"
+    ) {
+      return NextResponse.json(
+        { error: "Missing or invalid payment method" },
         { status: 400 },
       );
     }
@@ -119,6 +135,35 @@ export async function POST(req: NextRequest) {
       normalizedItems.push({ productId, name, size, quantity, price });
     }
 
+    const subtotal = normalizedItems.reduce(
+      (acc, it) => acc + it.price * it.quantity,
+      0,
+    );
+    const qtySum = normalizedItems.reduce((acc, it) => acc + it.quantity, 0);
+    const shippingFee = getCheckoutShippingFee(s.method, qtySum);
+    const { discount, appliedCode } = computeCampaignSubtotalDiscount(
+      subtotal,
+      promoCodeRaw || undefined,
+    );
+
+    if (promoCodeRaw && !appliedCode) {
+      return NextResponse.json(
+        { error: "Invalid promo", detail: "Mã giảm giá không hợp lệ." },
+        { status: 400 },
+      );
+    }
+
+    const expectedTotal = Math.max(0, subtotal + shippingFee - discount);
+    if (totalNum !== expectedTotal) {
+      return NextResponse.json(
+        {
+          error: "Total mismatch",
+          detail: "Tổng thanh toán không khớp. Vui lòng làm mới trang và thử lại.",
+        },
+        { status: 400 },
+      );
+    }
+
     const orderId =
       typeof orderNumber === "string"
         ? orderNumber.trim()
@@ -144,6 +189,7 @@ export async function POST(req: NextRequest) {
       district: (s.district ?? "").trim() || SHIPPING_MERGED_MARKER,
       ward: (s.ward ?? "").trim() || SHIPPING_MERGED_MARKER,
       method: s.method,
+      paymentMethod: pay,
     };
 
     const order: Order = {
@@ -151,7 +197,10 @@ export async function POST(req: NextRequest) {
       customer: normalizedCustomer,
       shipping: normalizedShipping,
       items: normalizedItems,
-      total: totalNum,
+      total: expectedTotal,
+      ...(appliedCode
+        ? { promoCode: appliedCode, discount }
+        : {}),
       status: "pending",
       createdAt: new Date().toISOString(),
     };

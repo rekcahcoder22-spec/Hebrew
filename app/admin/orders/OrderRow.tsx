@@ -2,6 +2,7 @@
 
 import type { Order } from "@/types";
 import { formatCustomerName, SHIPPING_MERGED_MARKER } from "@/lib/utils";
+import { formatPaymentMethod } from "@/lib/paymentInfo";
 
 const STATUS_LABELS: Record<Order["status"], string> = {
   pending: "CHỜ XỬ LÝ",
@@ -253,6 +254,14 @@ export function OrderRow({
                   </dt>
                   <dd className="ml-2 inline text-hb-white">
                     {methodLabel(order.shipping.method)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="inline tracking-wider text-hb-white/30">
+                    THANH TOÁN:
+                  </dt>
+                  <dd className="ml-2 inline text-hb-white">
+                    {formatPaymentMethod(order.shipping.paymentMethod, "vi")}
                   </dd>
                 </div>
                 <div>

@@ -16,7 +16,7 @@ function normalizeIso(value: unknown, fallback?: string): string | undefined {
 function docToOrder(doc: OrderLike): Order {
   const createdAt = normalizeIso(doc.createdAt, new Date().toISOString())!;
   const updatedAt = normalizeIso(doc.updatedAt);
-  return {
+  const base: Order = {
     id: doc.id,
     customer: doc.customer,
     shipping: doc.shipping,
@@ -26,6 +26,13 @@ function docToOrder(doc: OrderLike): Order {
     createdAt,
     updatedAt,
   };
+  if (typeof doc.promoCode === "string" && doc.promoCode.trim()) {
+    base.promoCode = doc.promoCode.trim();
+  }
+  if (typeof doc.discount === "number" && doc.discount > 0) {
+    base.discount = doc.discount;
+  }
+  return base;
 }
 
 export async function getOrders(): Promise<Order[]> {
@@ -59,6 +66,12 @@ export async function createOrder(order: Order): Promise<Order> {
     shipping: order.shipping,
     items: order.items,
     total: order.total,
+    ...(order.promoCode?.trim()
+      ? {
+          promoCode: order.promoCode.trim(),
+          discount: Math.max(0, order.discount ?? 0),
+        }
+      : {}),
     status: order.status,
     createdAt,
   };

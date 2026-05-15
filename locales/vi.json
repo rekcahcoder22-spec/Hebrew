@@ -91,5 +91,22 @@
   "productDetail.reviews.seed.review2.name": "Sofia Lê",
   "productDetail.reviews.seed.review2.content": "Chất cotton mặc mát, đường may gọn. Màu áo và họa tiết giống ảnh trên web, đóng gói cẩn thận nên nhận hàng yên tâm.",
   "productDetail.reviews.seed.review3.name": "Khánh Nguyễn",
-  "productDetail.reviews.seed.review3.content": "Vải và form ổn, đáng tiền cho một chiếc tee daily wear. Mình 1m65 lấy L hơi dài một chút nhưng đúng kiểu streetwear mình thích; giao hàng hơi chậm giờ cao điểm nhưng chấp nhận được."
+  "productDetail.reviews.seed.review3.content": "Vải và form ổn, đáng tiền cho một chiếc tee daily wear. Mình 1m65 lấy L hơi dài một chút nhưng đúng kiểu streetwear mình thích; giao hàng hơi chậm giờ cao điểm nhưng chấp nhận được.",
+  "voucher.title": "Nhận voucher",
+  "voucher.hintCheckout": "Nhập số điện thoại để nhận mã — dán vào ô \"Mã giảm giá\" ngay bên dưới khi thanh toán trên web.",
+  "voucher.hintCart": "Nhập số điện thoại để nhận mã — áp dụng mã ở bước thanh toán trên web.",
+  "voucher.placeholder": "Số điện thoại",
+  "voucher.cta": "Nhận mã",
+  "voucher.progress": "{current}/{cap} người đã tham gia",
+  "voucher.success": "Đã ghi nhận. Mã voucher sẽ được gửi qua Zalo/SMS khi chương trình đang chạy.",
+  "voucher.successNew": "Đã lưu SĐT. Dùng mã bên dưới (hoặc ô màu đỏ) tại ô giảm giá khi thanh toán.",
+  "voucher.successDup": "SĐT đã đăng ký trước đó — mã ưu đãi vẫn là mã bên dưới.",
+  "voucher.whereCodeSent": "Mã hiển thị ngay trên web (sao chép được). Gửi Zalo/SMS tự động tới số bạn nhập sẽ bật khi shop kết nối dịch vụ.",
+  "voucher.publicCode": "Mã ưu đãi",
+  "voucher.copy": "Sao chép",
+  "voucher.copied": "Đã sao chép mã",
+  "voucher.copyFail": "Không sao chép được — chọn và copy tay.",
+  "voucher.statsError": "Không tải được số người tham gia.",
+  "voucher.submitError": "Gửi thất bại. Thử lại sau.",
+  "voucher.invalid": "Vui lòng nhập số điện thoại hợp lệ (9–12 số)."
 }

@@ -100,12 +100,16 @@ export interface CustomerInfo {
   note?: string;
 }
 
+export type PaymentMethod = "bank_transfer" | "cod" | "vietqr";
+
 export interface ShippingInfo {
   address: string;
   city: string;
   district: string;
   ward: string;
   method: "standard" | "express" | "pickup";
+  /** Chọn khi đặt hàng; đơn cũ có thể không có. */
+  paymentMethod?: PaymentMethod;
 }
 
 export interface OrderItem {
@@ -122,6 +126,10 @@ export interface Order {
   shipping: ShippingInfo;
   items: OrderItem[];
   total: number;
+  /** Mã chiến dịch đã áp dụng (nếu có). */
+  promoCode?: string;
+  /** Giảm trên tạm tính (VND), nếu có. */
+  discount?: number;
   status: "pending" | "confirmed" | "shipped" | "delivered";
   createdAt: string;
   updatedAt?: string;

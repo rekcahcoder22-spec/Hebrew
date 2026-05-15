@@ -8,6 +8,11 @@ import { isInStock, totalStock } from "@/lib/inventoryUtils";
 import { formatPrice, formatCustomerName } from "@/lib/utils";
 import { isUploadImagePath } from "@/lib/image";
 import type { Order } from "@/types";
+import {
+  countUniqueVoucherSignups,
+  displayParticipantCount,
+  VOUCHER_CAMPAIGN_CAP,
+} from "@/lib/voucherSignups";
 
 const ORDER_BADGE: Record<Order["status"], string> = {
   pending:
@@ -38,11 +43,13 @@ export default async function AdminDashboard() {
   const allowed = await isAdminSessionFromCookiesStore();
   if (!allowed) redirect("/admin/login");
 
-  const [products, orderStats, orderList] = await Promise.all([
+  const [products, orderStats, orderList, voucherUniqueCount] = await Promise.all([
     getProducts(),
     getOrderStats(),
     getOrders(),
+    countUniqueVoucherSignups(),
   ]);
+  const voucherDisplayCount = displayParticipantCount(voucherUniqueCount);
   const total = products.length;
   const inStockCount = products.filter((p) => isInStock(p)).length;
   const soldOutCount = products.filter((p) => p.stockStatus === "sold-out").length;
@@ -95,6 +102,20 @@ export default async function AdminDashboard() {
               <span className="inline-flex h-3 w-3 animate-pulse rounded-full bg-red-600" />
             ) : null}
             {orderStats.pending}
+          </p>
+        </Link>
+        <Link
+          href="/admin/vouchers"
+          className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition hover:border-red-300"
+        >
+          <p className="font-mono text-[10px] uppercase tracking-widest text-gray-500">
+            VOUCHER — SĐT ĐĂNG KÝ
+          </p>
+          <p className="mt-2 font-display text-4xl text-gray-900">
+            {voucherUniqueCount}
+          </p>
+          <p className="mt-1 font-mono text-[10px] text-gray-400">
+            Hiển thị: {voucherDisplayCount} / {VOUCHER_CAMPAIGN_CAP}
           </p>
         </Link>
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">

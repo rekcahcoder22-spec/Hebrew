@@ -7,11 +7,13 @@ import {
   formatCustomerName,
   SHIPPING_MERGED_MARKER,
 } from "@/lib/utils";
+import { formatPaymentMethod } from "@/lib/paymentInfo";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
 function methodTitle(method: ShippingInfo["method"]): string {
-  if (method === "standard") return "GIAO HÀNG TIÊU CHUẨN";
-  if (method === "express") return "GIAO HÀNG NHANH";
-  return "NHẬN TẠI CỬA HÀNG";
+  if (method === "standard") return "Giao hàng tiêu chuẩn";
+  if (method === "express") return "Giao hàng nhanh";
+  return "Nhận tại cửa hàng";
 }
 
 export function OrderConfirmation({
@@ -28,6 +30,7 @@ export function OrderConfirmation({
   total: number;
 }) {
   const router = useRouter();
+  const { language } = useLanguage();
   const preview = items.slice(0, 3);
 
   return (
@@ -36,30 +39,32 @@ export function OrderConfirmation({
         className="mx-auto mb-8 flex h-20 w-20 animate-popIn items-center justify-center border-2 border-hb-red"
         style={{ transformOrigin: "center" }}
       >
-        <span className="font-display text-5xl text-hb-red">✓</span>
+        <span className="font-body text-4xl font-bold text-hb-red sm:text-5xl">
+          ✓
+        </span>
       </div>
 
-      <p className="font-body text-[9px] uppercase tracking-[.3em] text-hb-white/40">
-        ĐƠN HÀNG
+      <p className="font-body text-[11px] tracking-wide text-hb-white/45 sm:text-xs">
+        Đơn hàng
       </p>
-      <p className="mt-2 font-display text-5xl tracking-wide text-hb-white">
+      <p className="mt-1 font-mono text-3xl font-bold tracking-tight text-hb-white sm:text-4xl">
         #{orderNumber}
       </p>
-      <p className="mt-3 font-body text-[10px] uppercase tracking-[.2em] text-hb-white/50">
-        CẢM ƠN BẠN. ĐƠN HÀNG ĐÃ ĐƯỢC XÁC NHẬN.
+      <p className="mt-2 font-body text-xs leading-relaxed text-hb-white/50 sm:text-sm">
+        Cảm ơn bạn. Đơn hàng đã được xác nhận.
       </p>
 
       <div className="mt-8 border-t border-hb-border" />
 
       <div className="mt-6 grid grid-cols-2 gap-6 text-left">
         <div>
-          <h3 className="mb-3 font-body text-[8px] uppercase tracking-[.25em] text-hb-red">
-            THÔNG TIN
+          <h3 className="mb-2 font-body text-[11px] font-medium tracking-wide text-hb-red sm:text-xs">
+            Thông tin
           </h3>
-          <p className="font-display text-lg text-hb-white">
+          <p className="font-body text-lg font-semibold leading-snug text-hb-white sm:text-xl">
             {formatCustomerName(customer)}
           </p>
-          <p className="mt-2 font-body text-[10px] leading-loose text-hb-white/50">
+          <p className="mt-1.5 font-body text-xs leading-relaxed text-hb-white/55 sm:text-sm">
             {customer.email ? (
               <>
                 {customer.email}
@@ -70,10 +75,10 @@ export function OrderConfirmation({
           </p>
         </div>
         <div>
-          <h3 className="mb-3 font-body text-[8px] uppercase tracking-[.25em] text-hb-red">
-            ĐỊA CHỈ
+          <h3 className="mb-2 font-body text-[11px] font-medium tracking-wide text-hb-red sm:text-xs">
+            Địa chỉ
           </h3>
-          <p className="font-body text-[10px] leading-loose text-hb-white/50">
+          <p className="font-body text-xs leading-relaxed text-hb-white/55 sm:text-sm">
             {shipping.address}
             {shipping.ward === SHIPPING_MERGED_MARKER &&
             shipping.district === SHIPPING_MERGED_MARKER ? (
@@ -90,8 +95,14 @@ export function OrderConfirmation({
               </>
             )}
           </p>
-          <p className="mt-2 font-body text-[9px] text-hb-gold">
+          <p className="mt-1.5 font-body text-xs text-luxury-gold sm:text-sm">
             {methodTitle(shipping.method)}
+          </p>
+          <p className="mt-1 font-body text-xs text-hb-white/50 sm:text-sm">
+            {language === "vi" ? "Thanh toán: " : "Payment: "}
+            <span className="text-luxury-gold">
+              {formatPaymentMethod(shipping.paymentMethod, language)}
+            </span>
           </p>
         </div>
       </div>
@@ -102,10 +113,10 @@ export function OrderConfirmation({
             key={`${item.productId}-${item.size}`}
             className="flex justify-between border-b border-hb-border/50 py-2"
           >
-            <span className="font-body text-[10px] text-hb-white/60">
+            <span className="font-body text-xs text-hb-white/60 sm:text-sm">
               {item.product.name} × {item.quantity} [{item.size}]
             </span>
-            <span className="font-body text-[10px] text-hb-gold">
+            <span className="font-body text-xs font-medium tabular-nums text-luxury-gold sm:text-sm">
               {(item.product.price * item.quantity).toLocaleString("vi-VN")} ₫
             </span>
           </div>
@@ -113,8 +124,10 @@ export function OrderConfirmation({
       </div>
 
       <div className="mt-4 flex justify-between">
-        <span className="font-display text-2xl text-hb-white">TỔNG CỘNG</span>
-        <span className="font-display text-2xl text-hb-red">
+        <span className="font-body text-base font-bold tracking-wide text-hb-white sm:text-lg">
+          Tổng cộng
+        </span>
+        <span className="font-body text-base font-bold tabular-nums text-hb-red sm:text-lg">
           {total.toLocaleString("vi-VN")} ₫
         </span>
       </div>
@@ -124,6 +137,7 @@ export function OrderConfirmation({
           type="button"
           block
           onClick={() => router.push("/shop")}
+          className="font-body text-sm font-semibold uppercase tracking-[.14em]"
         >
           SHOP TIẾP →
         </HebrewWordButton>
@@ -132,6 +146,7 @@ export function OrderConfirmation({
           block
           blockTone="muted"
           onClick={() => router.push("/")}
+          className="font-body text-sm font-semibold uppercase tracking-[.14em]"
         >
           HOME
         </HebrewWordButton>

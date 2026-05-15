@@ -10,17 +10,8 @@ import type { CartItem, CustomerInfo, ShippingInfo } from "@/types";
 import { CheckoutDetailsForm } from "@/components/checkout/CheckoutDetailsForm";
 import { OrderConfirmation } from "@/components/checkout/OrderConfirmation";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
+import { getCheckoutShippingFee, CHECKOUT_FREE_SHIP_MIN_ITEM_QTY } from "@/lib/checkoutShipping";
 import { useLanguage } from "@/components/providers/LanguageProvider";
-
-function getShippingPrice(
-  method: ShippingInfo["method"],
-  totalItemQty: number,
-): number {
-  if (totalItemQty >= 2) return 0;
-  if (method === "standard") return 30000;
-  if (method === "express") return 50000;
-  return 0;
-}
 
 function CheckoutTopBar({
   step,
@@ -65,7 +56,7 @@ function CheckoutTopBar({
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 lg:px-8">
           <Link
             href="/"
-            className="shrink-0 font-display text-2xl tracking-[.4em] text-hb-white"
+            className="shrink-0 font-body text-lg font-bold tracking-[.2em] text-hb-white sm:text-xl"
           >
             HEBREW
           </Link>
@@ -90,7 +81,7 @@ function CheckoutTopBar({
               {steps.map((s) => (
                 <span
                   key={s.n}
-                  className="w-16 text-center font-body text-[7px] uppercase leading-tight tracking-[.12em] text-hb-white/40 sm:text-[8px] sm:tracking-[.15em]"
+                  className="w-20 text-center font-body text-[10px] uppercase leading-tight tracking-[.14em] text-hb-white/50 sm:w-24 sm:text-xs sm:tracking-[.18em]"
                 >
                   {s.label}
                 </span>
@@ -100,7 +91,7 @@ function CheckoutTopBar({
 
           <Link
             href="/cart"
-            className="shrink-0 font-body text-[10px] uppercase tracking-widest text-hb-white/60 transition hover:text-hb-white"
+            className="shrink-0 font-body text-xs uppercase tracking-widest text-hb-white/65 transition hover:text-hb-white sm:text-sm"
           >
             {language === "vi" ? "VỀ GIỎ HÀNG" : "BACK TO CART"}
           </Link>
@@ -129,6 +120,10 @@ export default function CheckoutPage() {
   const [liveMethod, setLiveMethod] = useState<ShippingInfo["method"]>(
     "standard",
   );
+  const [promoTotals, setPromoTotals] = useState<{
+    promoCode: string | null;
+    discountAmount: number;
+  }>({ promoCode: null, discountAmount: 0 });
 
   useEffect(() => {
     const persist = useCartStore.persist;
@@ -155,8 +150,11 @@ export default function CheckoutPage() {
       setIsSubmitting(true);
       const orderNum = `HB${Date.now().toString().slice(-6)}`;
       const { totalPrice, totalItems } = getTotals();
-      const shippingFee = getShippingPrice(shipping.method, totalItems);
-      const grandTotal = totalPrice + shippingFee;
+      const shippingFee = getCheckoutShippingFee(shipping.method, totalItems);
+      const grandTotal = Math.max(
+        0,
+        totalPrice + shippingFee - promoTotals.discountAmount,
+      );
       const itemsSnapshot = items.map((i) => ({
         ...i,
         product: { ...i.product },
@@ -178,6 +176,9 @@ export default function CheckoutPage() {
             })),
             total: grandTotal,
             orderNumber: orderNum,
+            ...(promoTotals.promoCode
+              ? { promoCode: promoTotals.promoCode }
+              : {}),
           }),
         });
 
@@ -209,17 +210,17 @@ export default function CheckoutPage() {
         setIsSubmitting(false);
       }
     },
-    [clearCart, getTotals, items, language],
+    [clearCart, getTotals, items, language, promoTotals],
   );
 
   const shippingSummaryPrice =
     step === 1
-      ? getShippingPrice(liveMethod, getTotals().totalItems)
+      ? getCheckoutShippingFee(liveMethod, getTotals().totalItems)
       : undefined;
 
   if (!ready) {
     return (
-      <div className="min-h-screen bg-hb-black pt-24 font-body text-sm text-hb-white/40">
+      <div className="min-h-screen bg-hb-black pt-24 font-body text-sm text-hb-white/55 sm:text-base">
         {language === "vi" ? "Đang tải…" : "Loading…"}
       </div>
     );
@@ -229,9 +230,9 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-hb-black">
       <CheckoutTopBar step={step} language={language} />
 
-      <div className="mx-auto max-w-6xl pt-20 lg:grid lg:grid-cols-[1fr,400px] lg:gap-0">
+      <div className="mx-auto max-w-6xl px-4 pt-16 pb-8 sm:px-6 lg:grid lg:grid-cols-[minmax(0,1fr),minmax(0,360px)] lg:gap-0 lg:px-8 lg:pt-20">
         <div
-          className={`order-2 border-hb-border p-6 lg:order-1 lg:border-r lg:p-10 ${
+          className={`order-2 min-w-0 border-hb-border p-4 sm:p-5 lg:order-1 lg:border-r lg:p-8 ${
             step === 2 ? "lg:col-span-2 lg:border-r-0" : ""
           }`}
         >
@@ -240,9 +241,12 @@ export default function CheckoutPage() {
               onSubmit={handlePlaceOrder}
               isSubmitting={isSubmitting}
               onMethodChange={setLiveMethod}
-              freeShipEligible={getTotals().totalItems >= 2}
+              freeShipEligible={
+                getTotals().totalItems >= CHECKOUT_FREE_SHIP_MIN_ITEM_QTY
+              }
               defaultCustomer={customerInfo}
               defaultShipping={shippingInfo}
+              language={language}
             />
           ) : null}
           {step === 2 && customerInfo && shippingInfo ? (
@@ -257,11 +261,13 @@ export default function CheckoutPage() {
         </div>
 
         {step === 1 ? (
-          <div className="order-1 p-6 lg:order-2 lg:p-10">
+          <div className="order-1 min-w-0 p-4 sm:p-5 lg:order-2 lg:p-8">
             <OrderSummary
               items={items}
               shippingPrice={shippingSummaryPrice}
               shippingMethod={liveMethod}
+              language={language}
+              onPromoTotalsChange={setPromoTotals}
             />
           </div>
         ) : null}

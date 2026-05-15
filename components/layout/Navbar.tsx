@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { cn } from "@/lib/utils";
+import { CHECKOUT_FREE_SHIP_MIN_ITEM_QTY } from "@/lib/checkoutShipping";
 import { useClientMounted } from "@/hooks/useClientMounted";
 import { FreeShipMarquee } from "@/components/layout/FreeShipMarquee";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
@@ -11,7 +12,6 @@ import { useLanguage } from "@/components/providers/LanguageProvider";
 
 const links = [
   { href: "/shop", labelKey: "nav.shop" },
-  { href: "/shop", labelKey: "nav.drops" },
   { href: "/lookbook", labelKey: "nav.lookbook" },
   { href: "/our-story", labelKey: "nav.ourStory" },
   { href: "/about", labelKey: "nav.about" },
@@ -45,7 +45,8 @@ export function Navbar() {
   const mounted = useClientMounted();
   const { t } = useLanguage();
   const cartCount = mounted ? totalItems : 0;
-  const freeShipUnlocked = mounted && totalItems >= 2;
+  const freeShipUnlocked =
+    mounted && totalItems >= CHECKOUT_FREE_SHIP_MIN_ITEM_QTY;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);

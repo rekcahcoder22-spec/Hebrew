@@ -8,6 +8,7 @@ import { useCartStore } from "@/store/cartStore";
 import { isUploadImagePath } from "@/lib/image";
 import { HebrewWordCTA } from "@/components/ui/HebrewWordMark";
 import { useLanguage } from "@/components/providers/LanguageProvider";
+import { VoucherPhoneSignup } from "@/components/promo/VoucherPhoneSignup";
 
 export default function CartPage() {
   const { language } = useLanguage();
@@ -119,6 +120,8 @@ export default function CartPage() {
           </li>
         ))}
       </ul>
+
+      <VoucherPhoneSignup context="cart" className="mt-8" />
 
       <div className="mt-10 flex items-end justify-between border-t border-hb-border pt-8">
         <span className="font-body text-[10px] uppercase tracking-widest text-hb-white/40">

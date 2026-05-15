@@ -1,9 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { isUploadImagePath } from "@/lib/image";
+import { normalizePromoCode } from "@/lib/promoCode";
 import type { CartItem } from "@/types";
+import { VoucherPhoneSignup } from "@/components/promo/VoucherPhoneSignup";
 
 const stripeStyle = {
   background:
@@ -29,20 +32,109 @@ export function OrderSummary({
   items,
   shippingPrice,
   shippingMethod,
+  language,
+  onPromoTotalsChange,
 }: {
   items: CartItem[];
   shippingPrice?: number;
   shippingMethod?: string;
+  language: "vi" | "en";
+  onPromoTotalsChange?: (payload: {
+    promoCode: string | null;
+    discountAmount: number;
+  }) => void;
 }) {
-  const [promo, setPromo] = useState("");
+  const [promoInput, setPromoInput] = useState("");
+  const [campaign, setCampaign] = useState<{
+    code: string;
+    discountPercent: number;
+  } | null>(null);
+  const [promoApplied, setPromoApplied] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/vouchers/stats");
+        if (!res.ok) return;
+        const data = (await res.json()) as {
+          code?: string;
+          discountPercent?: number;
+        };
+        if (cancelled || typeof data.code !== "string" || !data.code.trim()) {
+          return;
+        }
+        setCampaign({
+          code: data.code.trim(),
+          discountPercent:
+            typeof data.discountPercent === "number" &&
+            Number.isFinite(data.discountPercent) &&
+            data.discountPercent >= 0
+              ? Math.min(100, data.discountPercent)
+              : 10,
+        });
+      } catch {
+        /* ignore */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const sub = subtotal(items);
+  const discountAmount = useMemo(() => {
+    if (!promoApplied || !campaign || sub <= 0) return 0;
+    const raw = Math.round((sub * campaign.discountPercent) / 100);
+    return Math.min(Math.max(0, raw), sub);
+  }, [promoApplied, campaign, sub]);
+
+  useEffect(() => {
+    onPromoTotalsChange?.({
+      promoCode: promoApplied && campaign ? campaign.code : null,
+      discountAmount,
+    });
+  }, [promoApplied, campaign, discountAmount, onPromoTotalsChange]);
+
   const showShipping = typeof shippingPrice === "number";
-  const total = sub + (showShipping ? shippingPrice : 0);
+  const total = Math.max(0, sub + (showShipping ? shippingPrice : 0) - discountAmount);
+
+  const applyPromo = () => {
+    if (!campaign) {
+      toast.error(
+        language === "vi"
+          ? "Chưa tải được mã chiến dịch. Thử lại sau vài giây."
+          : "Campaign code not loaded yet. Please try again.",
+      );
+      return;
+    }
+    if (normalizePromoCode(promoInput) !== normalizePromoCode(campaign.code)) {
+      toast.error(
+        language === "vi"
+          ? "Mã không đúng hoặc đã hết hiệu lực."
+          : "Invalid or expired code.",
+      );
+      return;
+    }
+    setPromoApplied(true);
+    toast.success(
+      language === "vi"
+        ? `Đã áp dụng giảm ${campaign.discountPercent}% trên tạm tính.`
+        : `${campaign.discountPercent}% discount applied to subtotal.`,
+    );
+  };
+
+  const clearPromo = () => {
+    setPromoApplied(false);
+    toast.message(
+      language === "vi" ? "Đã gỡ mã giảm giá." : "Promo code removed.",
+    );
+  };
 
   return (
-    <aside className="sticky top-24 border border-hb-border bg-hb-gray p-6">
-      <h2 className="mb-6 font-display text-3xl tracking-tight text-hb-white">
-        ĐƠN HÀNG CỦA BẠN
+    <aside className="sticky top-24 min-w-0 border border-hb-border bg-hb-gray p-4 sm:p-5">
+      <h2 className="mb-4 font-body text-xl font-bold uppercase tracking-[.06em] text-hb-white sm:text-2xl">
+        {language === "vi" ? "Đơn hàng của bạn" : "Your order"}
       </h2>
 
       <ul>
@@ -51,7 +143,7 @@ export function OrderSummary({
           return (
             <li
               key={`${item.productId}-${item.size}`}
-              className="flex items-start gap-3 border-b border-hb-border py-3"
+              className="flex items-start gap-2.5 border-b border-hb-border py-2.5 sm:gap-3 sm:py-3"
             >
               <div className="relative aspect-[3/4] w-16 shrink-0 overflow-hidden bg-hb-black">
                 {img ? (
@@ -69,19 +161,19 @@ export function OrderSummary({
                     style={stripeStyle}
                   />
                 )}
-                <span className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center bg-hb-red font-body text-[9px] text-white">
+                <span className="absolute right-0 top-0 flex h-6 min-w-[1.5rem] items-center justify-center bg-hb-red px-1 font-body text-[11px] font-medium text-white sm:h-7 sm:text-xs">
                   {item.quantity}
                 </span>
               </div>
               <div className="min-w-0 flex-1">
-                <p className="font-display text-base uppercase text-hb-white">
+                <p className="font-body text-sm font-semibold normal-case leading-snug text-hb-white sm:text-base">
                   {item.product.name}
                 </p>
-                <p className="mt-1 font-body text-[9px] tracking-wider text-hb-white/40">
+                <p className="mt-0.5 font-body text-[11px] tracking-wide text-hb-white/45 sm:text-xs">
                   SIZE: {item.size}
                 </p>
               </div>
-              <p className="shrink-0 text-right font-display text-lg text-hb-gold">
+              <p className="shrink-0 text-right font-body text-sm font-bold tabular-nums text-luxury-gold sm:text-base">
                 {lineTotal(item).toLocaleString("vi-VN")} ₫
               </p>
             </li>
@@ -89,51 +181,78 @@ export function OrderSummary({
         })}
       </ul>
 
+      <VoucherPhoneSignup context="checkout" className="mt-4" />
+
       <div className="mt-4 flex gap-0">
         <input
           type="text"
-          value={promo}
-          onChange={(e) => setPromo(e.target.value)}
-          placeholder="MÃ GIẢM GIÁ"
-          className="flex-1 border border-hb-border border-r-0 bg-hb-black px-3 py-2.5 font-body text-[10px] uppercase tracking-widest text-hb-white outline-none transition-colors focus:border-hb-red"
+          value={promoInput}
+          onChange={(e) => setPromoInput(e.target.value)}
+          placeholder={language === "vi" ? "Mã giảm giá" : "Promo code"}
+          disabled={promoApplied}
+          className="flex-1 border border-hb-border border-r-0 bg-hb-black px-2.5 py-2 font-body text-xs normal-case tracking-normal text-hb-white outline-none transition-colors focus:border-hb-red enabled:opacity-100 disabled:opacity-60 sm:px-3 sm:text-sm"
         />
-        <button
-          type="button"
-          className="bg-hb-border px-4 font-body text-[9px] uppercase tracking-[.15em] text-hb-white/60 transition-colors hover:bg-hb-red hover:text-white"
-        >
-          ÁP DỤNG
-        </button>
+        {promoApplied ? (
+          <button
+            type="button"
+            onClick={clearPromo}
+            className="bg-hb-border px-3 py-2 font-body text-[11px] tracking-wide text-hb-white/75 transition-colors hover:bg-hb-red hover:text-white sm:px-3.5 sm:text-xs"
+          >
+            {language === "vi" ? "GỠ MÃ" : "REMOVE"}
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={applyPromo}
+            className="bg-hb-border px-3 py-2 font-body text-[11px] tracking-wide text-hb-white/75 transition-colors hover:bg-hb-red hover:text-white sm:px-3.5 sm:text-xs"
+          >
+            {language === "vi" ? "ÁP DỤNG" : "APPLY"}
+          </button>
+        )}
       </div>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-4 space-y-2">
         <div className="flex items-center justify-between">
-          <span className="font-body text-[10px] uppercase tracking-wider text-hb-white/50">
-            TẠM TÍNH
+          <span className="font-body text-[11px] tracking-wide text-hb-white/50 sm:text-xs">
+            {language === "vi" ? "Tạm tính" : "Subtotal"}
           </span>
-          <span className="font-body text-sm text-hb-white">
+          <span className="font-body text-sm font-medium tabular-nums text-hb-white sm:text-base">
             {sub.toLocaleString("vi-VN")} ₫
           </span>
         </div>
 
+        {discountAmount > 0 ? (
+          <div className="flex items-center justify-between">
+            <span className="font-body text-[11px] tracking-wide text-luxury-gold/90 sm:text-xs">
+              {language === "vi"
+                ? `Giảm giá (${campaign?.code ?? ""})`
+                : `Discount (${campaign?.code ?? ""})`}
+            </span>
+            <span className="font-body text-sm font-medium tabular-nums text-luxury-gold sm:text-base">
+              −{discountAmount.toLocaleString("vi-VN")} ₫
+            </span>
+          </div>
+        ) : null}
+
         {showShipping && (
           <div className="flex items-start justify-between gap-4">
             <div>
-              <span className="font-body text-[10px] uppercase tracking-wider text-hb-white/50">
-                VẬN CHUYỂN
+              <span className="font-body text-[11px] tracking-wide text-hb-white/50 sm:text-xs">
+                {language === "vi" ? "Vận chuyển" : "Shipping"}
               </span>
               {shippingMethod ? (
-                <p className="mt-0.5 font-body text-[8px] text-hb-white/30">
+                <p className="mt-0.5 font-body text-[11px] text-hb-white/40 sm:text-xs">
                   {methodLabel(shippingMethod)}
                 </p>
               ) : null}
             </div>
             <div className="text-right">
               {shippingPrice === 0 ? (
-                <span className="font-body text-[10px] text-hb-gold">
-                  MIỄN PHÍ
+                <span className="font-body text-xs font-medium text-luxury-gold sm:text-sm">
+                  {language === "vi" ? "Miễn phí" : "Free"}
                 </span>
               ) : (
-                <span className="font-body text-sm text-hb-white">
+                <span className="font-body text-sm font-medium tabular-nums text-hb-white sm:text-base">
                   {shippingPrice.toLocaleString("vi-VN")} ₫
                 </span>
               )}
@@ -141,26 +260,31 @@ export function OrderSummary({
           </div>
         )}
 
-        <div className="my-3 border-t border-hb-border" />
+        <div className="my-2 border-t border-hb-border" />
 
         <div className="flex items-center justify-between">
-          <span className="font-display text-2xl text-hb-white">TỔNG CỘNG</span>
-          <span className="font-display text-2xl text-hb-red">
+          <span className="font-body text-base font-bold uppercase tracking-wide text-hb-white sm:text-lg">
+            {language === "vi" ? "Tổng cộng" : "Total"}
+          </span>
+          <span className="font-body text-base font-bold tabular-nums text-hb-red sm:text-lg">
             {total.toLocaleString("vi-VN")} ₫
           </span>
         </div>
       </div>
 
-      <div className="mt-6 border-t border-hb-border pt-4">
-        <ul className="space-y-2">
-          {[
-            "ĐỔI TRẢ 7 NGÀY",
-            "THANH TOÁN BẢO MẬT",
-            "GIAO HÀNG TOÀN QUỐC",
-          ].map((t) => (
+      <div className="mt-4 border-t border-hb-border pt-3">
+        <ul className="space-y-1.5">
+          {(language === "vi"
+            ? ["Đổi trả 7 ngày", "Thanh toán bảo mật", "Giao hàng toàn quốc"]
+            : [
+                "7-day returns",
+                "Secure checkout",
+                "Nationwide delivery",
+              ]
+          ).map((t) => (
             <li key={t} className="flex items-center gap-2">
               <span className="font-body text-hb-red">✓</span>
-              <span className="font-body text-[8px] uppercase tracking-[.15em] text-hb-white/30">
+              <span className="font-body text-[11px] tracking-wide text-hb-white/40 sm:text-xs">
                 {t}
               </span>
             </li>

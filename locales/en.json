@@ -91,5 +91,22 @@
   "productDetail.reviews.seed.review2.name": "Sofia Le",
   "productDetail.reviews.seed.review2.content": "Soft cotton, breathable for all-day wear. Colours and graphics look like the site photos, and the tee arrived neatly folded—no weird creases on the print.",
   "productDetail.reviews.seed.review3.name": "Khanh Nguyen",
-  "productDetail.reviews.seed.review3.content": "Solid fabric and stitching for an everyday tee. I’m 165cm in L and it runs a bit long, but that’s the streetwear silhouette I wanted. Peak-hour shipping was a touch slow—product still gets a thumbs up."
+  "productDetail.reviews.seed.review3.content": "Solid fabric and stitching for an everyday tee. I’m 165cm in L and it runs a bit long, but that’s the streetwear silhouette I wanted. Peak-hour shipping was a touch slow—product still gets a thumbs up.",
+  "voucher.title": "Get a voucher",
+  "voucher.hintCheckout": "Enter your phone to receive a code — paste it in the \"Discount code\" field below at checkout on the site.",
+  "voucher.hintCart": "Enter your phone to receive a code — use it at checkout on the site.",
+  "voucher.placeholder": "Phone number",
+  "voucher.cta": "Get code",
+  "voucher.progress": "{current}/{cap} people joined",
+  "voucher.success": "Saved. We’ll send your voucher by Zalo/SMS when the campaign is active.",
+  "voucher.successNew": "Saved. Use the code below at checkout.",
+  "voucher.successDup": "This number was already registered — same code below.",
+  "voucher.whereCodeSent": "Your code appears on this page (copy anytime). Auto Zalo/SMS to your number can be enabled when the store connects a provider.",
+  "voucher.publicCode": "Offer code",
+  "voucher.copy": "Copy",
+  "voucher.copied": "Code copied",
+  "voucher.copyFail": "Could not copy — select and copy manually.",
+  "voucher.statsError": "Could not load participant count.",
+  "voucher.submitError": "Submit failed. Try again later.",
+  "voucher.invalid": "Please enter a valid phone number (9–12 digits)."
 }
