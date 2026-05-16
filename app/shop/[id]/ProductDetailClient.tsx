@@ -143,7 +143,7 @@ export function ProductDetailClient({
             variant="ghost"
             className="pb-0.5 !border-transparent hover:!border-luxury-gold/50 hover:!text-luxury-gold"
           >
-            Shop
+            {t("productDetail.breadcrumb.shop")}
           </HebrewWordCTA>
           <span className="text-hb-white/25">/</span>
           <HebrewWordCTA
@@ -192,7 +192,7 @@ export function ProductDetailClient({
               />
               {product.isNew && (
                 <span className="bg-hb-red px-2 py-0.5 font-body text-[9px] uppercase tracking-widest text-hb-white">
-                  New
+                  {t("productDetail.new")}
                 </span>
               )}
             </div>
@@ -202,7 +202,7 @@ export function ProductDetailClient({
 
             <div className="mt-8">
               <p className="font-body text-[10px] uppercase tracking-[0.35em] text-hb-white/50">
-                Size
+                {t("productDetail.size")}
               </p>
               <div className="mt-3 max-w-md">
                 <SizeSelector
@@ -219,7 +219,7 @@ export function ProductDetailClient({
 
             <div className="mt-6">
               <p className="font-body text-[10px] uppercase tracking-[0.35em] text-hb-white/50">
-                Quantity
+                {t("productDetail.quantity")}
               </p>
               <div className="mt-2 inline-flex items-center border border-hb-border">
                 <button
@@ -255,7 +255,7 @@ export function ProductDetailClient({
                 openCart();
               }}
             >
-              ADD TO CART
+              {t("productDetail.addToCart")}
             </HebrewWordButton>
 
             <HebrewWordButton
@@ -268,7 +268,9 @@ export function ProductDetailClient({
                 inWishlist && "!border-luxury-gold !text-luxury-gold hover:!border-luxury-gold",
               )}
             >
-              {inWishlist ? "SAVED TO WISHLIST" : "ADD TO WISHLIST"}
+              {inWishlist
+                ? t("productDetail.wishlist.saved")
+                : t("productDetail.wishlist.add")}
             </HebrewWordButton>
 
             <button
@@ -276,7 +278,7 @@ export function ProductDetailClient({
               onClick={() => setSizeGuideOpen(true)}
               className="mt-4 font-brand-serif text-[10px] font-semibold uppercase tracking-[0.26em] text-luxury-gold underline-offset-4 transition-colors hover:underline"
             >
-              Size guide
+              {t("productDetail.sizeGuide")}
             </button>
           </div>
         </div>
@@ -415,10 +417,12 @@ export function ProductDetailClient({
         {related.length > 0 && (
           <section className="mt-20 border-t border-hb-border pt-16">
             <p className="font-body text-[10px] uppercase tracking-[0.35em] text-hb-gold">
-              Related
+              {t("productDetail.related")}
             </p>
             <h2 className="mt-2 font-display text-3xl tracking-[0.12em] text-hb-white">
-              MORE IN {product.category.toUpperCase()}
+              {t("productDetail.relatedMore", {
+                category: product.category.toUpperCase(),
+              })}
             </h2>
             <div className="mt-10 grid gap-px bg-hb-border sm:grid-cols-2 lg:grid-cols-3">
               {related.map((p, index) => (
@@ -447,25 +451,24 @@ export function ProductDetailClient({
                 id="size-guide-title"
                 className="font-display text-2xl tracking-widest text-hb-white"
               >
-                SIZE GUIDE
+                {t("productDetail.sizeGuide.title")}
               </h2>
               <button
                 type="button"
                 onClick={() => setSizeGuideOpen(false)}
                 className="font-body text-xs text-hb-red"
               >
-                Close
+                {t("productDetail.sizeGuide.close")}
               </button>
             </div>
             <p className="mt-4 font-body text-xs text-hb-white/50">
-              Chest measurement (cm). Fit is oversized; size down for a closer
-              block.
+              {t("productDetail.sizeGuide.hint")}
             </p>
             <table className="mt-6 w-full border-collapse font-body text-xs text-hb-white">
               <thead>
                 <tr className="border-b border-hb-border text-left text-hb-white/50">
-                  <th className="py-2 pr-4">Size</th>
-                  <th className="py-2">Chest (cm)</th>
+                  <th className="py-2 pr-4">{t("productDetail.sizeGuide.colSize")}</th>
+                  <th className="py-2">{t("productDetail.sizeGuide.colChest")}</th>
                 </tr>
               </thead>
               <tbody>

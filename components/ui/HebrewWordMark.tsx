@@ -27,23 +27,44 @@ type LinkProps = Omit<ComponentPropsWithoutRef<typeof Link>, "className"> & {
   variant?: HebrewWordMarkVariant;
   /** Full-width rule strip - checkout, cart primary */
   block?: boolean;
+  /** Nhấn mạnh CTA chính — chấm đỏ + chữ đậm hơn */
+  featured?: boolean;
   className?: string;
 };
 
 export function HebrewWordCTA({
   variant = "blood",
   block = false,
+  featured = false,
   className,
+  children,
   ...props
 }: LinkProps) {
-  return (
+  const link = (
     <Link
       className={cn(
         block ? wordBlockBlood : cn(wordInline, hebrewWordMarkVariants[variant]),
+        featured &&
+          !block &&
+          "font-bold tracking-[0.34em] text-[#f0ece8] border-hb-red/80 hover:border-hb-red",
         className,
       )}
       {...props}
-    />
+    >
+      {children}
+    </Link>
+  );
+
+  if (!featured || block) return link;
+
+  return (
+    <span className="relative inline-flex flex-col items-center">
+      <span
+        className="mb-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-hb-red shadow-[0_0_6px_rgba(139,26,26,0.55)]"
+        aria-hidden
+      />
+      {link}
+    </span>
   );
 }
 

@@ -6,14 +6,14 @@ import { LanguageText } from "@/components/i18n/LanguageText";
 export const metadata: Metadata = {
   title: "Cửa hàng — Shop streetwear & local brand HEBREW",
   description:
-    "Mua áo thun, hoodie và streetwear limited drop HEBREW — local brand Việt Nam, chất liệu bền, form dáng rõ ràng. Xem toàn bộ sản phẩm đang mở bán.",
+    "Mua áo thun, hoodie và streetwear limited drop HEBREW local brand Việt Nam, chất liệu bền, form dáng rõ ràng. Xem toàn bộ sản phẩm đang mở bán.",
   alternates: {
     canonical: "/shop",
   },
   openGraph: {
     title: "HEBREW Shop | Streetwear Vietnam",
     description:
-      "Shop online: tees, hoodies & limited drops — handcrafted Vietnamese streetwear.",
+      "Shop online: tees, hoodies & limited drops handcrafted Vietnamese streetwear.",
     url: "/shop",
     type: "website",
   },

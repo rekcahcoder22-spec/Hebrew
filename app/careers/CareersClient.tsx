@@ -124,29 +124,45 @@ export function CareersClient() {
       </section>
 
       <section className="mt-12 border border-hb-border bg-hb-gray p-10">
-        <SectionHeading>HEBREW CULTURE</SectionHeading>
+        <SectionHeading>{tr("HEBREW CULTURE", "VĂN HÓA HEBREW")}</SectionHeading>
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
           {[
             {
-              title: "UNLIMITED CREATIVITY",
-              desc: "Push boundaries, no templates",
+              title: { en: "UNLIMITED CREATIVITY", vi: "SÁNG TẠO KHÔNG GIỚI HẠN" },
+              desc: {
+                en: "Push boundaries, no templates",
+                vi: "Vượt ranh giới, không theo khuôn mẫu",
+              },
             },
             {
-              title: "YOUNG & DYNAMIC TEAM",
-              desc: "Flat structure, fast decisions",
+              title: { en: "YOUNG & DYNAMIC TEAM", vi: "ĐỘI NGŨ TRẺ & NĂNG ĐỘNG" },
+              desc: {
+                en: "Flat structure, fast decisions",
+                vi: "Cơ cấu phẳng, quyết định nhanh",
+              },
             },
             {
-              title: "GROW WITH THE BRAND",
-              desc: "Early stage = high opportunity",
+              title: { en: "GROW WITH THE BRAND", vi: "LỚN CÙNG THƯƠNG HIỆU" },
+              desc: {
+                en: "Early stage = high opportunity",
+                vi: "Giai đoạn đầu = cơ hội lớn",
+              },
             },
             {
-              title: "HEBREW STAFF DISCOUNT",
-              desc: "Get the drops first",
+              title: { en: "HEBREW STAFF DISCOUNT", vi: "ƯU ĐÃI NHÂN VIÊN" },
+              desc: {
+                en: "Get the drops first",
+                vi: "Chạm drop trước mọi người",
+              },
             },
           ].map((item) => (
-            <div key={item.title} className="border-l-2 border-hb-red pl-4">
-              <p className="mb-1 font-display text-xl text-hb-white">{item.title}</p>
-              <p className="font-body text-xs text-hb-white/40">{item.desc}</p>
+            <div key={item.title.en} className="border-l-2 border-hb-red pl-4">
+              <p className="mb-1 font-display text-xl text-hb-white">
+                {tr(item.title.en, item.title.vi)}
+              </p>
+              <p className="font-body text-xs text-hb-white/40">
+                {tr(item.desc.en, item.desc.vi)}
+              </p>
             </div>
           ))}
         </div>

@@ -10,10 +10,13 @@ import {
 import { formatPaymentMethod } from "@/lib/paymentInfo";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
-function methodTitle(method: ShippingInfo["method"]): string {
-  if (method === "standard") return "Giao hàng tiêu chuẩn";
-  if (method === "express") return "Giao hàng nhanh";
-  return "Nhận tại cửa hàng";
+function methodTitle(
+  method: ShippingInfo["method"],
+  t: (key: string) => string,
+): string {
+  if (method === "standard") return t("orderConfirmation.shipping.standard");
+  if (method === "express") return t("orderConfirmation.shipping.express");
+  return t("orderConfirmation.shipping.pickup");
 }
 
 export function OrderConfirmation({
@@ -30,7 +33,7 @@ export function OrderConfirmation({
   total: number;
 }) {
   const router = useRouter();
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const preview = items.slice(0, 3);
 
   return (
@@ -45,13 +48,13 @@ export function OrderConfirmation({
       </div>
 
       <p className="font-body text-[11px] tracking-wide text-hb-white/45 sm:text-xs">
-        Đơn hàng
+        {t("orderConfirmation.orderLabel")}
       </p>
       <p className="mt-1 font-mono text-3xl font-bold tracking-tight text-hb-white sm:text-4xl">
         #{orderNumber}
       </p>
       <p className="mt-2 font-body text-xs leading-relaxed text-hb-white/50 sm:text-sm">
-        Cảm ơn bạn. Đơn hàng đã được xác nhận.
+        {t("orderConfirmation.thanks")}
       </p>
 
       <div className="mt-8 border-t border-hb-border" />
@@ -59,7 +62,7 @@ export function OrderConfirmation({
       <div className="mt-6 grid grid-cols-2 gap-6 text-left">
         <div>
           <h3 className="mb-2 font-body text-[11px] font-medium tracking-wide text-hb-red sm:text-xs">
-            Thông tin
+            {t("orderConfirmation.info")}
           </h3>
           <p className="font-body text-lg font-semibold leading-snug text-hb-white sm:text-xl">
             {formatCustomerName(customer)}
@@ -76,7 +79,7 @@ export function OrderConfirmation({
         </div>
         <div>
           <h3 className="mb-2 font-body text-[11px] font-medium tracking-wide text-hb-red sm:text-xs">
-            Địa chỉ
+            {t("orderConfirmation.address")}
           </h3>
           <p className="font-body text-xs leading-relaxed text-hb-white/55 sm:text-sm">
             {shipping.address}
@@ -96,10 +99,10 @@ export function OrderConfirmation({
             )}
           </p>
           <p className="mt-1.5 font-body text-xs text-luxury-gold sm:text-sm">
-            {methodTitle(shipping.method)}
+            {methodTitle(shipping.method, t)}
           </p>
           <p className="mt-1 font-body text-xs text-hb-white/50 sm:text-sm">
-            {language === "vi" ? "Thanh toán: " : "Payment: "}
+            {t("orderConfirmation.payment")}
             <span className="text-luxury-gold">
               {formatPaymentMethod(shipping.paymentMethod, language)}
             </span>
@@ -125,7 +128,7 @@ export function OrderConfirmation({
 
       <div className="mt-4 flex justify-between">
         <span className="font-body text-base font-bold tracking-wide text-hb-white sm:text-lg">
-          Tổng cộng
+          {t("orderConfirmation.total")}
         </span>
         <span className="font-body text-base font-bold tabular-nums text-hb-red sm:text-lg">
           {total.toLocaleString("vi-VN")} ₫
@@ -139,7 +142,7 @@ export function OrderConfirmation({
           onClick={() => router.push("/shop")}
           className="font-body text-sm font-semibold uppercase tracking-[.14em]"
         >
-          SHOP TIẾP →
+          {t("orderConfirmation.continueShop")}
         </HebrewWordButton>
         <HebrewWordButton
           type="button"
@@ -148,7 +151,7 @@ export function OrderConfirmation({
           onClick={() => router.push("/")}
           className="font-body text-sm font-semibold uppercase tracking-[.14em]"
         >
-          HOME
+          {t("orderConfirmation.home")}
         </HebrewWordButton>
       </div>
     </div>

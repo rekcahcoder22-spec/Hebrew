@@ -66,16 +66,12 @@ export const metadata: Metadata = {
     template: "%s | HEBREW",
   },
   description:
-    "HEBREW is a Vietnamese streetwear label with limited drops, handcrafted quality, and bold urban identity.",
+    "HEBREW — không phải để giấu cảm xúc. Là để mặc chúng ra ngoài. Limited drop. 270GSM. Vietnam.",
   keywords: [
     "HEBREW",
-    "streetwear Việt Nam",
-    "local brand Việt Nam",
-    "áo thun streetwear",
-    "shop streetwear",
-    "limited drop",
-    "Đà Nẵng",
-    "Hà Tĩnh",
+    "áo heavyweight 270gsm vietnam",
+    "darkwear local brand vietnam",
+    "áo oversize dark aesthetic hcm",
   ],
   applicationName: "HEBREW",
   alternates: {
@@ -87,14 +83,14 @@ export const metadata: Metadata = {
     siteName: "HEBREW",
     title: "HEBREW | Local Streetwear Vietnam",
     description:
-      "Limited drops. Handcrafted quality. Vietnamese streetwear built for the world.",
+      "HEBREW — không phải để giấu cảm xúc. Là để mặc chúng ra ngoài. Limited drop. 270GSM. Vietnam.",
     locale: "vi_VN",
   },
   twitter: {
     card: "summary_large_image",
     title: "HEBREW | Local Streetwear Vietnam",
     description:
-      "Limited drops. Handcrafted quality. Vietnamese streetwear built for the world.",
+      "HEBREW — không phải để giấu cảm xúc. Là để mặc chúng ra ngoài. Limited drop. 270GSM. Vietnam.",
   },
   robots: {
     index: true,
@@ -121,7 +117,7 @@ export default function RootLayout({
     url: siteUrl,
     logo: `${siteUrl}/favicon.png`,
     description:
-      "Thương hiệu streetwear Việt Nam, limited drop, áo thun và hoodie chất lượng cao.",
+      "HEBREW — không phải để giấu cảm xúc. Là để mặc chúng ra ngoài. Limited drop. 270GSM. Vietnam.",
     sameAs: [
       "https://www.facebook.com/hebrew.vietnam",
       "https://www.instagram.com/hebrew.original",
@@ -135,7 +131,7 @@ export default function RootLayout({
     name: "HEBREW",
     url: siteUrl,
     description:
-      "Shop local brand streetwear Việt Nam — limited drop, lookbook, cửa hàng Đà Nẵng & Hà Tĩnh.",
+      "HEBREW — không phải để giấu cảm xúc. Là để mặc chúng ra ngoài. Limited drop. 270GSM. Vietnam.",
     inLanguage: ["vi", "en"],
     potentialAction: {
       "@type": "ViewAction",
@@ -193,6 +189,12 @@ export default function RootLayout({
       {
         "@type": "SiteNavigationElement",
         position: 8,
+        name: "Blog streetwear & thương hiệu",
+        url: `${siteUrl}/blog`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 9,
         name: "Góp ý & hỗ trợ",
         url: `${siteUrl}/feedback`,
       },

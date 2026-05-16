@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import {
   countUniqueVoucherSignups,
   displayParticipantCount,
-  getVoucherCampaignCode,
   getVoucherDiscountPercent,
   VOUCHER_CAMPAIGN_CAP,
 } from "@/lib/voucherSignups";
@@ -17,7 +16,6 @@ export async function GET() {
     return NextResponse.json({
       count,
       cap: VOUCHER_CAMPAIGN_CAP,
-      code: getVoucherCampaignCode(),
       discountPercent: getVoucherDiscountPercent(),
     });
   } catch (err) {

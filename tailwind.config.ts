@@ -37,6 +37,7 @@ const config: Config = {
       animation: {
         glitch: "glitch 4s infinite",
         marquee: "marquee 20s linear infinite",
+        "marquee-slow": "marquee 42s linear infinite",
         ticker: "ticker 15s linear infinite",
         revealUp: "revealUp 1s cubic-bezier(0.77,0,0.18,1) 0.1s both",
         linegrow: "linegrow 1s ease forwards",

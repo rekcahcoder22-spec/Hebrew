@@ -6,7 +6,11 @@ import { toast } from "sonner";
 import { isUploadImagePath } from "@/lib/image";
 import { normalizePromoCode } from "@/lib/promoCode";
 import type { CartItem } from "@/types";
-import { VoucherPhoneSignup } from "@/components/promo/VoucherPhoneSignup";
+import {
+  VOUCHER_SESSION_KEY,
+  VOUCHER_UNLOCKED_EVENT,
+  VoucherPhoneSignup,
+} from "@/components/promo/VoucherPhoneSignup";
 
 const stripeStyle = {
   background:
@@ -52,34 +56,23 @@ export function OrderSummary({
   const [promoApplied, setPromoApplied] = useState(false);
 
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch("/api/vouchers/stats");
-        if (!res.ok) return;
-        const data = (await res.json()) as {
-          code?: string;
-          discountPercent?: number;
-        };
-        if (cancelled || typeof data.code !== "string" || !data.code.trim()) {
-          return;
-        }
-        setCampaign({
-          code: data.code.trim(),
-          discountPercent:
-            typeof data.discountPercent === "number" &&
-            Number.isFinite(data.discountPercent) &&
-            data.discountPercent >= 0
-              ? Math.min(100, data.discountPercent)
-              : 10,
-        });
-      } catch {
-        /* ignore */
-      }
-    })();
-    return () => {
-      cancelled = true;
+    const applyUnlockedCode = (code: string) => {
+      const trimmed = code.trim();
+      if (!trimmed) return;
+      setPromoInput(trimmed);
     };
+    try {
+      const stored = sessionStorage.getItem(VOUCHER_SESSION_KEY);
+      if (stored?.trim()) applyUnlockedCode(stored);
+    } catch {
+      /* ignore */
+    }
+    const onUnlocked = (e: Event) => {
+      const code = (e as CustomEvent<{ code?: string }>).detail?.code;
+      if (typeof code === "string") applyUnlockedCode(code);
+    };
+    window.addEventListener(VOUCHER_UNLOCKED_EVENT, onUnlocked);
+    return () => window.removeEventListener(VOUCHER_UNLOCKED_EVENT, onUnlocked);
   }, []);
 
   const sub = subtotal(items);
@@ -99,29 +92,54 @@ export function OrderSummary({
   const showShipping = typeof shippingPrice === "number";
   const total = Math.max(0, sub + (showShipping ? shippingPrice : 0) - discountAmount);
 
-  const applyPromo = () => {
-    if (!campaign) {
+  const applyPromo = async () => {
+    const input = normalizePromoCode(promoInput);
+    if (!input) {
       toast.error(
         language === "vi"
-          ? "Chưa tải được mã chiến dịch. Thử lại sau vài giây."
-          : "Campaign code not loaded yet. Please try again.",
+          ? "Nhập mã giảm giá (lấy mã sau khi đăng ký SĐT phía trên)."
+          : "Enter a promo code (get one via phone signup above).",
       );
       return;
     }
-    if (normalizePromoCode(promoInput) !== normalizePromoCode(campaign.code)) {
+    try {
+      const res = await fetch("/api/vouchers/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: input }),
+      });
+      const data = (await res.json().catch(() => null)) as {
+        valid?: boolean;
+        discountPercent?: number;
+      } | null;
+      if (!res.ok || !data?.valid) {
+        toast.error(
+          language === "vi"
+            ? "Mã không đúng hoặc đã hết hiệu lực."
+            : "Invalid or expired code.",
+        );
+        return;
+      }
+      const pct =
+        typeof data.discountPercent === "number" &&
+        Number.isFinite(data.discountPercent) &&
+        data.discountPercent >= 0
+          ? Math.min(100, data.discountPercent)
+          : 10;
+      setCampaign({ code: promoInput.trim(), discountPercent: pct });
+      setPromoApplied(true);
+      toast.success(
+        language === "vi"
+          ? `Đã áp dụng giảm ${pct}% trên tạm tính.`
+          : `${pct}% discount applied to subtotal.`,
+      );
+    } catch {
       toast.error(
         language === "vi"
-          ? "Mã không đúng hoặc đã hết hiệu lực."
-          : "Invalid or expired code.",
+          ? "Không kiểm tra được mã. Thử lại."
+          : "Could not validate code. Try again.",
       );
-      return;
     }
-    setPromoApplied(true);
-    toast.success(
-      language === "vi"
-        ? `Đã áp dụng giảm ${campaign.discountPercent}% trên tạm tính.`
-        : `${campaign.discountPercent}% discount applied to subtotal.`,
-    );
   };
 
   const clearPromo = () => {

@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import { HebrewWordCTA } from "@/components/ui/HebrewWordMark";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 import { useCartStore, type CartTotals } from "@/store/cartStore";
 import { formatPrice, cn } from "@/lib/utils";
 import { useClientMounted } from "@/hooks/useClientMounted";
 import { isUploadImagePath } from "@/lib/image";
 
 export function CartSidebar() {
+  const { t } = useLanguage();
   const open = useCartStore((s) => s.isOpen);
   const closeCart = useCartStore((s) => s.closeCart);
   const { items, removeItem, updateQty, getTotals } = useCartStore();
@@ -29,7 +31,7 @@ export function CartSidebar() {
     >
       <button
         type="button"
-        aria-label="Close cart backdrop"
+        aria-label={t("cartSidebar.closeBackdrop")}
         className="fixed inset-0 bg-black/50"
         onClick={closeCart}
       />
@@ -42,7 +44,7 @@ export function CartSidebar() {
         <div className="flex items-center justify-between border-b border-hb-border px-4 py-4">
           <div className="flex items-center gap-3">
             <span className="font-display text-xl tracking-[0.2em] text-hb-white">
-              YOUR CART
+              {t("cartSidebar.title")}
             </span>
             {totalItems > 0 && (
               <span className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-hb-red px-1.5 font-body text-[10px] font-bold text-white">
@@ -54,7 +56,7 @@ export function CartSidebar() {
             type="button"
             onClick={closeCart}
             className="flex h-10 w-10 items-center justify-center font-body text-lg text-hb-white/60 transition hover:text-hb-red"
-            aria-label="Close cart"
+            aria-label={t("cartSidebar.close")}
           >
             ✕
           </button>
@@ -64,7 +66,7 @@ export function CartSidebar() {
           {displayItems.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <p className="font-display text-2xl tracking-[0.15em] text-hb-white">
-                YOUR CART IS EMPTY
+                {t("cartSidebar.empty")}
               </p>
               <HebrewWordCTA
                 href="/shop"
@@ -72,7 +74,7 @@ export function CartSidebar() {
                 onClick={closeCart}
                 className="mt-6"
               >
-                Continue to shop
+                {t("cartSidebar.continueShopping")}
               </HebrewWordCTA>
             </div>
           ) : (
@@ -101,7 +103,7 @@ export function CartSidebar() {
                       {line.product.name}
                     </p>
                     <p className="mt-1 font-body text-[10px] uppercase tracking-widest text-hb-white/45">
-                      Size {line.size}
+                      {t("cartSidebar.size")} {line.size}
                     </p>
                     <p className="mt-1 font-body text-sm text-hb-gold">
                       {formatPrice(line.product.price)}
@@ -144,7 +146,7 @@ export function CartSidebar() {
                         removeItem(line.productId, line.size)
                       }
                     >
-                      Remove
+                      {t("cartSidebar.remove")}
                     </button>
                   </div>
                 </li>
@@ -156,7 +158,7 @@ export function CartSidebar() {
         <div className="border-t border-hb-border p-4">
           <div className="mb-4 flex items-end justify-between gap-4">
             <span className="font-body text-[10px] uppercase tracking-widest text-hb-white/40">
-              Subtotal
+              {t("cartSidebar.subtotal")}
             </span>
             <span className="font-display text-3xl tracking-wide text-hb-white">
               {formatPrice(totalPrice)}
@@ -171,7 +173,7 @@ export function CartSidebar() {
               displayItems.length === 0 ? "pointer-events-none opacity-40" : ""
             }
           >
-            CHECKOUT
+            {t("cartSidebar.checkout")}
           </HebrewWordCTA>
           <HebrewWordCTA
             href="/shop"
@@ -179,7 +181,7 @@ export function CartSidebar() {
             variant="ghost"
             className="mt-4 block text-center"
           >
-            CONTINUE SHOPPING
+            {t("cartSidebar.continueShopping")}
           </HebrewWordCTA>
         </div>
       </aside>

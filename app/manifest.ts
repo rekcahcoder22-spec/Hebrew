@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "HEBREW Streetwear",
     short_name: "HEBREW",
     description:
-      "Vietnamese streetwear label with limited drops and handcrafted quality.",
+      "HEBREW — không phải để giấu cảm xúc. Là để mặc chúng ra ngoài. Limited drop. 270GSM. Vietnam.",
     start_url: "/",
     display: "standalone",
     background_color: "#0d0d0d",

@@ -11,7 +11,7 @@ import { useLanguage } from "@/components/providers/LanguageProvider";
 import { VoucherPhoneSignup } from "@/components/promo/VoucherPhoneSignup";
 
 export default function CartPage() {
-  const { language } = useLanguage();
+  const { t } = useLanguage();
   const router = useRouter();
   const mounted = useClientMounted();
   const [cartHydrated, setCartHydrated] = useState(false);
@@ -43,7 +43,7 @@ export default function CartPage() {
   if (!ready || items.length === 0) {
     return (
       <div className="min-h-[50vh] px-6 py-24 text-center font-body text-sm text-hb-white/40">
-        Đang tải giỏ hàng…
+        {t("cart.loading")}
       </div>
     );
   }
@@ -53,7 +53,7 @@ export default function CartPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="font-display text-4xl tracking-[0.2em] text-hb-white">
-        GIỎ HÀNG
+        {t("cart.title")}
       </h1>
       <ul className="mt-10 space-y-8">
         {items.map((line) => (
@@ -80,7 +80,7 @@ export default function CartPage() {
                 {line.product.name}
               </p>
               <p className="mt-1 font-body text-[10px] uppercase tracking-widest text-hb-white/45">
-                {language === "vi" ? "Cỡ" : "Size"} {line.size}
+                {t("cart.size")} {line.size}
               </p>
               <p className="mt-1 font-body text-sm text-hb-gold">
                 {(line.product.price * line.quantity).toLocaleString("vi-VN")}{" "}
@@ -114,7 +114,7 @@ export default function CartPage() {
                 className="mt-2 font-body text-[10px] uppercase tracking-widest text-hb-red hover:underline"
                 onClick={() => removeItem(line.productId, line.size)}
               >
-                {language === "vi" ? "Xóa" : "Remove"}
+                {t("cart.remove")}
               </button>
             </div>
           </li>
@@ -125,7 +125,7 @@ export default function CartPage() {
 
       <div className="mt-10 flex items-end justify-between border-t border-hb-border pt-8">
         <span className="font-body text-[10px] uppercase tracking-widest text-hb-white/40">
-          {language === "vi" ? "Tạm tính" : "Subtotal"}
+          {t("cart.subtotal")}
         </span>
         <span className="font-display text-3xl tracking-wide text-hb-white">
           {totalPrice.toLocaleString("vi-VN")} ₫
@@ -133,10 +133,10 @@ export default function CartPage() {
       </div>
 
       <HebrewWordCTA href="/checkout" block className="mt-8">
-        {language === "vi" ? "THANH TOÁN" : "Checkout"}
+        {t("cart.checkout")}
       </HebrewWordCTA>
       <HebrewWordCTA href="/shop" variant="ghost" className="mt-4 block text-center">
-        {language === "vi" ? "SHOP TIẾP" : "Continue shopping"}
+        {t("cart.continueShopping")}
       </HebrewWordCTA>
     </div>
   );

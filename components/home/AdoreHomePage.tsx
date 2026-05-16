@@ -155,7 +155,7 @@ export function AdoreHomePage() {
           <p className="font-editorial text-3xl font-light italic text-[#f0ece8] md:text-4xl">
             {homeContent.subtitle}
           </p>
-          <p className="mx-auto max-w-2xl font-body text-sm font-light leading-8 text-[#5a5550]">
+          <p className="mx-auto max-w-2xl px-1 font-body text-[15px] font-light leading-[1.9] tracking-[0.1em] text-[#a39e98] sm:text-base sm:tracking-[0.12em] md:text-[17px] md:leading-8 md:tracking-[0.14em]">
             {homeContent.viLead}
           </p>
           <div className="flex justify-center">
@@ -171,7 +171,7 @@ export function AdoreHomePage() {
             <HebrewWordCTA href="/our-story" variant="blood">
               {adoreEditorialCtas.readOurStory}
             </HebrewWordCTA>
-            <HebrewWordCTA href="/adore" variant="ash">
+            <HebrewWordCTA href="/adore" variant="ash" featured>
               {adoreEditorialCtas.stepIntoAdore}
             </HebrewWordCTA>
           </div>

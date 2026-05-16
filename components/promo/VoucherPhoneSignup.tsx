@@ -4,6 +4,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
+/** Mã chỉ hiện sau khi nhập SĐT trong phiên tab hiện tại (sessionStorage). */
+export const VOUCHER_SESSION_KEY = "hb-voucher-unlocked";
+
+export const VOUCHER_UNLOCKED_EVENT = "hb-voucher-unlocked";
+
 export function VoucherPhoneSignup({
   context,
   className = "",
@@ -20,6 +25,17 @@ export function VoucherPhoneSignup({
   const [justSucceeded, setJustSucceeded] = useState(false);
   const successTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem(VOUCHER_SESSION_KEY);
+      if (stored?.trim()) {
+        setCampaignCode(stored.trim());
+      }
+    } catch {
+      /* sessionStorage unavailable */
+    }
+  }, []);
+
   const loadStats = useCallback(async () => {
     setLoadingStats(true);
     try {
@@ -28,13 +44,9 @@ export function VoucherPhoneSignup({
       const data = (await res.json()) as {
         count: number;
         cap: number;
-        code?: string;
       };
       setCount(data.count);
       setCap(data.cap);
-      if (typeof data.code === "string" && data.code.trim()) {
-        setCampaignCode(data.code.trim());
-      }
     } catch {
       toast.error(t("voucher.statsError"));
       setCount(0);
@@ -96,7 +108,16 @@ export function VoucherPhoneSignup({
       setCount(data.count ?? displayCount);
       if (typeof data.cap === "number") setCap(data.cap);
       if (typeof data.code === "string" && data.code.trim()) {
-        setCampaignCode(data.code.trim());
+        const code = data.code.trim();
+        setCampaignCode(code);
+        try {
+          sessionStorage.setItem(VOUCHER_SESSION_KEY, code);
+        } catch {
+          /* ignore */
+        }
+        window.dispatchEvent(
+          new CustomEvent(VOUCHER_UNLOCKED_EVENT, { detail: { code } }),
+        );
       }
       setPhone("");
       setJustSucceeded(true);

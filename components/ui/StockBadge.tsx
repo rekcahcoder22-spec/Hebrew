@@ -1,10 +1,8 @@
+"use client";
+
+import { useLanguage } from "@/components/providers/LanguageProvider";
 import { cn } from "@/lib/utils";
 import type { StockStatus } from "@/types";
-
-function lowStockLabel(stock?: number) {
-  if (stock != null && stock > 0) return `${stock} LEFT`;
-  return "LOW STOCK";
-}
 
 export function StockBadge({
   status,
@@ -15,24 +13,28 @@ export function StockBadge({
   stock?: number;
   className?: string;
 }) {
-  const config: Record<
-    StockStatus,
-    { label: string; style: string }
-  > = {
+  const { t } = useLanguage();
+
+  const lowStockLabel =
+    stock != null && stock > 0
+      ? t("stock.left", { count: stock })
+      : t("stock.lowStock");
+
+  const config: Record<StockStatus, { label: string; style: string }> = {
     "sold-out": {
-      label: "SOLD OUT",
+      label: t("stock.soldOut"),
       style: "bg-hb-red text-white",
     },
     "low-stock": {
-      label: lowStockLabel(stock),
+      label: lowStockLabel,
       style: "bg-hb-gold text-hb-black",
     },
     "in-stock": {
-      label: "IN STOCK",
+      label: t("stock.inStock"),
       style: "bg-hb-white text-hb-black",
     },
     "coming-soon": {
-      label: "COMING SOON",
+      label: t("stock.comingSoon"),
       style: "border border-hb-border bg-hb-gray text-hb-white",
     },
   };

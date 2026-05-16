@@ -13,6 +13,7 @@ import { useLanguage } from "@/components/providers/LanguageProvider";
 const links = [
   { href: "/shop", labelKey: "nav.shop" },
   { href: "/lookbook", labelKey: "nav.lookbook" },
+  { href: "/blog", labelKey: "nav.blog" },
   { href: "/our-story", labelKey: "nav.ourStory" },
   { href: "/about", labelKey: "nav.about" },
 ];

@@ -1,31 +1,28 @@
 "use client";
 
+import { useLanguage } from "@/components/providers/LanguageProvider";
 import { cn } from "@/lib/utils";
 
-/** Đoạn lặp cho animation marquee (2 bản sao = loop mượt). */
-const SEGMENT =
-  "FREESHIP · ĐƠN TỪ 2 SẢN PHẨM · MIỄN PHÍ GIAO HÀNG · HEBREW · ";
-
 type Props = {
-  /** Giỏ có từ 2 món trở lên — nhấn mạnh viền/chữ */
+  /** Giỏ có từ 2 món trở lên — nhấn mạnh viền/chữ nhẹ */
   unlocked?: boolean;
 };
 
 export function FreeShipMarquee({ unlocked = false }: Props) {
-  const row = `${SEGMENT}${SEGMENT}`;
+  const { t } = useLanguage();
+  const segment = t("marquee.segment");
+  const row = `${segment}${segment}`;
   return (
     <div
       className={cn(
-        "flex h-10 w-full shrink-0 items-center overflow-hidden border-b bg-blood-ink transition-colors duration-300",
-        unlocked
-          ? "border-luxury-gold/60 shadow-[0_0_20px_rgba(201,169,98,0.12)]"
-          : "border-luxury-gold/30",
+        "flex h-7 w-full shrink-0 items-center overflow-hidden border-b border-hb-border/40 bg-void/95 transition-colors duration-500",
+        unlocked && "border-luxury-gold/35 bg-blood-ink/80",
       )}
     >
       <div
         className={cn(
-          "animate-marquee flex w-max whitespace-nowrap font-product text-[11px] font-medium uppercase tracking-[0.32em]",
-          unlocked ? "text-luxury-gold" : "text-hb-white/90",
+          "animate-marquee-slow flex w-max whitespace-nowrap font-body text-[9px] font-light uppercase tracking-[0.42em]",
+          unlocked ? "text-luxury-gold/85" : "text-hb-white/40",
         )}
         aria-live="polite"
       >
