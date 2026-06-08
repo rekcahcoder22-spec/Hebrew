@@ -160,6 +160,51 @@ export function ProductDetailClient({
         <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-14">
           <div>
             <ProductImageGallery images={product.images} productName={product.name} />
+
+            <div className="mt-10">
+              <p className="font-body text-[10px] uppercase tracking-[0.35em] text-hb-gold">
+                {t("productDetail.specs.kicker")}
+              </p>
+              <h3 className="mt-3 font-display text-2xl tracking-[0.08em] text-hb-white">
+                {t("productDetail.specs.title")}
+              </h3>
+              <div className="mt-5 grid gap-px bg-hb-border sm:grid-cols-2">
+                <div className="bg-hb-gray p-4">
+                  <p className="font-body text-[9px] uppercase tracking-[0.25em] text-hb-white/35">
+                    {t("productDetail.specs.material")}
+                  </p>
+                  <p className="mt-2 font-body text-sm text-hb-white/80">
+                    {specsMaterial}
+                  </p>
+                </div>
+                <div className="bg-hb-gray p-4">
+                  <p className="font-body text-[9px] uppercase tracking-[0.25em] text-hb-white/35">
+                    {t("productDetail.specs.fit")}
+                  </p>
+                  <p className="mt-2 font-body text-sm text-hb-white/80">
+                    {specsFit}
+                  </p>
+                </div>
+                <div className="bg-hb-gray p-4">
+                  <p className="font-body text-[9px] uppercase tracking-[0.25em] text-hb-white/35">
+                    {t("productDetail.specs.securePrint")}
+                  </p>
+                  <p className="mt-2 flex items-center gap-2 font-body text-sm text-hb-white/80">
+                    <ShieldCheck className="h-4 w-4 text-hb-gold" />
+                    {specsSecurePrint}
+                  </p>
+                </div>
+                <div className="bg-hb-gray p-4">
+                  <p className="font-body text-[9px] uppercase tracking-[0.25em] text-hb-white/35">
+                    {t("productDetail.specs.origin")}
+                  </p>
+                  <p className="mt-2 flex items-center gap-2 font-body text-sm text-hb-white/80">
+                    <Check className="h-4 w-4 text-hb-gold" />
+                    {specsOrigin}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div>
@@ -284,66 +329,19 @@ export function ProductDetailClient({
         </div>
 
         <section className="mt-16 grid gap-8 border-t border-hb-border pt-12 lg:grid-cols-[1.1fr,0.9fr]">
-          <div className="space-y-8">
-            <div>
-              <p className="font-body text-[10px] uppercase tracking-[0.35em] text-hb-gold">
-                {t("productDetail.overview.kicker")}
-              </p>
-              <h2 className="mt-3 font-display text-3xl tracking-[0.1em] text-hb-white">
-                {t("productDetail.overview.title")}
-              </h2>
-              <p className="mt-4 font-body text-sm leading-relaxed text-hb-white/60">
-                {overviewPrimary}
-              </p>
-              <p className="mt-4 font-body text-sm leading-relaxed text-hb-white/60">
-                {overviewSecondary}
-              </p>
-            </div>
-
-            <div>
-              <p className="font-body text-[10px] uppercase tracking-[0.35em] text-hb-gold">
-                {t("productDetail.specs.kicker")}
-              </p>
-              <h3 className="mt-3 font-display text-2xl tracking-[0.08em] text-hb-white">
-                {t("productDetail.specs.title")}
-              </h3>
-              <div className="mt-5 grid gap-px bg-hb-border sm:grid-cols-2">
-                <div className="bg-hb-gray p-4">
-                  <p className="font-body text-[9px] uppercase tracking-[0.25em] text-hb-white/35">
-                    {t("productDetail.specs.material")}
-                  </p>
-                  <p className="mt-2 font-body text-sm text-hb-white/80">
-                    {specsMaterial}
-                  </p>
-                </div>
-                <div className="bg-hb-gray p-4">
-                  <p className="font-body text-[9px] uppercase tracking-[0.25em] text-hb-white/35">
-                    {t("productDetail.specs.fit")}
-                  </p>
-                  <p className="mt-2 font-body text-sm text-hb-white/80">
-                    {specsFit}
-                  </p>
-                </div>
-                <div className="bg-hb-gray p-4">
-                  <p className="font-body text-[9px] uppercase tracking-[0.25em] text-hb-white/35">
-                    {t("productDetail.specs.securePrint")}
-                  </p>
-                  <p className="mt-2 flex items-center gap-2 font-body text-sm text-hb-white/80">
-                    <ShieldCheck className="h-4 w-4 text-hb-gold" />
-                    {specsSecurePrint}
-                  </p>
-                </div>
-                <div className="bg-hb-gray p-4">
-                  <p className="font-body text-[9px] uppercase tracking-[0.25em] text-hb-white/35">
-                    {t("productDetail.specs.origin")}
-                  </p>
-                  <p className="mt-2 flex items-center gap-2 font-body text-sm text-hb-white/80">
-                    <Check className="h-4 w-4 text-hb-gold" />
-                    {specsOrigin}
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div>
+            <p className="font-body text-[10px] uppercase tracking-[0.35em] text-hb-gold">
+              {t("productDetail.overview.kicker")}
+            </p>
+            <h2 className="mt-3 font-display text-3xl tracking-[0.1em] text-hb-white">
+              {t("productDetail.overview.title")}
+            </h2>
+            <p className="mt-4 font-body text-sm leading-relaxed text-hb-white/60">
+              {overviewPrimary}
+            </p>
+            <p className="mt-4 font-body text-sm leading-relaxed text-hb-white/60">
+              {overviewSecondary}
+            </p>
           </div>
 
           <div className="rounded-sm border border-hb-border bg-hb-gray/60 p-6">

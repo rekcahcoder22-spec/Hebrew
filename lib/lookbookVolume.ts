@@ -1,4 +1,4 @@
-/** Lookbook VOLUME 06 — local + fallback Unsplash. `intrinsicW/H` giữ tỉ lệ layout (không dùng absolute). */
+/** Lookbook VOLUME 06 — ADORE editorial. `intrinsicW/H` giữ tỉ lệ layout (không dùng absolute). */
 export type LookbookShot = {
   id: string;
   src: string;
@@ -11,96 +11,86 @@ export type LookbookShot = {
   objectPosition?: string;
 };
 
-const U8 =
-  "https://images.unsplash.com/photo-1635650804263-1a1941e14df5?auto=format&w=1600&q=85&fit=crop";
-
 export const LOOKBOOK_VOLUME = {
   number: "06",
   shots: [
     {
       id: "01",
-      src: "/images/lookbook/vol06/01-hero-louvers.png",
-      fallbackSrc:
-        "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?auto=format&w=1600&q=85",
-      alt: "HEBREW lookbook — hoodie industrial louvers",
-      intrinsicW: 1600,
-      intrinsicH: 2000,
+      src: "/images/lookbook/vol06/01-tee2-front.png",
+      fallbackSrc: "/images/lookbook/vol06/01-tee2-front.png",
+      alt: "HEBREW lookbook — ADORE Part I: The Birth, front graphic",
+      intrinsicW: 764,
+      intrinsicH: 1024,
       maxHeightClass: "max-h-[min(82vh,880px)]",
-      objectPosition: "center 30%",
+      objectPosition: "center center",
     },
     {
       id: "02",
-      src: "/images/lookbook/vol06/02-beanie-profile.png",
-      fallbackSrc:
-        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&w=1200&q=85",
-      alt: "HEBREW lookbook — beanie profile",
-      intrinsicW: 1200,
-      intrinsicH: 1500,
+      src: "/images/lookbook/vol06/02-tee3-front.png",
+      fallbackSrc: "/images/lookbook/vol06/02-tee3-front.png",
+      alt: "HEBREW lookbook — The Crypt, The Inevitable",
+      intrinsicW: 764,
+      intrinsicH: 1024,
       maxHeightClass: "max-h-[min(70vh,720px)]",
       objectPosition: "center center",
     },
     {
       id: "03",
-      src: "/images/lookbook/vol06/03-tattoo-industrial.png",
-      fallbackSrc:
-        "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&w=1400&q=85",
-      alt: "HEBREW lookbook — industrial editorial",
-      intrinsicW: 1400,
-      intrinsicH: 1750,
+      src: "/images/lookbook/vol06/03-tee3-front-alt.png",
+      fallbackSrc: "/images/lookbook/vol06/03-tee3-front-alt.png",
+      alt: "HEBREW lookbook — The Crypt street editorial",
+      intrinsicW: 764,
+      intrinsicH: 1024,
       maxHeightClass: "max-h-[min(72vh,760px)]",
       objectPosition: "center center",
     },
     {
       id: "04",
-      src: "/images/lookbook/vol06/04-street-crouch.png",
-      fallbackSrc:
-        "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&w=1600&q=85",
-      alt: "HEBREW lookbook — streetwear urban",
-      intrinsicW: 1600,
-      intrinsicH: 2000,
+      src: "/images/lookbook/vol06/04-tee1-front.png",
+      fallbackSrc: "/images/lookbook/vol06/04-tee1-front.png",
+      alt: "HEBREW lookbook — HEBREW® oversized tee",
+      intrinsicW: 764,
+      intrinsicH: 1024,
       maxHeightClass: "max-h-[min(78vh,840px)]",
-      objectPosition: "center 20%",
+      objectPosition: "center center",
     },
     {
       id: "05",
-      src: "/images/lookbook/vol06/05-graffiti-alley.png",
-      fallbackSrc:
-        "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&w=2000&q=85",
-      alt: "HEBREW lookbook — wide editorial spread",
-      intrinsicW: 2400,
-      intrinsicH: 1000,
-      maxHeightClass: "max-h-[min(42vh,480px)]",
+      src: "/images/lookbook/vol06/05-tee3-editorial.png",
+      fallbackSrc: "/images/lookbook/vol06/05-tee3-editorial.png",
+      alt: "HEBREW lookbook — The Crypt golden hour",
+      intrinsicW: 764,
+      intrinsicH: 1024,
+      maxHeightClass: "max-h-[min(74vh,800px)]",
       objectPosition: "center center",
     },
     {
       id: "06",
-      src: "/images/lookbook/vol06/06-motion-madworld.png",
-      fallbackSrc:
-        "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&w=1400&q=85",
-      alt: "HEBREW lookbook — motion editorial",
-      intrinsicW: 1400,
-      intrinsicH: 1400,
-      maxHeightClass: "max-h-[min(60vh,640px)]",
+      src: "/images/lookbook/vol06/06-tee1-street.png",
+      fallbackSrc: "/images/lookbook/vol06/06-tee1-street.png",
+      alt: "HEBREW lookbook — HEBREW street editorial",
+      intrinsicW: 764,
+      intrinsicH: 1024,
+      maxHeightClass: "max-h-[min(72vh,780px)]",
       objectPosition: "center center",
     },
     {
       id: "07",
-      src: "/images/lookbook/vol06/07-pacbell-steps.png",
-      fallbackSrc:
-        "https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&w=1400&q=85",
-      alt: "HEBREW lookbook — concrete street pose",
-      intrinsicW: 1400,
-      intrinsicH: 1750,
+      src: "/images/lookbook/vol06/07-tee2-editorial.png",
+      fallbackSrc: "/images/lookbook/vol06/07-tee2-editorial.png",
+      alt: "HEBREW lookbook — ADORE Part I: The Birth editorial",
+      intrinsicW: 764,
+      intrinsicH: 1024,
       maxHeightClass: "max-h-[min(74vh,800px)]",
-      objectPosition: "center 25%",
+      objectPosition: "center center",
     },
     {
       id: "08",
-      src: U8,
-      fallbackSrc: U8,
-      alt: "HEBREW lookbook — dark streetwear portrait",
-      intrinsicW: 1600,
-      intrinsicH: 2000,
+      src: "/images/lookbook/vol06/08-tee3-back.png",
+      fallbackSrc: "/images/lookbook/vol06/08-tee3-back.png",
+      alt: "HEBREW lookbook — The Inevitable back print",
+      intrinsicW: 764,
+      intrinsicH: 1024,
       maxHeightClass: "max-h-[min(72vh,780px)]",
       objectPosition: "center center",
     },

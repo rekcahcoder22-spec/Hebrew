@@ -28,8 +28,7 @@ const stripWrap = [
   "w-full shrink-0 lg:max-w-[min(80%,800px)] lg:translate-x-[3%]",
 ] as const;
 
-const imgClass =
-  "block h-auto w-full object-cover select-none [filter:grayscale(100%)_contrast(1.08)]";
+const imgClass = "block h-auto w-full object-cover select-none";
 
 function LookbookFrame({
   src,

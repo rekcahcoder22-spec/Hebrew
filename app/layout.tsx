@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import {
-  Bebas_Neue,
   Cinzel,
   Cormorant_Garamond,
   Inter,
+  Oswald,
   Space_Mono,
 } from "next/font/google";
 import "./globals.css";
@@ -14,11 +14,12 @@ import { Footer } from "@/components/layout/Footer";
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.hebrewstreet.com";
 
-const bebas = Bebas_Neue({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-bebas",
+/** Tall condensed display — full Vietnamese glyphs (Bebas Neue lacks VN on Google Fonts). */
+const display = Oswald({
+  subsets: ["latin", "latin-ext", "vietnamese"],
+  variable: "--font-display",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 const spaceMono = Space_Mono({
@@ -204,7 +205,7 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <body
-        className={`${bebas.variable} ${spaceMono.variable} ${inter.variable} ${cinzel.variable} ${cormorant.variable} min-h-screen font-body text-hb-white antialiased`}
+        className={`${display.variable} ${spaceMono.variable} ${inter.variable} ${cinzel.variable} ${cormorant.variable} min-h-screen font-body text-hb-white antialiased`}
         suppressHydrationWarning
       >
         <script

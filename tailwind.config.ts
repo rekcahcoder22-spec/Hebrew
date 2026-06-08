@@ -23,7 +23,7 @@ const config: Config = {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        display: ["var(--font-bebas)", "sans-serif"],
+        display: ["var(--font-display)", "sans-serif"],
         body: ["var(--font-inter)", "system-ui", "sans-serif"],
         editorial: ["var(--font-cormorant)", "serif"],
         mono: ["var(--font-space-mono)", "ui-monospace", "monospace"],
