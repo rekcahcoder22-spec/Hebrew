@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import {
   Cinzel,
   Cormorant_Garamond,
@@ -204,6 +205,18 @@ export default function RootLayout({
 
   return (
     <html lang="vi" suppressHydrationWarning>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-NMTNRG1R8M"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-NMTNRG1R8M');
+        `}
+      </Script>
       <body
         className={`${display.variable} ${spaceMono.variable} ${inter.variable} ${cinzel.variable} ${cormorant.variable} min-h-screen font-body text-hb-white antialiased`}
         suppressHydrationWarning
