@@ -15,11 +15,12 @@ const nextConfig: NextConfig = {
     /** Dev: no upgrade-insecure-requests - it can force https://localhost while next dev is http-only → blank page. No HSTS on localhost. */
     const cspBase =
       "default-src 'self'; " +
-      "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com; " +
+      "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com; " +
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
       "font-src 'self' https://fonts.gstatic.com data:; " +
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
-      "connect-src 'self' https://ipapi.co; " +
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; " +
+      "connect-src 'self' https://ipapi.co https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://region1.google-analytics.com; " +
+      "frame-src 'self' https://www.googletagmanager.com; " +
       "frame-ancestors 'none'; base-uri 'self'; form-action 'self'";
     const csp = isDev ? cspBase : `${cspBase}; upgrade-insecure-requests`;
 
